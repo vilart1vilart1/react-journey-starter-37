@@ -1,7 +1,16 @@
 
 import { motion } from 'framer-motion';
+import { MapPin } from 'lucide-react';
 
 const About = () => {
+  // Array of office locations
+  const locations = [
+    { city: "Carthage", country: "Tunisie", flag: "🇹🇳" },
+    { city: "Paris", country: "France", flag: "🇫🇷" },
+    { city: "Montréal", country: "Canada", flag: "🇨🇦" },
+    { city: "Constantine", country: "Algérie", flag: "🇩🇿" }
+  ];
+
   return (
     <div className="min-h-screen bg-rich-black pt-20">
       {/* Hero Section */}
@@ -51,14 +60,29 @@ const About = () => {
               <p className="text-white/80 text-lg leading-relaxed">
                 Nous sommes fiers de notre équipe talentueuse et diversifiée, qui combine expertise technique et vision artistique pour donner vie à vos projets les plus ambitieux.
               </p>
-              <div className="grid grid-cols-2 gap-6 pt-6">
-                <div className="p-6 bg-black/40 rounded-lg border border-gold-400/10">
-                  <h3 className="text-2xl font-bold text-gold-400 mb-2">15+</h3>
-                  <p className="text-white/60">Années d'Expérience</p>
-                </div>
-                <div className="p-6 bg-black/40 rounded-lg border border-gold-400/10">
-                  <h3 className="text-2xl font-bold text-gold-400 mb-2">500+</h3>
-                  <p className="text-white/60">Projets Réalisés</p>
+              
+              {/* Global Presence Feature */}
+              <div className="pt-6">
+                <h3 className="text-2xl font-bold text-gold-400 mb-4">Notre Présence Internationale</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {locations.map((location, index) => (
+                    <motion.div 
+                      key={location.city}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 + (index * 0.1) }}
+                      className="relative group bg-black/40 p-4 rounded-lg border border-gold-400/20 overflow-hidden"
+                    >
+                      <div className="absolute -right-4 -top-4 text-6xl opacity-20 transform rotate-12">
+                        {location.flag}
+                      </div>
+                      <div className="flex items-center space-x-2 mb-1">
+                        <MapPin className="h-5 w-5 text-gold-400" />
+                        <h4 className="text-xl font-semibold text-white">{location.city}</h4>
+                      </div>
+                      <p className="text-white/70 ml-7">{location.country}</p>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
             </motion.div>
