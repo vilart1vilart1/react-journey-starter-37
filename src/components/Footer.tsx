@@ -1,6 +1,6 @@
-
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Youtube, Mail, Phone, MapPin, ArrowRight, TikTok } from 'lucide-react';
+import { Instagram, Facebook, Youtube, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import TikTokIcon from './icons/TikTokIcon';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -25,7 +25,7 @@ const Footer = () => {
                 <Youtube className="h-6 w-6" />
               </a>
               <a href="https://www.tiktok.com/@vilartevents?_t=ZM-8uqoNmKFx6T&_r=1" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-gold-400 transition-colors">
-                <TikTok className="h-6 w-6" />
+                <TikTokIcon className="h-6 w-6" />
               </a>
             </div>
           </div>
