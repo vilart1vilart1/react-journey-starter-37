@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, MapPin, Users, Sparkles } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Event {

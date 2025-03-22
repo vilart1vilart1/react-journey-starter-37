@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { Instagram, Facebook, Youtube, Music2 } from 'lucide-react';
+import { Instagram, Facebook, Youtube, Music2, TikTok } from 'lucide-react';
 
 const FloatingSocials = () => {
   const socials = [
@@ -8,6 +8,7 @@ const FloatingSocials = () => {
     { icon: <Facebook className="h-5 w-5" />, href: 'https://www.facebook.com/share/161tuMFPjz/?mibextid=wwXIfr' },
     { icon: <Youtube className="h-5 w-5" />, href: '#' },
     { icon: <Music2 className="h-5 w-5" />, href: '#' },
+    { icon: <TikTok className="h-5 w-5" />, href: 'https://www.tiktok.com/@vilartevents?_t=ZM-8uqoNmKFx6T&_r=1' },
   ];
 
   return (

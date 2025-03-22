@@ -185,22 +185,22 @@ const EventDetail = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           <div className="flex justify-center items-center bg-black/20 rounded-xl overflow-hidden shadow-xl border border-gold-500/10">
             <img 
-              src={foundEvent.image} 
-              alt={foundEvent.name} 
+              src={foundEvent?.image} 
+              alt={foundEvent?.name} 
               className="object-contain w-full h-full max-h-[500px]" 
             />
           </div>
           
           <div className="flex flex-col justify-center">
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gold-400">{foundEvent.name}</h1>
-            <p className="text-gray-300 mb-8">{foundEvent.description}</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gold-400">{foundEvent?.name}</h1>
+            <p className="text-gray-300 mb-8">{foundEvent?.description}</p>
             
             <div className="bg-black/30 p-6 rounded-lg border border-gold-500/20 space-y-4">
               <div className="flex items-center">
                 <Calendar className="text-gold-400 h-5 w-5 mr-3 flex-shrink-0" />
                 <div>
                   <span className="text-white/70 text-sm">Date et Heure</span>
-                  <p className="text-white font-medium">{foundEvent.date}</p>
+                  <p className="text-white font-medium">{foundEvent?.date}</p>
                 </div>
               </div>
               
@@ -208,7 +208,7 @@ const EventDetail = () => {
                 <MapPin className="text-gold-400 h-5 w-5 mr-3 flex-shrink-0" />
                 <div>
                   <span className="text-white/70 text-sm">Lieu</span>
-                  <p className="text-white font-medium">{foundEvent.location}</p>
+                  <p className="text-white font-medium">{foundEvent?.location}</p>
                 </div>
               </div>
               
@@ -216,18 +216,18 @@ const EventDetail = () => {
                 <Music className="text-gold-400 h-5 w-5 mr-3 flex-shrink-0" />
                 <div>
                   <span className="text-white/70 text-sm">Artistes</span>
-                  <p className="text-white font-medium">{foundEvent.performers}</p>
+                  <p className="text-white font-medium">{foundEvent?.performers}</p>
                 </div>
               </div>
               
               <div className="flex justify-between items-center pt-3 border-t border-gold-500/20">
                 <span className="text-white font-semibold">Prix</span>
-                <span className="text-2xl font-bold text-gold-400">{foundEvent.price} dt</span>
+                <span className="text-2xl font-bold text-gold-400">{foundEvent?.price} dt</span>
               </div>
             </div>
             
             <div className="mt-6 flex flex-col sm:flex-row gap-4">
-              {foundEvent.reservationNumbers && foundEvent.reservationNumbers.length > 0 ? (
+              {foundEvent?.reservationNumbers && foundEvent.reservationNumbers.length > 0 ? (
                 <div className="flex-1 bg-black/30 p-4 rounded-lg border border-gold-500/20">
                   <div className="flex items-center mb-2">
                     <Phone className="text-gold-400 h-5 w-5 mr-2" />
@@ -250,11 +250,11 @@ const EventDetail = () => {
               ) : null}
               
               <button 
-                onClick={() => setReservationOpen(true)}
-                className="flex-1 text-center px-6 py-4 bg-gold-500 text-black rounded-md hover:bg-gold-600 transition-colors font-semibold flex items-center justify-center"
+                className="flex-1 text-center px-6 py-4 bg-gray-500 text-black rounded-md transition-colors font-semibold flex items-center justify-center opacity-60 cursor-not-allowed"
+                disabled
               >
                 <BookOpen className="mr-2 h-5 w-5" />
-                Réserver
+                Réservation Fermée
               </button>
             </div>
           </div>
@@ -267,18 +267,18 @@ const EventDetail = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
-              {foundEvent.about && (
+              {foundEvent?.about && (
                 <div className="bg-black/30 p-6 rounded-lg border border-gold-500/20 mb-6">
                   <h3 className="text-xl font-semibold text-white mb-4">À propos des artistes</h3>
-                  <p className="text-white/80">{foundEvent.about}</p>
+                  <p className="text-white/80">{foundEvent?.about}</p>
                   <br></br>
-                  <p className="text-white/80">{foundEvent.about2}</p>
+                  <p className="text-white/80">{foundEvent?.about2}</p>
                 </div>
               )}
             </div>
             
             <div>
-              {foundEvent.organizers && foundEvent.organizers.length > 0 && (
+              {foundEvent?.organizers && foundEvent.organizers.length > 0 && (
                 <div className="bg-black/30 p-6 rounded-lg border border-gold-500/20">
                   <h3 className="text-xl font-semibold text-white mb-4">Organisateurs</h3>
                   <div className="flex flex-col gap-2">
@@ -376,9 +376,9 @@ const EventDetail = () => {
       <ReservationDialog
         open={reservationOpen}
         onClose={() => setReservationOpen(false)}
-        eventName={foundEvent.name}
-        eventPrice={foundEvent.price}
-        eventId={id}
+        eventName={foundEvent?.name || ""}
+        eventPrice={foundEvent?.price || 0}
+        eventId={id || ""}
       />
     </motion.div>
   );
