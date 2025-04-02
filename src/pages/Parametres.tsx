@@ -1,9 +1,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, LogOut, Server, Info, Plus, Eye, EyeOff, Copy, Trash, AlertCircle, Check } from 'lucide-react';
+import { Save, LogOut, Server, Info, Plus, Eye, EyeOff, Copy, Trash, AlertCircle, Check, Tag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/Modal';
+import CategoryManager from '../components/Categories/CategoryManager';
 import { PasswordsService, UsersService, AuthService } from '../services';
 
 interface PasswordEntry {
@@ -32,6 +33,7 @@ const Parametres = () => {
     password: ''
   });
   const [showResetDataModal, setShowResetDataModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'profile' | 'passwords' | 'categories' | 'system'>('profile');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -227,6 +229,16 @@ const Parametres = () => {
     }
   };
 
+  const handleSetError = (message: string) => {
+    setError(message);
+    setTimeout(() => setError(null), 5000);
+  };
+
+  const handleSetSuccess = (message: string) => {
+    setSuccessMessage(message);
+    setTimeout(() => setSuccessMessage(null), 3000);
+  };
+
   const handleResetData = () => {
     setShowResetDataModal(false);
     window.location.reload();
@@ -276,90 +288,129 @@ const Parametres = () => {
         </button>
       </div>
 
+      <div className="flex flex-wrap border-b border-gray-700 mb-4">
+        <button
+          className={`px-4 py-2 font-medium ${activeTab === 'profile' ? 'text-gold-400 border-b-2 border-gold-400' : 'text-gray-400 hover:text-white'}`}
+          onClick={() => setActiveTab('profile')}
+        >
+          Profil
+        </button>
+        <button
+          className={`px-4 py-2 font-medium ${activeTab === 'passwords' ? 'text-gold-400 border-b-2 border-gold-400' : 'text-gray-400 hover:text-white'}`}
+          onClick={() => setActiveTab('passwords')}
+        >
+          Mots de passe
+        </button>
+        <button
+          className={`px-4 py-2 font-medium flex items-center ${activeTab === 'categories' ? 'text-gold-400 border-b-2 border-gold-400' : 'text-gray-400 hover:text-white'}`}
+          onClick={() => setActiveTab('categories')}
+        >
+          <Tag className="h-4 w-4 mr-1" />
+          Catégories
+        </button>
+        <button
+          className={`px-4 py-2 font-medium ${activeTab === 'system' ? 'text-gold-400 border-b-2 border-gold-400' : 'text-gray-400 hover:text-white'}`}
+          onClick={() => setActiveTab('system')}
+        >
+          Système
+        </button>
+      </div>
+
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="grid gap-6"
       >
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="card">
-            <h2 className="text-xl font-bold mb-4">Informations personnelles</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Nom complet
-                </label>
-                <input
-                  type="text"
-                  className="input w-full"
-                  value={userInfo.name}
-                  onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  className="input w-full"
-                  value={userInfo.email}
-                  onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Téléphone
-                </label>
-                <input
-                  type="tel"
-                  className="input w-full"
-                  value={userInfo.phone}
-                  onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="card">
-            <h2 className="text-xl font-bold mb-4">Changer le mot de passe</h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Mot de passe actuel
-                </label>
-                <input
-                  type="password"
-                  className="input w-full"
-                  value={userInfo.currentPassword}
-                  onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Nouveau mot de passe
-                </label>
-                <input
-                  type="password"
-                  className="input w-full"
-                  value={userInfo.newPassword}
-                  onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Confirmer le nouveau mot de passe
-                </label>
-                <input
-                  type="password"
-                  className="input w-full"
-                  value={userInfo.confirmPassword}
-                  onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })}
-                />
+        {activeTab === 'profile' && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="card">
+              <h2 className="text-xl font-bold mb-4">Informations personnelles</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">
+                    Nom complet
+                  </label>
+                  <input
+                    type="text"
+                    className="input w-full"
+                    value={userInfo.name}
+                    onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="input w-full"
+                    value={userInfo.email}
+                    onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">
+                    Téléphone
+                  </label>
+                  <input
+                    type="tel"
+                    className="input w-full"
+                    value={userInfo.phone}
+                    onChange={(e) => setUserInfo({ ...userInfo, phone: e.target.value })}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
+            <div className="card">
+              <h2 className="text-xl font-bold mb-4">Changer le mot de passe</h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">
+                    Mot de passe actuel
+                  </label>
+                  <input
+                    type="password"
+                    className="input w-full"
+                    value={userInfo.currentPassword}
+                    onChange={(e) => setUserInfo({ ...userInfo, currentPassword: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">
+                    Nouveau mot de passe
+                  </label>
+                  <input
+                    type="password"
+                    className="input w-full"
+                    value={userInfo.newPassword}
+                    onChange={(e) => setUserInfo({ ...userInfo, newPassword: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-400 mb-1">
+                    Confirmer le nouveau mot de passe
+                  </label>
+                  <input
+                    type="password"
+                    className="input w-full"
+                    value={userInfo.confirmPassword}
+                    onChange={(e) => setUserInfo({ ...userInfo, confirmPassword: e.target.value })}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end">
+              <button type="submit" className="btn-primary flex items-center gap-2">
+                <Save className="h-5 w-5" />
+                Enregistrer les modifications
+              </button>
+            </div>
+          </form>
+        )}
+
+        {activeTab === 'passwords' && (
           <div className="card">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Gestionnaire de mots de passe</h2>
@@ -429,7 +480,13 @@ const Parametres = () => {
               )}
             </div>
           </div>
+        )}
 
+        {activeTab === 'categories' && (
+          <CategoryManager onError={handleSetError} onSuccess={handleSetSuccess} />
+        )}
+
+        {activeTab === 'system' && (
           <div className="card">
             <h2 className="text-xl font-bold mb-4">Informations système</h2>
             <div className="space-y-4">
@@ -452,14 +509,7 @@ const Parametres = () => {
               </div>
             </div>
           </div>
-
-          <div className="flex justify-end">
-            <button type="submit" className="btn-primary flex items-center gap-2">
-              <Save className="h-5 w-5" />
-              Enregistrer les modifications
-            </button>
-          </div>
-        </form>
+        )}
       </motion.div>
 
       <Modal

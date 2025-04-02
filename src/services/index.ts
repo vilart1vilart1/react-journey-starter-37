@@ -2,6 +2,7 @@
 // Exporting all services from one place for easier imports
 export { ArtistsService } from './artists.service';
 export { AuthService } from './auth.service';
+export { CategoriesService } from './categories.service';
 export { EventsService } from './events.service';
 export { FilesService } from './files.service';
 export { InvoicesService } from './invoices.service';
