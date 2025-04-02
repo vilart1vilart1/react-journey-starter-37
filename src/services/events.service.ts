@@ -10,8 +10,8 @@ export const EventsService = {
   },
 
   getEvent: async (id: string, userId?: string) => {
-    const params = { id };
-    if (userId) params['user_id'] = userId;
+    const params: { id: string; user_id?: string } = { id };
+    if (userId) params.user_id = userId;
     return fetchData(`${ENDPOINT}/read_one.php`, params);
   },
 
@@ -25,9 +25,9 @@ export const EventsService = {
 
   deleteEvent: async (id: string, userId?: string) => {
     try {
-      const params = { id };
+      const params: { id: string; user_id?: string } = { id };
       if (userId) {
-        Object.assign(params, { user_id: userId });
+        params.user_id = userId;
       }
       return await deleteData(`${ENDPOINT}/delete.php`, params);
     } catch (error) {
