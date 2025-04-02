@@ -1,3 +1,4 @@
+
 import { fetchData, createData, updateData, deleteData } from '../utils/api';
 
 const ENDPOINT = '/passwords';
@@ -20,9 +21,10 @@ export const PasswordsService = {
     return updateData(`${ENDPOINT}/update.php`, passwordData);
   },
 
-  deletePassword: async (id: string) => {
+  deletePassword: async (id: string, userId?: string) => {
     try {
-      return await deleteData(`${ENDPOINT}/delete.php?id=${id}`);
+      const params = { id, user_id: userId };
+      return await deleteData(`${ENDPOINT}/delete.php`, params);
     } catch (error) {
       console.error('Error deleting password:', error);
       throw error;
