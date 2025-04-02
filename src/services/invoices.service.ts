@@ -30,6 +30,8 @@ export interface InvoiceDto {
   companyAddress?: string;
   companyPhone?: string;
   companyEmail?: string;
+  category_id?: string;
+  subcategory_id?: string;
 }
 
 export const InvoicesService = {
@@ -58,7 +60,11 @@ export const InvoicesService = {
         companyTaxNumber: item.company_tax_number || '1865480/V/A/M/000',
         companyAddress: item.company_address || 'A3, Imm La Coupole, rue Windermere, Lac 1, Tunis 1053',
         companyPhone: item.company_phone || '+216 54 754 704',
-        companyEmail: item.company_email || 'vilartprod@gmail.com'
+        companyEmail: item.company_email || 'vilartprod@gmail.com',
+        category_id: item.category_id,
+        subcategory_id: item.subcategory_id,
+        category_name: item.category_name,
+        subcategory_name: item.subcategory_name
       }));
     } catch (error) {
       console.error('Error fetching invoices:', error);
@@ -95,7 +101,11 @@ export const InvoicesService = {
         companyTaxNumber: data.company_tax_number || '1865480/V/A/M/000',
         companyAddress: data.company_address || 'A3, Imm La Coupole, rue Windermere, Lac 1, Tunis 1053',
         companyPhone: data.company_phone || '+216 54 754 704',
-        companyEmail: data.company_email || 'vilartprod@gmail.com'
+        companyEmail: data.company_email || 'vilartprod@gmail.com',
+        category_id: data.category_id,
+        subcategory_id: data.subcategory_id,
+        category_name: data.category_name,
+        subcategory_name: data.subcategory_name
       };
     } catch (error) {
       console.error('Error fetching invoice:', error);

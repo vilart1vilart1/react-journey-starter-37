@@ -1,10 +1,10 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, CheckCircle2, Circle, Clock, AlertCircle, Save, Check, Trash } from 'lucide-react';
+import { Plus, CheckCircle2, Circle, Clock, AlertCircle, Save, Check, Trash, FileText, Folder } from 'lucide-react';
 import Modal from '../components/Modal';
-import { TasksService } from '../services';
-import { Tache } from '../types';
+import { TasksService, CategoriesService } from '../services';
+import { Tache, Category, Subcategory } from '../types';
 
 const TaskCard = ({ task, onToggleStatus, onDelete }: { task: Tache; onToggleStatus: (id: string) => void; onDelete: (id: string) => void }) => {
   const priorityColors = {
@@ -52,6 +52,24 @@ const TaskCard = ({ task, onToggleStatus, onDelete }: { task: Tache; onToggleSta
               Échéance: {new Date(task.dateEchéance).toLocaleDateString('fr-FR')}
             </span>
           </div>
+          
+          {/* Display category and subcategory if available */}
+          {(task.category_name || task.subcategory_name) && (
+            <div className="mt-2 flex items-center gap-2">
+              {task.category_name && (
+                <div className="flex items-center text-xs text-gray-400 bg-gray-700/30 rounded-full px-2 py-1">
+                  <Folder className="h-3 w-3 mr-1 text-gold-400" />
+                  {task.category_name}
+                </div>
+              )}
+              {task.subcategory_name && (
+                <div className="flex items-center text-xs text-gray-400 bg-gray-700/30 rounded-full px-2 py-1">
+                  <FileText className="h-3 w-3 mr-1 text-blue-400" />
+                  {task.subcategory_name}
+                </div>
+              )}
+            </div>
+          )}
         </div>
         <div className="flex flex-col items-end gap-2">
           <span className={`px-2 py-1 rounded-full text-xs font-semibold ${priorityColors[task.priorite]} text-white`}>
@@ -76,13 +94,17 @@ const Taches = () => {
   const [filter, setFilter] = useState<'all' | 'à_faire' | 'en_cours' | 'terminé'>('all');
   const [tasks, setTasks] = useState<Tache[]>([]);
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [newTask, setNewTask] = useState<Partial<Tache>>({
     titre: '',
     description: '',
     priorite: 'moyenne',
     statut: 'à_faire',
     assignéÀ: '',
-    dateEchéance: new Date().toISOString().split('T')[0]
+    dateEchéance: new Date().toISOString().split('T')[0],
+    category_id: '',
+    subcategory_id: ''
   });
   const [saveNotification, setSaveNotification] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,9 +127,45 @@ const Taches = () => {
     }
   };
 
+  // Load categories
+  const loadCategories = async () => {
+    try {
+      const fetchedCategories = await CategoriesService.getCategories('task');
+      setCategories(fetchedCategories || []);
+    } catch (err) {
+      console.error('Error loading categories:', err);
+    }
+  };
+
+  // Load subcategories when a category is selected
+  const loadSubcategories = async (categoryId: string) => {
+    if (!categoryId) {
+      setSubcategories([]);
+      return;
+    }
+    
+    try {
+      const fetchedSubcategories = await CategoriesService.getSubcategories(categoryId);
+      setSubcategories(fetchedSubcategories || []);
+    } catch (err) {
+      console.error('Error loading subcategories:', err);
+    }
+  };
+
   useEffect(() => {
     loadTasks();
+    loadCategories();
   }, []);
+
+  // Reset subcategories when category changes
+  useEffect(() => {
+    if (newTask.category_id) {
+      loadSubcategories(newTask.category_id);
+    } else {
+      setSubcategories([]);
+    }
+    setNewTask(prev => ({ ...prev, subcategory_id: '' }));
+  }, [newTask.category_id]);
 
   const handleAddTask = async () => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -131,7 +189,9 @@ const Taches = () => {
         priorite: 'moyenne',
         statut: 'à_faire',
         assignéÀ: '',
-        dateEchéance: new Date().toISOString().split('T')[0]
+        dateEchéance: new Date().toISOString().split('T')[0],
+        category_id: '',
+        subcategory_id: ''
       });
     } catch (err) {
       console.error('Error adding task:', err);
@@ -314,6 +374,44 @@ const Taches = () => {
               placeholder="Description de la tâche"
             />
           </div>
+          
+          {/* Category selection */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">
+                Catégorie
+              </label>
+              <select
+                className="input w-full"
+                value={newTask.category_id || ''}
+                onChange={(e) => setNewTask({ ...newTask, category_id: e.target.value })}
+              >
+                <option value="">Aucune catégorie</option>
+                {categories.map(category => (
+                  <option key={category.id} value={category.id}>{category.name}</option>
+                ))}
+              </select>
+            </div>
+            
+            {/* Subcategory selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1">
+                Sous-catégorie
+              </label>
+              <select
+                className="input w-full"
+                value={newTask.subcategory_id || ''}
+                onChange={(e) => setNewTask({ ...newTask, subcategory_id: e.target.value })}
+                disabled={!newTask.category_id || subcategories.length === 0}
+              >
+                <option value="">Aucune sous-catégorie</option>
+                {subcategories.map(subcategory => (
+                  <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-1">

@@ -292,6 +292,8 @@ const EventDetail = () => {
     return <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">Error: {error || 'Event not found'}</div>;
   }
 
+  const reservationsCount = foundEvent?.reservationNumbers?.length || 0;
+
   return (
     <div className="container mx-auto p-4">
       <div className="bg-gray-800 rounded-lg shadow-lg p-6 text-white">
@@ -348,7 +350,7 @@ const EventDetail = () => {
 
         <div className="mb-4">
           <h3 className="text-lg font-semibold mb-2">Reservations</h3>
-          {foundEvent?.reservationNumbers?.length > 0 ? (
+          {reservationsCount > 0 ? (
             <ul className="list-disc list-inside">
               {foundEvent.reservationNumbers.map((reservation, index) => (
                 <li key={index}>{reservation}</li>

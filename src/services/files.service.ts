@@ -1,38 +1,44 @@
 
-import { fetchData, createData, deleteData } from '../utils/api';
-import { AuthService } from './auth.service';
+import { fetchData, createData, updateData, deleteData } from '../utils/api';
+import { File } from '../types';
 
 const ENDPOINT = '/files';
 
-export interface FileResponse {
-  id: string;
-  name: string;
-  type: string;
-  size: string;
-  url: string;
-  created_at?: string;
-  user_id?: string;
+export interface FileUploadResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    id: string;
+    name: string;
+    url: string;
+    type: string;
+    size: string;
+  }
 }
 
 export const FilesService = {
-  getAllFiles: async () => {
-    const currentUser = AuthService.getCurrentUser();
-    const userId = currentUser?.id;
-    const params = userId ? { user_id: userId } : {};
-    
+  getAllFiles: async (userId?: string) => {
     try {
+      const params = userId ? { user_id: userId } : {};
       const response = await fetchData(`${ENDPOINT}/read.php`, params);
+      
+      if (!Array.isArray(response)) {
+        console.error('Expected array of files but got:', response);
+        return [];
+      }
+      
       return response.map((file: any) => ({
         id: file.id,
         name: file.name,
-        type: file.type.includes('image') ? 'image' : 
-              file.type.includes('pdf') ? 'pdf' : 'document',
-        size: typeof file.size === 'number' 
-              ? `${(file.size / 1024 / 1024).toFixed(2)} MB` 
-              : file.size,
+        type: file.type,
+        size: file.size,
         url: file.url,
-        date: file.created_at || new Date().toISOString(),
-        user_id: file.user_id
+        date: file.created_at,
+        user_id: file.user_id,
+        category_id: file.category_id,
+        subcategory_id: file.subcategory_id,
+        category_name: file.category_name,
+        subcategory_name: file.subcategory_name
       }));
     } catch (error) {
       console.error('Error fetching files:', error);
@@ -40,35 +46,38 @@ export const FilesService = {
     }
   },
 
-  uploadFile: async (file: File) => {
-    const currentUser = AuthService.getCurrentUser();
-    const userId = currentUser?.id;
-    
-    // Create FormData for file upload
-    const formData = new FormData();
-    formData.append('file', file);
-    
-    if (userId) {
-      formData.append('user_id', userId);
-    }
-    
+  uploadFile: async (file: File, userId?: string, categoryId?: string, subcategoryId?: string) => {
     try {
-      // Use specific FormData content-type handling
-      const response = await createData(`${ENDPOINT}/create.php`, formData, true);
-      
-      if (response && response.url) {
-        return {
-          id: response.id,
-          name: file.name,
-          type: file.type.includes('image') ? 'image' : 
-                file.type.includes('pdf') ? 'pdf' : 'document',
-          size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-          url: response.url,
-          date: new Date().toISOString()
-        };
-      } else {
-        throw new Error(response.message || 'Failed to upload file');
+      if (!file) {
+        throw new Error('No file provided');
       }
+      
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      if (userId) {
+        formData.append('user_id', userId);
+      }
+      
+      if (categoryId) {
+        formData.append('category_id', categoryId);
+      }
+      
+      if (subcategoryId) {
+        formData.append('subcategory_id', subcategoryId);
+      }
+      
+      const response = await fetch(`${process.env.VITE_API_URL || ''}/api/files/create.php`, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      return result;
     } catch (error) {
       console.error('Error uploading file:', error);
       throw error;
@@ -77,8 +86,7 @@ export const FilesService = {
 
   deleteFile: async (id: string) => {
     try {
-      // Delete the file using the id
-      return await deleteData(`${ENDPOINT}/delete.php`, id);
+      return await deleteData(`${ENDPOINT}/delete.php?id=${id}`);
     } catch (error) {
       console.error('Error deleting file:', error);
       throw error;

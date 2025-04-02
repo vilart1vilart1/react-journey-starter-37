@@ -1,71 +1,116 @@
-
 import axios from 'axios';
 
-// Base URL for API requests
-const API_BASE_URL = 'https://respizenmedical.com/vilartprod/api';
+const API_URL = process.env.VITE_API_URL || '';
 
-// Create an axios instance with default config
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const handleApiError = (error: any) => {
+  if (axios.isAxiosError(error)) {
+    console.error('Axios error details:', error.response?.data || error.message);
+    if (error.response?.status === 401) {
+      // Handle unauthorized error (e.g., redirect to login)
+      console.error('Unauthorized access. Redirecting to login.');
+      // window.location.href = '/login'; // Uncomment this line in a browser environment
+    }
+  } else {
+    console.error('Non-Axios error:', error);
+  }
+};
 
-// Generic GET function
-export const fetchData = async (endpoint: string, params = {}) => {
+/**
+ * Fetch data from the API endpoint
+ * @param url API endpoint
+ * @param params Query parameters
+ * @returns API response
+ */
+export const fetchData = async (url: string, params: Record<string, any> = {}) => {
   try {
-    const response = await api.get(endpoint, { params });
+    const queryParams = new URLSearchParams(params);
+    const endpoint = `${API_URL}/api${url}?${queryParams.toString()}`;
+    console.log('GET request to:', endpoint);
+    const response = await axios.get(endpoint);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching data from ${endpoint}:`, error);
+    console.error('GET Error:', error);
+    handleApiError(error);
     throw error;
   }
 };
 
-// Generic POST function
-export const createData = async (endpoint: string, data = {}, isFormData = false) => {
+/**
+ * Create data to the API endpoint
+ * @param url API endpoint
+ * @param data Data to be created
+ * @returns API response
+ */
+export const createData = async (url: string, data: any) => {
   try {
-    let config = {};
+    const endpoint = `${API_URL}/api${url}`;
+    console.log('POST request to:', endpoint, data);
+    const response = await axios.post(endpoint, data);
+    return response.data;
+  } catch (error) {
+    console.error('POST Error:', error);
+    handleApiError(error);
+    throw error;
+  }
+};
+
+/**
+ * Update data to the API endpoint
+ * @param url API endpoint
+ * @param data Data to be updated
+ * @returns API response
+ */
+export const updateData = async (url: string, data: any) => {
+  try {
+    const endpoint = `${API_URL}/api${url}`;
+    console.log('PUT request to:', endpoint, data);
+    const response = await axios.put(endpoint, data);
+    return response.data;
+  } catch (error) {
+    console.error('PUT Error:', error);
+    handleApiError(error);
+    throw error;
+  }
+};
+
+/**
+ * Delete data from the endpoint
+ * @param url API endpoint
+ * @param idOrParams ID of the resource to delete or query parameters
+ * @returns API response
+ */
+export const deleteData = async (url: string, idOrParams?: string | Record<string, any>) => {
+  try {
+    // Check if idOrParams is a string (old style) or an object (new style)
+    let endpoint = url;
     
-    if (isFormData) {
-      config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
-      };
+    if (typeof idOrParams === 'string') {
+      // If URL already has parameters, add ID as a query parameter
+      if (url.includes('?')) {
+        endpoint = `${url}&id=${idOrParams}`;
+      } else {
+        endpoint = `${url}?id=${idOrParams}`;
+      }
+    } else if (idOrParams && typeof idOrParams === 'object') {
+      // If URL already has parameters
+      const separator = url.includes('?') ? '&' : '?';
+      const params = new URLSearchParams();
+      
+      // Add all parameters from the object
+      Object.entries(idOrParams).forEach(([key, value]) => {
+        params.append(key, value);
+      });
+      
+      endpoint = `${url}${separator}${params.toString()}`;
     }
     
-    const response = await api.post(endpoint, data, config);
+    console.log('DELETE request to:', endpoint);
+    
+    const response = await axios.delete(endpoint);
     return response.data;
   } catch (error) {
-    console.error(`Error creating data at ${endpoint}:`, error);
+    console.error('DELETE Error:', error);
+    handleApiError(error);
     throw error;
   }
 };
-
-// Generic PUT function
-export const updateData = async (endpoint: string, data = {}) => {
-  try {
-    const response = await api.put(endpoint, data);
-    return response.data;
-  } catch (error) {
-    console.error(`Error updating data at ${endpoint}:`, error);
-    throw error;
-  }
-};
-
-// Updated deleteData function to properly handle parameters
-export const deleteData = async (endpoint: string) => {
-  try {
-    // For DELETE requests, we'll use the endpoint directly which should include
-    // any query parameters
-    const response = await api.delete(endpoint);
-    return response.data;
-  } catch (error) {
-    console.error(`Error deleting data at ${endpoint}:`, error);
-    throw error;
-  }
-};
-
-export default api;

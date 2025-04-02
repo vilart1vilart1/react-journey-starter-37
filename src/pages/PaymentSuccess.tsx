@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { CheckCircle } from 'lucide-react';
 import { fetchApi } from '../services/api';
 
 const PaymentSuccess = () => {

@@ -13,7 +13,9 @@ const mapToDbFields = (task: Partial<Tache>) => {
     status: mapStatusToDb(task.statut),
     due_date: task.dateEchéance,
     priority: mapPriorityToDb(task.priorite),
-    user_id: task.user_id
+    user_id: task.user_id,
+    category_id: task.category_id,
+    subcategory_id: task.subcategory_id
   };
 };
 
@@ -27,7 +29,11 @@ const mapToFrontendFields = (dbTask: any): Tache => {
     dateEchéance: dbTask.due_date,
     priorite: mapPriorityToFrontend(dbTask.priority),
     assignéÀ: dbTask.assigned_to || '',
-    user_id: dbTask.user_id
+    user_id: dbTask.user_id,
+    category_id: dbTask.category_id,
+    subcategory_id: dbTask.subcategory_id,
+    category_name: dbTask.category_name,
+    subcategory_name: dbTask.subcategory_name
   };
 };
 
@@ -141,7 +147,7 @@ export const TasksService = {
 
   deleteTask: async (id: string) => {
     try {
-      return await deleteData(`${ENDPOINT}/delete.php`, id);
+      return await deleteData(`${ENDPOINT}/delete.php?id=${id}`);
     } catch (error) {
       console.error('Error deleting task:', error);
       throw error;

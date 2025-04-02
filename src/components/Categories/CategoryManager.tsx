@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Folder, FolderPlus, Edit, Trash2, Plus, Check, X, ChevronRight, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CategoriesService } from '../../services';
-import { Category, Subcategory, ENTITY_TYPES } from '../../types/categories';
+import { Category, Subcategory, ENTITY_TYPES, EntityType } from '../../types/categories';
 
 interface CategoryManagerProps {
   onError: (message: string) => void;
@@ -264,11 +264,6 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ onError, onSuccess })
     }
   };
 
-  const getCategoryIcon = (entityType: string) => {
-    const entity = ENTITY_TYPES.find(et => et.value === entityType);
-    return entity?.icon || 'folder';
-  };
-
   const getEntityTypeLabel = (entityType: string) => {
     const entity = ENTITY_TYPES.find(et => et.value === entityType);
     return entity?.label || entityType;
@@ -301,7 +296,10 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ onError, onSuccess })
               <select
                 className="input w-full"
                 value={newCategory.entity_type}
-                onChange={(e) => setNewCategory({ ...newCategory, entity_type: e.target.value })}
+                onChange={(e) => setNewCategory({ 
+                  ...newCategory, 
+                  entity_type: e.target.value as 'invoice' | 'file' | 'event' | 'task' | 'project'
+                })}
               >
                 {ENTITY_TYPES.map((type) => (
                   <option key={type.value} value={type.value}>{type.label}</option>

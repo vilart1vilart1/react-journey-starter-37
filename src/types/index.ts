@@ -30,6 +30,8 @@ export interface Tache {
   user_id: string;
   category_id?: string;
   subcategory_id?: string;
+  category_name?: string;
+  subcategory_name?: string;
 }
 
 export interface Projet {
@@ -46,6 +48,8 @@ export interface Projet {
   user_id: string;
   category_id?: string;
   subcategory_id?: string;
+  category_name?: string;
+  subcategory_name?: string;
 }
 
 export interface ProjetTache {
@@ -68,6 +72,8 @@ export interface Evenement {
   user_id: string;
   category_id?: string;
   subcategory_id?: string;
+  category_name?: string;
+  subcategory_name?: string;
 }
 
 export interface Facture {
@@ -84,6 +90,8 @@ export interface Facture {
   user_id: string;
   category_id?: string;
   subcategory_id?: string;
+  category_name?: string;
+  subcategory_name?: string;
 }
 
 export interface File {
@@ -96,6 +104,8 @@ export interface File {
   user_id?: string;
   category_id?: string;
   subcategory_id?: string;
+  category_name?: string;
+  subcategory_name?: string;
 }
 
 export * from './categories';
