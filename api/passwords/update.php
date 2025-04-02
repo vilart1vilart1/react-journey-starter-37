@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                         username = :username, 
                         password = :password, 
                         notes = :notes,
+                        category_id = :category_id,
+                        subcategory_id = :subcategory_id,
                         updated_at = NOW()
                     WHERE id = :id AND user_id = :user_id";
             
@@ -26,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $stmt->bindParam(":username", $data->username);
             $stmt->bindParam(":password", $data->password);
             $stmt->bindParam(":notes", $data->notes);
+            $stmt->bindParam(":category_id", $data->category_id);
+            $stmt->bindParam(":subcategory_id", $data->subcategory_id);
             $stmt->bindParam(":id", $data->id);
             $stmt->bindParam(":user_id", $data->user_id);
             

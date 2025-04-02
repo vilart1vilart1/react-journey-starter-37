@@ -7,11 +7,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $db = $database->getConnection();
     
     try {
-        $query = "SELECT * FROM files";
+        $query = "SELECT f.*, c.name as category_name, s.name as subcategory_name 
+                 FROM files f
+                 LEFT JOIN categories c ON f.category_id = c.id
+                 LEFT JOIN subcategories s ON f.subcategory_id = s.id
+                 WHERE 1=1";
+        
         if (isset($_GET['user_id'])) {
-            $query .= " WHERE user_id = :user_id";
+            $query .= " AND f.user_id = :user_id";
         }
-        $query .= " ORDER BY created_at DESC";
+        
+        $query .= " ORDER BY f.created_at DESC";
         
         $stmt = $db->prepare($query);
         

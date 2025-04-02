@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (!empty($data->title)) {
         try {
-            $query = "INSERT INTO tasks (title, description, status, due_date, priority, user_id) 
-                      VALUES (:title, :description, :status, :due_date, :priority, :user_id)";
+            $query = "INSERT INTO tasks (title, description, status, due_date, priority, category_id, subcategory_id, user_id) 
+                      VALUES (:title, :description, :status, :due_date, :priority, :category_id, :subcategory_id, :user_id)";
             
             $stmt = $db->prepare($query);
             
@@ -20,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $status = property_exists($data, 'status') ? $data->status : 'pending';
             $due_date = property_exists($data, 'due_date') ? $data->due_date : null;
             $priority = property_exists($data, 'priority') ? $data->priority : 'medium';
+            $category_id = property_exists($data, 'category_id') ? $data->category_id : null;
+            $subcategory_id = property_exists($data, 'subcategory_id') ? $data->subcategory_id : null;
             $user_id = property_exists($data, 'user_id') ? $data->user_id : null;
             
             $stmt->bindParam(":title", $data->title);
@@ -27,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(":status", $status);
             $stmt->bindParam(":due_date", $due_date);
             $stmt->bindParam(":priority", $priority);
+            $stmt->bindParam(":category_id", $category_id);
+            $stmt->bindParam(":subcategory_id", $subcategory_id);
             $stmt->bindParam(":user_id", $user_id);
             
             if ($stmt->execute()) {

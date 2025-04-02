@@ -9,8 +9,10 @@ export const EventsService = {
     return fetchData(`${ENDPOINT}/read.php`, params);
   },
 
-  getEvent: async (id: string) => {
-    return fetchData(`${ENDPOINT}/read_one.php`, { id });
+  getEvent: async (id: string, userId?: string) => {
+    const params = { id };
+    if (userId) params['user_id'] = userId;
+    return fetchData(`${ENDPOINT}/read_one.php`, params);
   },
 
   createEvent: async (eventData: any) => {

@@ -11,12 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     if (!empty($data->id)) {
         try {
             $query = "UPDATE events 
-                    SET title = :title, 
-                        description = :description, 
-                        date = :date, 
-                        location = :location,
-                        updated_at = NOW()
-                    WHERE id = :id AND user_id = :user_id";
+                      SET title = :title, 
+                          description = :description, 
+                          date = :date, 
+                          location = :location,
+                          category_id = :category_id,
+                          subcategory_id = :subcategory_id,
+                          updated_at = NOW()
+                      WHERE id = :id";
+            
+            if (isset($data->user_id)) {
+                $query .= " AND user_id = :user_id";
+            }
             
             $stmt = $db->prepare($query);
             
@@ -24,8 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $stmt->bindParam(":description", $data->description);
             $stmt->bindParam(":date", $data->date);
             $stmt->bindParam(":location", $data->location);
+            $stmt->bindParam(":category_id", $data->category_id);
+            $stmt->bindParam(":subcategory_id", $data->subcategory_id);
             $stmt->bindParam(":id", $data->id);
-            $stmt->bindParam(":user_id", $data->user_id);
+            
+            if (isset($data->user_id)) {
+                $stmt->bindParam(":user_id", $data->user_id);
+            }
             
             if ($stmt->execute()) {
                 http_response_code(200);

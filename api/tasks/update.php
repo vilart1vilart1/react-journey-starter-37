@@ -1,3 +1,4 @@
+
 <?php
 require_once '../config/database.php';
 
@@ -15,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                           status = :status, 
                           due_date = :due_date, 
                           priority = :priority,
+                          category_id = :category_id,
+                          subcategory_id = :subcategory_id,
                           updated_at = NOW()
                       WHERE id = :id AND user_id = :user_id";
             
@@ -25,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $stmt->bindParam(":status", $data->status);
             $stmt->bindParam(":due_date", $data->due_date);
             $stmt->bindParam(":priority", $data->priority);
+            $stmt->bindParam(":category_id", $data->category_id);
+            $stmt->bindParam(":subcategory_id", $data->subcategory_id);
             $stmt->bindParam(":id", $data->id);
             $stmt->bindParam(":user_id", $data->user_id);
             

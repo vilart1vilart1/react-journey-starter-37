@@ -8,9 +8,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     
     if (isset($_GET['id'])) {
         try {
-            $query = "SELECT * FROM events WHERE id = :id";
+            $query = "SELECT e.*, c.name as category_name, s.name as subcategory_name 
+                    FROM events e
+                    LEFT JOIN categories c ON e.category_id = c.id
+                    LEFT JOIN subcategories s ON e.subcategory_id = s.id
+                    WHERE e.id = :id";
+                    
             if (isset($_GET['user_id'])) {
-                $query .= " AND user_id = :user_id";
+                $query .= " AND e.user_id = :user_id";
             }
             
             $stmt = $db->prepare($query);
