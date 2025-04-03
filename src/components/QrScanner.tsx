@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { Camera, CameraOff, X, AlertCircle } from 'lucide-react';
@@ -18,9 +19,11 @@ const QrScanner = ({ onScan, onClose, isOpen }: QrScannerProps) => {
   const scannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Initialize QR scanner when component mounts
     const scanner = new Html5Qrcode('qr-reader');
     setQrScanner(scanner);
 
+    // Clean up on unmount
     return () => {
       if (scanner && isScanning) {
         scanner.stop()
@@ -32,6 +35,7 @@ const QrScanner = ({ onScan, onClose, isOpen }: QrScannerProps) => {
   }, []);
 
   useEffect(() => {
+    // Load available cameras when scanner is initialized
     if (qrScanner && isOpen) {
       loadCameras();
     }
@@ -44,6 +48,7 @@ const QrScanner = ({ onScan, onClose, isOpen }: QrScannerProps) => {
       const devices = await Html5Qrcode.getCameras();
       if (devices && devices.length > 0) {
         setAvailableCameras(devices);
+        // Select the environment facing camera by default if available
         const backCamera = devices.find(camera => camera.label.toLowerCase().includes('back'));
         setSelectedCamera(backCamera?.id || devices[0].id);
       } else {
@@ -74,6 +79,7 @@ const QrScanner = ({ onScan, onClose, isOpen }: QrScannerProps) => {
           stopScanner();
         },
         (errorMessage) => {
+          // QR code not found, continue scanning
           console.log('QR code scanning in progress...');
         }
       );
@@ -108,11 +114,13 @@ const QrScanner = ({ onScan, onClose, isOpen }: QrScannerProps) => {
   };
 
   useEffect(() => {
+    // When the modal is closed, stop the scanner
     if (!isOpen && isScanning) {
       stopScanner();
     }
-  }, [isOpen, isScanning]);
+  }, [isOpen]);
 
+  // Use the useEvent hook to handle escape key press
   useEvent('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Escape' && isOpen) {
       if (isScanning) {

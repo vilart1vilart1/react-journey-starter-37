@@ -1,11 +1,22 @@
-
 import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Plus, Trash2 } from 'lucide-react';
-import { CategoriesService } from '../../services/categories.service';
-import { Category, Subcategory } from '../../types/categories';
+import { CategoriesService } from '@/services/categories.service';
+import { Category, Subcategory } from '@/types/categories';
 import { toast } from 'sonner';
-import { SubcategoriesService } from '../../services/subcategories.service';
-import { useAuth } from '../../hooks/useAuth';
+import { SubcategoriesService } from '@/services/subcategories.service';
+import { useToast } from '@/components/ui/use-toast';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { useAuth } from '@/hooks/useAuth';
 
 interface CategoryManagerProps {
   entityType: string;
@@ -17,6 +28,7 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [newSubcategoryName, setNewSubcategoryName] = useState('');
+  const { toast } = useToast();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -39,7 +51,11 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
       setCategories(fetchedCategories);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
-      toast.error("Failed to fetch categories");
+      toast({
+        title: "Error!",
+        description: "Failed to fetch categories",
+        variant: "destructive",
+      })
     }
   };
 
@@ -49,7 +65,11 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
       setSubcategories(fetchedSubcategories);
     } catch (error) {
       console.error('Failed to fetch subcategories:', error);
-      toast.error("Failed to fetch subcategories");
+      toast({
+        title: "Error!",
+        description: "Failed to fetch subcategories",
+        variant: "destructive",
+      })
     }
   };
 
@@ -65,10 +85,17 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
       });
       setNewCategoryName('');
       fetchCategories();
-      toast.success("Category created successfully");
+      toast({
+        title: "Success!",
+        description: "Category created successfully",
+      })
     } catch (error) {
       console.error('Failed to create category:', error);
-      toast.error("Failed to create category");
+      toast({
+        title: "Error!",
+        description: "Failed to create category",
+        variant: "destructive",
+      })
     }
   };
 
@@ -79,10 +106,17 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
       setCategories(categories.filter(category => category.id !== categoryId));
       setSelectedCategory(null);
       setSubcategories([]);
-      toast.success("Category deleted successfully");
+      toast({
+        title: "Success!",
+        description: "Category deleted successfully",
+      })
     } catch (error) {
       console.error('Failed to delete category:', error);
-      toast.error("Failed to delete category");
+      toast({
+        title: "Error!",
+        description: "Failed to delete category",
+        variant: "destructive",
+      })
     }
   };
 
@@ -98,10 +132,17 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
       });
       setNewSubcategoryName('');
       fetchSubcategories(selectedCategory.id);
-      toast.success("Subcategory created successfully");
+      toast({
+        title: "Success!",
+        description: "Subcategory created successfully",
+      })
     } catch (error) {
       console.error('Failed to create subcategory:', error);
-      toast.error("Failed to create subcategory");
+      toast({
+        title: "Error!",
+        description: "Failed to create subcategory",
+        variant: "destructive",
+      })
     }
   };
 
@@ -110,10 +151,17 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
     try {
       await SubcategoriesService.deleteSubcategory(subcategoryId, user.id);
       setSubcategories(subcategories.filter(subcategory => subcategory.id !== subcategoryId));
-      toast.success("Subcategory deleted successfully");
+      toast({
+        title: "Success!",
+        description: "Subcategory deleted successfully",
+      })
     } catch (error) {
       console.error('Failed to delete subcategory:', error);
-      toast.error("Failed to delete subcategory");
+      toast({
+        title: "Error!",
+        description: "Failed to delete subcategory",
+        variant: "destructive",
+      })
     }
   };
 
@@ -123,104 +171,75 @@ const CategoryManager: React.FC<CategoryManagerProps> = ({ entityType }) => {
       <div className="w-full md:w-1/2">
         <h2 className="text-lg font-semibold mb-2">Categories</h2>
         <div className="flex items-center mb-2">
-          <input
+          <Input
             type="text"
             placeholder="New category name"
             value={newCategoryName}
             onChange={(e) => setNewCategoryName(e.target.value)}
-            className="mr-2 px-3 py-2 border border-gray-300 rounded-md w-full"
+            className="mr-2"
           />
-          <button 
-            onClick={handleCreateCategory}
-            className="flex items-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            <Plus className="mr-2 h-4 w-4" />Create Category
-          </button>
+          <Button onClick={handleCreateCategory}><Plus className="mr-2" />Create Category</Button>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <caption className="text-sm text-gray-500 my-2">A list of your categories.</caption>
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {categories.map((category) => (
-                <tr 
-                  key={category.id} 
-                  onClick={() => setSelectedCategory(category)} 
-                  className={`cursor-pointer ${selectedCategory?.id === category.id ? 'bg-gray-100' : ''}`}
-                >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{category.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button 
-                      className="flex items-center text-red-600 hover:text-red-900" 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteCategory(category.id);
-                      }}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table>
+          <TableCaption>A list of your categories.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {categories.map((category) => (
+              <TableRow key={category.id} onClick={() => setSelectedCategory(category)} className={`cursor-pointer ${selectedCategory?.id === category.id ? 'bg-muted' : ''}`}>
+                <TableCell className="font-medium">{category.name}</TableCell>
+                <TableCell>
+                  <Button variant="outline" size="sm" onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteCategory(category.id);
+                  }}><Trash2 className="mr-2" />Delete</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
 
       {/* Subcategory Management Section */}
       <div className="w-full md:w-1/2">
         <h2 className="text-lg font-semibold mb-2">Subcategories</h2>
         <div className="flex items-center mb-2">
-          <input
+          <Input
             type="text"
             placeholder="New subcategory name"
             value={newSubcategoryName}
             onChange={(e) => setNewSubcategoryName(e.target.value)}
-            className="mr-2 px-3 py-2 border border-gray-300 rounded-md w-full"
+            className="mr-2"
             disabled={!selectedCategory}
           />
-          <button 
-            onClick={handleCreateSubcategory} 
-            disabled={!selectedCategory}
-            className={`flex items-center px-4 py-2 rounded ${!selectedCategory ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white`}
-          >
-            <Plus className="mr-2 h-4 w-4" />Create Subcategory
-          </button>
+          <Button onClick={handleCreateSubcategory} disabled={!selectedCategory}><Plus className="mr-2" />Create Subcategory</Button>
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <caption className="text-sm text-gray-500 my-2">A list of subcategories for the selected category.</caption>
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {subcategories.map((subcategory) => (
-                <tr key={subcategory.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{subcategory.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button 
-                      className="flex items-center text-red-600 hover:text-red-900"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteSubcategory(subcategory.id);
-                      }}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" />Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table>
+          <TableCaption>A list of subcategories for the selected category.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[100px]">Name</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {subcategories.map((subcategory) => (
+              <TableRow key={subcategory.id}>
+                <TableCell className="font-medium">{subcategory.name}</TableCell>
+                <TableCell>
+                  <Button variant="outline" size="sm" onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteSubcategory(subcategory.id);
+                  }}><Trash2 className="mr-2" />Delete</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

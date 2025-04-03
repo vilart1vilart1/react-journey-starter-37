@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://respizenmedical.com/vilartprod/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.vilartprod.ch/api';
 
 export const fetchData = async (endpoint: string, params?: any) => {
   try {
@@ -53,7 +53,7 @@ export const deleteData = async (endpoint: string, params?: any) => {
       return response.data;
     } else {
       // Otherwise, we're using the query string method (for endpoints that expect ?id=xxx)
-      const response = await axios.delete(`${API_BASE_URL}${endpoint}`, { params });
+      const response = await axios.delete(`${API_BASE_URL}${endpoint}`);
       return response.data;
     }
   } catch (error) {
