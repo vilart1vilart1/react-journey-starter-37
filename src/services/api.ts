@@ -53,7 +53,12 @@ export async function fetchApi<T>(
     }
     
     if (options.headers) {
-      config.headers = options.headers;
+      config.headers = { ...config.headers };
+      Object.entries(options.headers).forEach(([key, value]) => {
+        if (config.headers && typeof value === 'string') {
+          config.headers[key] = value;
+        }
+      });
     }
     
     const response = await api.request(config);
