@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, Trash2 } from 'lucide-react';
-import { CategoriesService } from '../services/categories.service';
-import { Category, Subcategory } from '../types/categories';
+import { CategoriesService } from '../../services/categories.service';
+import { Category, Subcategory } from '../../types/categories';
 import { toast } from 'sonner';
-import { SubcategoriesService } from '../services/subcategories.service';
-import { useAuth } from '../hooks/useAuth';
+import { SubcategoriesService } from '../../services/subcategories.service';
+import { useAuth } from '../../hooks/useAuth';
 
 interface CategoryManagerProps {
   entityType: string;

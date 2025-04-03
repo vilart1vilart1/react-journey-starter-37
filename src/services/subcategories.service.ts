@@ -1,5 +1,6 @@
 
 import { fetchData, createData, updateData, deleteData } from '../utils/api';
+import { Subcategory } from '../types/categories';
 
 const ENDPOINT = '/categories/subcategories';
 
