@@ -1,4 +1,3 @@
-
 import { fetchData, createData, updateData, deleteData } from '../utils/api';
 
 const ENDPOINT = '/events';
@@ -21,13 +20,9 @@ export const EventsService = {
     return updateData(`${ENDPOINT}/update.php`, eventData);
   },
 
-  deleteEvent: async (id: string, userId?: string) => {
+  deleteEvent: async (id: string) => {
     try {
-      const params = { id };
-      if (userId) {
-        Object.assign(params, { user_id: userId });
-      }
-      return await deleteData(`${ENDPOINT}/delete.php`, params);
+      return await deleteData(`${ENDPOINT}/delete.php?id=${id}`);
     } catch (error) {
       console.error('Error deleting event:', error);
       throw error;

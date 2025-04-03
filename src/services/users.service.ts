@@ -1,4 +1,3 @@
-
 import { fetchData, createData, updateData, deleteData } from '../utils/api';
 
 const ENDPOINT = '/users';
@@ -22,8 +21,7 @@ export const UsersService = {
 
   deleteUser: async (id: string) => {
     try {
-      const params = { id };
-      return await deleteData(`${ENDPOINT}/delete.php`, params);
+      return await deleteData(`${ENDPOINT}/delete.php?id=${id}`);
     } catch (error) {
       console.error('Error deleting user:', error);
       throw error;
