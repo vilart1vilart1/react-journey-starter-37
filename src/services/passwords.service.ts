@@ -9,10 +9,8 @@ export const PasswordsService = {
     return fetchData(`${ENDPOINT}/read.php`, params);
   },
 
-  getPassword: async (id: string, userId?: string) => {
-    const params = { id };
-    if (userId) params['user_id'] = userId;
-    return fetchData(`${ENDPOINT}/read_one.php`, params);
+  getPassword: async (id: string) => {
+    return fetchData(`${ENDPOINT}/read_one.php`, { id });
   },
 
   createPassword: async (passwordData: any) => {

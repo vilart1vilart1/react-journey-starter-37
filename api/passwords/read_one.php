@@ -8,14 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     
     if (isset($_GET['id'])) {
         try {
-            $query = "SELECT p.*, c.name as category_name, s.name as subcategory_name 
-                    FROM password_vault p
-                    LEFT JOIN categories c ON p.category_id = c.id
-                    LEFT JOIN subcategories s ON p.subcategory_id = s.id
-                    WHERE p.id = :id";
-                    
+            $query = "SELECT * FROM password_vault WHERE id = :id";
             if (isset($_GET['user_id'])) {
-                $query .= " AND p.user_id = :user_id";
+                $query .= " AND user_id = :user_id";
             }
             
             $stmt = $db->prepare($query);

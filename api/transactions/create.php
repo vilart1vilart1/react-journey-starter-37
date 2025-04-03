@@ -10,16 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (!empty($data->date) && !empty($data->description) && isset($data->montant) && !empty($data->type)) {
         try {
-            $query = "INSERT INTO transactions (id, date, description, amount, category, category_id, subcategory_id, status, type, artist_supplier, user_id) 
-                      VALUES (UUID(), :date, :description, :amount, :category, :category_id, :subcategory_id, :status, :type, :artist_supplier, :user_id)";
+            $query = "INSERT INTO transactions (id, date, description, amount, category, status, type, artist_supplier, user_id) 
+                      VALUES (UUID(), :date, :description, :amount, :category, :status, :type, :artist_supplier, :user_id)";
             
             $stmt = $db->prepare($query);
             
             // Map French field names to English database columns
             $amount = $data->montant;
             $category = property_exists($data, 'categorie') ? $data->categorie : 'autre';
-            $category_id = property_exists($data, 'category_id') ? $data->category_id : null;
-            $subcategory_id = property_exists($data, 'subcategory_id') ? $data->subcategory_id : null;
             $status = property_exists($data, 'statut') ? $data->statut : 'en_attente';
             $artist_supplier = property_exists($data, 'artiste') ? $data->artiste : null;
             $user_id = property_exists($data, 'user_id') ? $data->user_id : null;
@@ -28,8 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(":description", $data->description);
             $stmt->bindParam(":amount", $amount);
             $stmt->bindParam(":category", $category);
-            $stmt->bindParam(":category_id", $category_id);
-            $stmt->bindParam(":subcategory_id", $subcategory_id);
             $stmt->bindParam(":status", $status);
             $stmt->bindParam(":type", $data->type);
             $stmt->bindParam(":artist_supplier", $artist_supplier);

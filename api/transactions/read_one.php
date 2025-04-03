@@ -8,14 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     
     if (isset($_GET['id'])) {
         try {
-            $query = "SELECT t.*, c.name as category_name, s.name as subcategory_name 
-                    FROM transactions t
-                    LEFT JOIN categories c ON t.category_id = c.id
-                    LEFT JOIN subcategories s ON t.subcategory_id = s.id
-                    WHERE t.id = :id";
-                    
+            $query = "SELECT * FROM transactions WHERE id = :id";
             if (isset($_GET['user_id'])) {
-                $query .= " AND t.user_id = :user_id";
+                $query .= " AND user_id = :user_id";
             }
             
             $stmt = $db->prepare($query);

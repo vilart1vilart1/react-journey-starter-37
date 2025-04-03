@@ -7,17 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $db = $database->getConnection();
     
     try {
-        $query = "SELECT e.*, c.name as category_name, s.name as subcategory_name 
-                FROM events e
-                LEFT JOIN categories c ON e.category_id = c.id
-                LEFT JOIN subcategories s ON e.subcategory_id = s.id
-                WHERE 1=1";
-                
+        $query = "SELECT * FROM events";
         if (isset($_GET['user_id'])) {
-            $query .= " AND e.user_id = :user_id";
+            $query .= " WHERE user_id = :user_id";
         }
-        
-        $query .= " ORDER BY e.date DESC";
+        $query .= " ORDER BY date ASC";
         
         $stmt = $db->prepare($query);
         

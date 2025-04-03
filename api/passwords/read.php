@@ -7,17 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $db = $database->getConnection();
     
     try {
-        $query = "SELECT p.*, c.name as category_name, s.name as subcategory_name 
-                FROM password_vault p
-                LEFT JOIN categories c ON p.category_id = c.id
-                LEFT JOIN subcategories s ON p.subcategory_id = s.id
-                WHERE 1=1";
-                
+        $query = "SELECT * FROM password_vault";
         if (isset($_GET['user_id'])) {
-            $query .= " AND p.user_id = :user_id";
+            $query .= " WHERE user_id = :user_id";
         }
-        
-        $query .= " ORDER BY p.created_at DESC";
+        $query .= " ORDER BY created_at DESC";
         
         $stmt = $db->prepare($query);
         

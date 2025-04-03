@@ -6,87 +6,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Check if file was uploaded
-    if (isset($_FILES['file'])) {
-        $file = $_FILES['file'];
-        $fileName = $file['name'];
-        $fileType = $file['type'];
-        $fileSize = $file['size'];
-        $fileTmpName = $file['tmp_name'];
+    // Check if file was uploaded without errors
+    if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
+        $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png", "pdf" => "application/pdf", "doc" => "application/msword", "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+        $filename = $_FILES["file"]["name"];
+        $filetype = $_FILES["file"]["type"];
+        $filesize = $_FILES["file"]["size"];
         
-        // Generate a unique ID for the file
-        $fileId = uniqid();
-        
-        // Define upload directory (relative to this script's location)
-        $uploadDir = '../uploads/';
-        if (!file_exists($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
+        // Verify file extension
+        $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        if (!array_key_exists($ext, $allowed)) {
+            http_response_code(400);
+            echo json_encode(array("message" => "Error: Invalid file format."));
+            exit;
         }
         
-        // Ensure the file name is unique
-        $uniqueFileName = $fileId . '_' . $fileName;
-        $uploadPath = $uploadDir . $uniqueFileName;
+        // Verify file size - 5MB maximum
+        $maxsize = 5 * 1024 * 1024;
+        if ($filesize > $maxsize) {
+            http_response_code(400);
+            echo json_encode(array("message" => "Error: File size is larger than the allowed limit (5MB)."));
+            exit;
+        }
         
-        // Generate the file URL (adjust according to your server setup)
-        $fileUrl = 'https://api.vilartprod.ch/api/uploads/' . $uniqueFileName;
-        
-        // Get other form data
-        $userId = isset($_POST['user_id']) ? $_POST['user_id'] : null;
-        $categoryId = isset($_POST['category_id']) ? $_POST['category_id'] : null;
-        $subcategoryId = isset($_POST['subcategory_id']) ? $_POST['subcategory_id'] : null;
-        
-        // Move the uploaded file to the destination
-        if (move_uploaded_file($fileTmpName, $uploadPath)) {
-            try {
-                // Insert file information into the database
-                $query = "INSERT INTO files (id, name, type, size, url, category_id, subcategory_id, user_id) 
-                          VALUES (:id, :name, :type, :size, :url, :category_id, :subcategory_id, :user_id)";
-                
-                $stmt = $db->prepare($query);
-                
-                $stmt->bindParam(":id", $fileId);
-                $stmt->bindParam(":name", $fileName);
-                $stmt->bindParam(":type", $fileType);
-                $stmt->bindParam(":size", $fileSize);
-                $stmt->bindParam(":url", $fileUrl);
-                $stmt->bindParam(":category_id", $categoryId);
-                $stmt->bindParam(":subcategory_id", $subcategoryId);
-                $stmt->bindParam(":user_id", $userId);
-                
-                if ($stmt->execute()) {
-                    // Return the file information as the response
-                    $fileInfo = array(
-                        "id" => $fileId,
-                        "name" => $fileName,
-                        "type" => $fileType,
-                        "size" => $fileSize,
-                        "url" => $fileUrl,
-                        "category_id" => $categoryId,
-                        "subcategory_id" => $subcategoryId,
-                        "user_id" => $userId
-                    );
+        // Verify MIME type of the file
+        if (in_array($filetype, $allowed)) {
+            // Create uploads directory if it doesn't exist
+            $upload_dir = "../../uploads/";
+            if (!file_exists($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+            
+            // Generate unique filename
+            $new_filename = uniqid() . "." . $ext;
+            $upload_path = $upload_dir . $new_filename;
+            
+            // Save the file
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $upload_path)) {
+                // Save file info to database
+                try {
+                    $file_url = "https://respizenmedical.com/vilartprod/uploads/" . $new_filename;
+                    $user_id = isset($_POST["user_id"]) ? $_POST["user_id"] : null;
                     
-                    http_response_code(201);
-                    echo json_encode($fileInfo);
-                } else {
-                    // If database insert fails, delete the uploaded file
-                    unlink($uploadPath);
+                    $query = "INSERT INTO files (id, name, type, size, url, user_id) 
+                              VALUES (UUID(), :name, :type, :size, :url, :user_id)";
+                    
+                    $stmt = $db->prepare($query);
+                    
+                    $stmt->bindParam(":name", $filename);
+                    $stmt->bindParam(":type", $filetype);
+                    $stmt->bindParam(":size", $filesize);
+                    $stmt->bindParam(":url", $file_url);
+                    $stmt->bindParam(":user_id", $user_id);
+                    
+                    if ($stmt->execute()) {
+                        http_response_code(201);
+                        echo json_encode(array(
+                            "message" => "File uploaded successfully.",
+                            "id" => $db->lastInsertId(),
+                            "url" => $file_url
+                        ));
+                    } else {
+                        http_response_code(503);
+                        echo json_encode(array("message" => "Unable to save file information."));
+                    }
+                } catch(PDOException $e) {
                     http_response_code(503);
-                    echo json_encode(array("message" => "Failed to record file information in database."));
+                    echo json_encode(array("message" => "Database error: " . $e->getMessage()));
                 }
-            } catch(PDOException $e) {
-                // If database error occurs, delete the uploaded file
-                unlink($uploadPath);
-                http_response_code(503);
-                echo json_encode(array("message" => "Database error: " . $e->getMessage()));
+            } else {
+                http_response_code(500);
+                echo json_encode(array("message" => "Error: There was an error uploading your file."));
             }
         } else {
-            http_response_code(500);
-            echo json_encode(array("message" => "Failed to move uploaded file."));
+            http_response_code(400);
+            echo json_encode(array("message" => "Error: There was a problem with the file upload. Please try again."));
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "No file uploaded."));
+        echo json_encode(array("message" => "Error: " . $_FILES["file"]["error"]));
     }
 } else {
     http_response_code(405);
