@@ -15,6 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                       description = :description,
                       amount = :amount,
                       category = :category,
+                      category_id = :category_id,
+                      subcategory_id = :subcategory_id,
                       status = :status,
                       type = :type,
                       artist_supplier = :artist_supplier
@@ -36,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $stmt->bindParam(":description", $data->description);
             $stmt->bindParam(":amount", $amount);
             $stmt->bindParam(":category", $category);
+            $stmt->bindParam(":category_id", $data->category_id);
+            $stmt->bindParam(":subcategory_id", $data->subcategory_id);
             $stmt->bindParam(":status", $status);
             $stmt->bindParam(":type", $data->type);
             $stmt->bindParam(":artist_supplier", $artist_supplier);

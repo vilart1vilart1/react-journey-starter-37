@@ -1,5 +1,6 @@
-
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import Modal from '../../Modal';
 import { Mail, Phone, MapPin, AlertCircle, X, Upload, Music, Clock, DollarSign } from 'lucide-react';
 import { ArtistsService } from '../../../services';

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id'])) {
         try {
             $query = "SELECT t.*, c.name as category_name, s.name as subcategory_name 
-                    FROM transactions t
+                    FROM tasks t
                     LEFT JOIN categories c ON t.category_id = c.id
                     LEFT JOIN subcategories s ON t.subcategory_id = s.id
                     WHERE t.id = :id";
@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $stmt->execute();
             
             if ($stmt->rowCount() > 0) {
-                $transaction = $stmt->fetch(PDO::FETCH_ASSOC);
+                $task = $stmt->fetch(PDO::FETCH_ASSOC);
                 http_response_code(200);
-                echo json_encode($transaction);
+                echo json_encode($task);
             } else {
                 http_response_code(404);
-                echo json_encode(array("message" => "Transaction not found."));
+                echo json_encode(array("message" => "Task not found."));
             }
         } catch(PDOException $e) {
             http_response_code(503);

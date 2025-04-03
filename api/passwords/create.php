@@ -10,16 +10,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (!empty($data->site_name) && !empty($data->username) && !empty($data->password) && !empty($data->user_id)) {
         try {
-            $query = "INSERT INTO password_vault (site_name, site_url, username, password, notes, user_id) 
-                    VALUES (:site_name, :site_url, :username, :password, :notes, :user_id)";
+            $query = "INSERT INTO password_vault (site_name, site_url, username, password, notes, category_id, subcategory_id, user_id) 
+                    VALUES (:site_name, :site_url, :username, :password, :notes, :category_id, :subcategory_id, :user_id)";
             
             $stmt = $db->prepare($query);
+            
+            $category_id = property_exists($data, 'category_id') ? $data->category_id : null;
+            $subcategory_id = property_exists($data, 'subcategory_id') ? $data->subcategory_id : null;
             
             $stmt->bindParam(":site_name", $data->site_name);
             $stmt->bindParam(":site_url", $data->site_url);
             $stmt->bindParam(":username", $data->username);
             $stmt->bindParam(":password", $data->password); // In production, encrypt this!
             $stmt->bindParam(":notes", $data->notes);
+            $stmt->bindParam(":category_id", $category_id);
+            $stmt->bindParam(":subcategory_id", $subcategory_id);
             $stmt->bindParam(":user_id", $data->user_id);
             
             if ($stmt->execute()) {

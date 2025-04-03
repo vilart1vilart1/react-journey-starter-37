@@ -1,6 +1,5 @@
 
 import { fetchData, createData, updateData, deleteData } from '../utils/api';
-import { Artiste } from '../types';
 
 const ENDPOINT = '/artists';
 
