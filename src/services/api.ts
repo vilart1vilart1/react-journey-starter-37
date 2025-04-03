@@ -1,5 +1,5 @@
 
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const API_BASE_URL = 'https://respizenmedical.com/vilartprod/api';
 
@@ -14,6 +14,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
+    config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -42,12 +43,20 @@ export async function fetchApi<T>(
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
   try {
-    const response = await api.request({
+    const config: AxiosRequestConfig = {
       url: endpoint,
       method: options.method || 'GET',
-      data: options.body ? JSON.parse(options.body as string) : undefined,
-      headers: options.headers,
-    });
+    };
+    
+    if (options.body) {
+      config.data = JSON.parse(options.body as string);
+    }
+    
+    if (options.headers) {
+      config.headers = options.headers;
+    }
+    
+    const response = await api.request(config);
     
     return { data: response.data };
   } catch (error) {
