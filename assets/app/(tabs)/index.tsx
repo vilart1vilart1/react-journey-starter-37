@@ -1,3 +1,4 @@
+
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, TextInput, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MapPin, Star, Search, Filter, Wifi, Car, School as Meeting, Twitch as Kitchen } from 'lucide-react-native';
@@ -38,6 +39,7 @@ interface Location {
   image: string;
 }
 
+// Featured locations are kept static as they are not part of the API
 const FEATURED_LOCATIONS: Location[] = [
   {
     id: '1',
@@ -60,7 +62,6 @@ const FEATURED_LOCATIONS: Location[] = [
 ];
 
 const { width } = Dimensions.get('window');
-const cardWidth = width - 48;
 
 const getAmenityIcon = (amenity: string) => {
   switch (amenity) {
@@ -112,14 +113,18 @@ export default function HomeScreen() {
       setLoading(true);
       setError(null);
       
-      const response = await fetch('/api/properties');
+      const response = await fetch('http://localhost:3000/api/properties');
       
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
       }
       
-      const data = await response.json();
-      setProperties(data);
+      const result = await response.json();
+      if (result.data) {
+        setProperties(result.data);
+      } else {
+        throw new Error('Format de réponse invalide');
+      }
     } catch (err) {
       console.error('Erreur lors de la récupération des propriétés:', err);
       setError('Impossible de charger les propriétés. Veuillez réessayer plus tard.');

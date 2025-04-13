@@ -1,73 +1,147 @@
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native';
+
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { MapPin, Star, ArrowLeft, Wifi, School as Pool, Twitch as Kitchen, Car } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
 
 // Define TypeScript interfaces
 interface Property {
   id: string;
   title: string;
-  location: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  image: string;
+  location?: string;
+  address?: string;
+  price: string;
+  rating: string;
+  reviews?: number;
+  image_url: string;
   description: string;
-  amenities: string[];
-  rooms: number;
-  bathrooms: number;
-  size: number;
+  type?: string;
+  area?: string;
+  workstations?: number;
+  meeting_rooms?: number;
+  // Amenities flags
+  wifi?: number;
+  parking?: number;
+  coffee?: number;
+  reception?: number;
+  secured?: number;
+  accessible?: number;
+  printers?: number;
+  kitchen?: number;
+  flexible_hours?: number;
 }
-
-interface Properties {
-  [key: string]: Property;
-}
-
-const PROPERTIES: Properties = {
-  '1': {
-    id: '1',
-    title: 'Villa de luxe avec vue sur mer',
-    location: 'Cannes, France',
-    price: 450,
-    rating: 4.9,
-    reviews: 128,
-    image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80',
-    description: 'Magnifique villa moderne avec vue panoramique sur la mer Méditerranée. Profitez dune piscine à débordement, dne cuisine entièrement équipée et dun jardin luxuriant.',
-    amenities: ['Wifi', 'Piscine', 'Cuisine équipée', 'Parking'],
-    rooms: 4,
-    bathrooms: 3,
-    size: 250,
-  },
-};
 
 const { width } = Dimensions.get('window');
 
 export default function PropertyScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const property = PROPERTIES[id as keyof typeof PROPERTIES];
+  const [property, setProperty] = useState<Property | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!property) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>Propriété non trouvée</Text>
-      </View>
-    );
-  }
+  useEffect(() => {
+    fetchPropertyDetails();
+  }, [id]);
+
+  const fetchPropertyDetails = async () => {
+    if (!id) return;
+    
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(`http://localhost:3000/api/properties/${id}`);
+      
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      if (result.success && result.data) {
+        setProperty(result.data);
+      } else {
+        throw new Error('Format de réponse invalide');
+      }
+    } catch (err) {
+      console.error('Erreur lors de la récupération des détails de la propriété:', err);
+      setError('Impossible de charger les détails. Veuillez réessayer plus tard.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const renderAmenityIcon = (amenity: string) => {
     switch (amenity) {
-      case 'Wifi':
+      case 'Wifi haut débit':
         return <Wifi size={24} color="#0066FF" />;
       case 'Piscine':
         return <Pool size={24} color="#0066FF" />;
       case 'Cuisine équipée':
+      case 'Café/Thé':
         return <Kitchen size={24} color="#0066FF" />;
+      case 'Parking sécurisé':
       case 'Parking':
         return <Car size={24} color="#0066FF" />;
       default:
         return null;
     }
   };
+
+  /**
+   * Converts API property data amenities to display format
+   */
+  const getPropertyAmenities = (property: Property): string[] => {
+    const amenities: string[] = [];
+    
+    if (property.wifi === 1) amenities.push('Wifi haut débit');
+    if (property.parking === 1) amenities.push('Parking sécurisé');
+    if (property.meeting_rooms && property.meeting_rooms > 0) amenities.push('Salles de réunion');
+    if (property.kitchen === 1) amenities.push('Cuisine équipée');
+    if (property.coffee === 1) amenities.push('Café/Thé');
+    if (property.reception === 1) amenities.push('Réception');
+    if (property.secured === 1) amenities.push('Sécurisé');
+    if (property.printers === 1) amenities.push('Imprimantes');
+    if (property.flexible_hours === 1) amenities.push('Heures flexibles');
+    
+    return amenities;
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0066FF" />
+        <Text style={styles.loadingText}>Chargement des détails...</Text>
+      </View>
+    );
+  }
+
+  if (error || !property) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>
+          {error || "Propriété non trouvée"}
+        </Text>
+        <TouchableOpacity 
+          style={styles.retryButton}
+          onPress={fetchPropertyDetails}
+        >
+          <Text style={styles.retryText}>Réessayer</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.backButtonError}
+          onPress={() => router.back()}
+        >
+          <Text style={styles.backButtonErrorText}>Retour</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  // Get location from address or location field
+  const locationText = property.address || property.location || 'Emplacement non spécifié';
+  // Get amenities in display format
+  const amenities = getPropertyAmenities(property);
 
   return (
     <View style={styles.mainContainer}>
@@ -81,8 +155,8 @@ export default function PropertyScreen() {
           </TouchableOpacity>
           <Image 
             source={{
-    uri: property.image ? property.image : 'https://via.placeholder.com/150',
-  }}
+              uri: property.image_url,
+            }}
             style={styles.coverImage}
           />
         </View>
@@ -92,14 +166,14 @@ export default function PropertyScreen() {
             <Text style={styles.title}>{property.title}</Text>
             <View style={styles.locationContainer}>
               <MapPin size={16} color="#0066FF" />
-              <Text style={styles.location}>{property.location}</Text>
+              <Text style={styles.location}>{locationText}</Text>
             </View>
           </View>
 
           <View style={styles.ratingContainer}>
             <Star size={16} color="#0066FF" fill="#0066FF" />
             <Text style={styles.rating}>{property.rating}</Text>
-            <Text style={styles.reviews}>({property.reviews} avis)</Text>
+            <Text style={styles.reviews}>({property.reviews || 0} avis)</Text>
           </View>
 
           <View style={styles.infoContainer}>
@@ -109,9 +183,9 @@ export default function PropertyScreen() {
 
           <View style={styles.statsContainer}>
             {[
-              { value: property.rooms, label: 'Chambres' },
-              { value: property.bathrooms, label: 'Salles de bain' },
-              { value: `${property.size}m²`, label: 'Surface' },
+              { value: property.type || 'Bureau standard', label: 'Type d\'espace' },
+              { value: `${property.workstations || 0} pers.`, label: 'Capacité' },
+              { value: `${property.area || 0}m²`, label: 'Surface' },
             ].map((stat, index) => (
               <View key={index} style={styles.stat}>
                 <Text style={styles.statValue}>{stat.value}</Text>
@@ -120,24 +194,26 @@ export default function PropertyScreen() {
             ))}
           </View>
 
-          <View style={styles.amenitiesContainer}>
-            <Text style={styles.infoTitle}>Équipements</Text>
-            <View style={styles.amenitiesGrid}>
-              {property.amenities.map((amenity, index) => (
-                <View key={index} style={styles.amenity}>
-                  {renderAmenityIcon(amenity)}
-                  <Text style={styles.amenityText}>{amenity}</Text>
-                </View>
-              ))}
+          {amenities.length > 0 && (
+            <View style={styles.amenitiesContainer}>
+              <Text style={styles.infoTitle}>Équipements</Text>
+              <View style={styles.amenitiesGrid}>
+                {amenities.map((amenity, index) => (
+                  <View key={index} style={styles.amenity}>
+                    {renderAmenityIcon(amenity)}
+                    <Text style={styles.amenityText}>{amenity}</Text>
+                  </View>
+                ))}
+              </View>
             </View>
-          </View>
+          )}
         </View>
       </ScrollView>
 
       <View style={styles.footer}>
         <View style={styles.priceContainer}>
           <Text style={styles.price}>{property.price} TND</Text>
-          <Text style={styles.perNight}>/ nuit</Text>
+          <Text style={styles.perNight}>/ mois</Text>
         </View>
         <TouchableOpacity 
           style={styles.bookButton}
@@ -153,19 +229,59 @@ export default function PropertyScreen() {
 }
 
 const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  loadingText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    color: '#666',
+    marginTop: 16,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  errorText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    color: '#FF3B30',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  retryButton: {
+    backgroundColor: '#0066FF',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  retryText: {
+    fontFamily: 'Inter-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
+  },
+  backButtonError: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+  },
+  backButtonErrorText: {
+    fontFamily: 'Inter-Medium',
+    fontSize: 16,
+    color: '#0066FF',
+  },
   mainContainer: {
     flex: 1,
     backgroundColor: '#fff',
   },
   container: {
     flex: 1,
-  },
-  errorText: {
-    fontFamily: 'Inter-Regular',
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 20,
   },
   header: {
     position: 'relative',
