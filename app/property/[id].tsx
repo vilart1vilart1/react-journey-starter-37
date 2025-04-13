@@ -58,7 +58,8 @@ export default function PropertyScreen() {
       setLoading(true);
       setError(null);
       
-      const response = await fetch(`http://localhost:3000/api/properties/${id}`);
+      // Using the computer's IP address instead of localhost
+      const response = await fetch(`http://192.168.1.28:3000/api/properties/${id}`);
       
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);

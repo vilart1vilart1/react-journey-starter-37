@@ -1,45 +1,35 @@
 
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, TextInput, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MapPin, Star, Search, Filter, Wifi, Car, Building, Briefcase } from 'lucide-react-native';
+import { useEffect, useState } from 'react';
 
-// Définition des propriétés de bureaux professionnels
-// Liste des espaces de bureaux disponibles à la location
-const PROPERTIES = [
-  {
-    id: '1',
-    title: 'Espace de coworking moderne',
-    location: 'La Défense, Paris',
-    price: 350,
-    rating: 4.8,
-    reviews: 112,
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80',
-    amenities: ['Wifi haut débit', 'Parking sécurisé', 'Salles de réunion', 'Cafétéria'],
-    description: 'Espace de travail moderne au cœur du quartier d\'affaires de La Défense'
-  },
-  {
-    id: '2',
-    title: 'Bureau privé avec vue panoramique',
-    location: 'Lyon, France',
-    price: 420,
-    rating: 4.9,
-    reviews: 84,
-    image: 'https://images.unsplash.com/photo-1497215842964-222b430dc094?w=800&q=80',
-    amenities: ['Wifi haut débit', 'Parking sécurisé', 'Réception 24/7', 'Cafétéria'],
-    description: 'Bureau privé avec vue exceptionnelle sur la ville de Lyon'
-  },
-  {
-    id: '3',
-    title: 'Espace collaboratif créatif',
-    location: 'Bordeaux, France',
-    price: 290,
-    rating: 4.7,
-    reviews: 65,
-    image: 'https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=800&q=80',
-    amenities: ['Wifi haut débit', 'Imprimantes', 'Cuisine équipée', 'Terrasse'],
-    description: 'Espace de travail créatif idéal pour startups et entrepreneurs'
-  },
-];
+// Define TypeScript interfaces
+interface Property {
+  id: string;
+  title: string;
+  location?: string;
+  address?: string;
+  price: string;
+  rating: string;
+  reviews?: number;
+  image_url: string;
+  description: string;
+  type?: string;
+  area?: string;
+  workstations?: number;
+  meeting_rooms?: number;
+  // Amenities flags
+  wifi?: number;
+  parking?: number;
+  coffee?: number;
+  reception?: number;
+  secured?: number;
+  accessible?: number;
+  printers?: number;
+  kitchen?: number;
+  flexible_hours?: number;
+}
 
 // Villes populaires pour les bureaux professionnels
 const FEATURED_LOCATIONS = [
@@ -80,18 +70,64 @@ const getAmenityIcon = (amenity: string) => {
       return <Building size={16} color="#666" />;
     case 'Cafétéria':
     case 'Cuisine équipée':
+    case 'Café/Thé':
       return <Briefcase size={16} color="#666" />;
-    case 'Imprimantes':
-    case 'Réception 24/7':
-    case 'Terrasse':
-      return <Building size={16} color="#666" />;
     default:
-      return null;
+      return <Building size={16} color="#666" />;
   }
 };
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  const fetchProperties = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Using the computer's IP address instead of localhost
+      const response = await fetch('http://192.168.1.28:3000/api/properties');
+      
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      if (result.data) {
+        setProperties(result.data);
+      } else {
+        throw new Error('Format de réponse invalide');
+      }
+    } catch (err) {
+      console.error('Erreur lors de la récupération des propriétés:', err);
+      setError('Impossible de charger les propriétés. Veuillez réessayer plus tard.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Gets amenities from property data
+  const getPropertyAmenities = (property: Property): string[] => {
+    const amenities: string[] = [];
+    
+    if (property.wifi === 1) amenities.push('Wifi haut débit');
+    if (property.parking === 1) amenities.push('Parking sécurisé');
+    if (property.meeting_rooms && property.meeting_rooms > 0) amenities.push('Salles de réunion');
+    if (property.kitchen === 1) amenities.push('Cuisine équipée');
+    if (property.coffee === 1) amenities.push('Café/Thé');
+    if (property.reception === 1) amenities.push('Réception');
+    if (property.secured === 1) amenities.push('Sécurisé');
+    if (property.printers === 1) amenities.push('Imprimantes');
+    
+    return amenities;
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -145,40 +181,64 @@ export default function HomeScreen() {
             <Text style={styles.seeAllButton}>Voir tout</Text>
           </TouchableOpacity>
         </View>
-        {PROPERTIES.map((property) => (
-          <TouchableOpacity
-            key={property.id}
-            style={styles.propertyCard}
-            onPress={() => router.push(`/property/${property.id}`)}
-          >
-            <Image source={{ uri: property.image }} style={styles.propertyImage} />
-            <View style={styles.propertyInfo}>
-              <View style={styles.locationContainer}>
-                <MapPin size={16} color="#0066FF" />
-                <Text style={styles.location}>{property.location}</Text>
-              </View>
-              <Text style={styles.propertyTitle}>{property.title}</Text>
-              <Text style={styles.propertyDescription}>{property.description}</Text>
-              <View style={styles.ratingContainer}>
-                <Star size={16} color="#0066FF" fill="#0066FF" />
-                <Text style={styles.rating}>{property.rating}</Text>
-                <Text style={styles.reviews}>({property.reviews} avis)</Text>
-              </View>
-              <View style={styles.amenitiesContainer}>
-                {property.amenities.map((amenity, index) => (
-                  <View key={index} style={styles.amenity}>
-                    {getAmenityIcon(amenity)}
-                    <Text style={styles.amenityText}>{amenity}</Text>
+        
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#0066FF" />
+            <Text style={styles.loadingText}>Chargement des espaces...</Text>
+          </View>
+        ) : error ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+            <TouchableOpacity style={styles.retryButton} onPress={fetchProperties}>
+              <Text style={styles.retryText}>Réessayer</Text>
+            </TouchableOpacity>
+          </View>
+        ) : properties.length === 0 ? (
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Aucun espace disponible pour le moment.</Text>
+          </View>
+        ) : (
+          properties.map((property) => {
+            const amenities = getPropertyAmenities(property);
+            const location = property.address || property.location || 'Emplacement non spécifié';
+            
+            return (
+              <TouchableOpacity
+                key={property.id}
+                style={styles.propertyCard}
+                onPress={() => router.push(`/property/${property.id}`)}
+              >
+                <Image source={{ uri: property.image_url }} style={styles.propertyImage} />
+                <View style={styles.propertyInfo}>
+                  <View style={styles.locationContainer}>
+                    <MapPin size={16} color="#0066FF" />
+                    <Text style={styles.location}>{location}</Text>
                   </View>
-                ))}
-              </View>
-              <View style={styles.priceContainer}>
-                <Text style={styles.price}>{property.price} TND</Text>
-                <Text style={styles.perNight}>/ mois</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+                  <Text style={styles.propertyTitle}>{property.title}</Text>
+                  <Text style={styles.propertyDescription}>{property.description}</Text>
+                  <View style={styles.ratingContainer}>
+                    <Star size={16} color="#0066FF" fill="#0066FF" />
+                    <Text style={styles.rating}>{property.rating}</Text>
+                    <Text style={styles.reviews}>({property.reviews || 0} avis)</Text>
+                  </View>
+                  <View style={styles.amenitiesContainer}>
+                    {amenities.map((amenity, index) => (
+                      <View key={index} style={styles.amenity}>
+                        {getAmenityIcon(amenity)}
+                        <Text style={styles.amenityText}>{amenity}</Text>
+                      </View>
+                    ))}
+                  </View>
+                  <View style={styles.priceContainer}>
+                    <Text style={styles.price}>{property.price} TND</Text>
+                    <Text style={styles.perNight}>/ mois</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })
+        )}
       </View>
     </ScrollView>
   );
