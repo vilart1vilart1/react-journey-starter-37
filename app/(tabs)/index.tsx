@@ -38,26 +38,22 @@ const FEATURED_LOCATIONS = [
     name: 'Paris',
     properties: 184,
     image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80',
-    description: 'Capitale économique avec une grande variété d\'espaces de bureaux'
   },
   {
     id: '2',
     name: 'Lyon',
     properties: 96,
     image: 'https://images.unsplash.com/photo-1524397057410-1e775ed476f3?w=800&q=80',
-    description: 'Deuxième pôle économique français avec des espaces modernes'
   },
   {
     id: '3',
     name: 'Marseille',
     properties: 78,
     image: 'https://images.unsplash.com/photo-1589786742483-644a74b8b6de?w=800&q=80',
-    description: 'Métropole méditerranéenne en plein développement économique'
   },
 ];
 
 const { width } = Dimensions.get('window');
-const cardWidth = width - 48;
 
 // Fonction pour afficher les icônes d'équipement appropriées
 const getAmenityIcon = (amenity: string) => {
@@ -183,20 +179,20 @@ export default function HomeScreen() {
         </View>
         
         {loading ? (
-          <View style={styles.loadingContainer}>
+          <View style={styles.loadingStateContainer}>
             <ActivityIndicator size="large" color="#0066FF" />
-            <Text style={styles.loadingText}>Chargement des espaces...</Text>
+            <Text style={styles.loadingStateText}>Chargement des espaces...</Text>
           </View>
         ) : error ? (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error}</Text>
-            <TouchableOpacity style={styles.retryButton} onPress={fetchProperties}>
-              <Text style={styles.retryText}>Réessayer</Text>
+          <View style={styles.errorStateContainer}>
+            <Text style={styles.errorStateText}>{error}</Text>
+            <TouchableOpacity style={styles.retryStateButton} onPress={fetchProperties}>
+              <Text style={styles.retryStateText}>Réessayer</Text>
             </TouchableOpacity>
           </View>
         ) : properties.length === 0 ? (
-          <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>Aucun espace disponible pour le moment.</Text>
+          <View style={styles.emptyStateContainer}>
+            <Text style={styles.emptyStateText}>Aucun espace disponible pour le moment.</Text>
           </View>
         ) : (
           properties.map((property) => {
@@ -216,14 +212,14 @@ export default function HomeScreen() {
                     <Text style={styles.location}>{location}</Text>
                   </View>
                   <Text style={styles.propertyTitle}>{property.title}</Text>
-                  <Text style={styles.propertyDescription}>{property.description}</Text>
+                  <Text numberOfLines={2} style={styles.propertyDescription}>{property.description}</Text>
                   <View style={styles.ratingContainer}>
                     <Star size={16} color="#0066FF" fill="#0066FF" />
                     <Text style={styles.rating}>{property.rating}</Text>
                     <Text style={styles.reviews}>({property.reviews || 0} avis)</Text>
                   </View>
                   <View style={styles.amenitiesContainer}>
-                    {amenities.map((amenity, index) => (
+                    {amenities.slice(0, 3).map((amenity, index) => (
                       <View key={index} style={styles.amenity}>
                         {getAmenityIcon(amenity)}
                         <Text style={styles.amenityText}>{amenity}</Text>
@@ -463,5 +459,48 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
     marginLeft: 4,
+  },
+  // New styles for loading, error, and empty states
+  loadingStateContainer: {
+    padding: 40,
+    alignItems: 'center',
+  },
+  loadingStateText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    color: '#666',
+    marginTop: 16,
+  },
+  errorStateContainer: {
+    padding: 40,
+    alignItems: 'center',
+  },
+  errorStateText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    color: '#FF3B30',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  retryStateButton: {
+    backgroundColor: '#0066FF',
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryStateText: {
+    fontFamily: 'Inter-Medium',
+    fontSize: 16,
+    color: '#FFFFFF',
+  },
+  emptyStateContainer: {
+    padding: 40,
+    alignItems: 'center',
+  },
+  emptyStateText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
   },
 });

@@ -1,13 +1,11 @@
 
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Dimensions, ActivityIndicator, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { MapPin, Star, ArrowLeft, Wifi, Building, Briefcase, Car, Users, Clock } from 'lucide-react-native';
+import { MapPin, Star, ArrowLeft, Wifi, Building, Briefcase, Car, Users, Clock, ChevronDown, ChevronUp, Heart } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
+import { FavoriteProperty, isPropertyFavorite, toggleFavorite } from '../utils/favoriteUtils';
 
-/**
- * Définition des types TypeScript
- * TypeScript type definitions
- */
+// Define TypeScript interfaces
 interface Property {
   id: string;
   title: string;
@@ -36,19 +34,33 @@ interface Property {
 
 const { width } = Dimensions.get('window');
 
-/**
- * Écran de détail d'un espace de bureau
- * Office space detail screen
- */
 export default function PropertyScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  
+  // State for expandable sections
+  const [expandedSections, setExpandedSections] = useState({
+    description: false,
+    amenities: false,
+    details: false,
+  });
 
   useEffect(() => {
     fetchPropertyDetails();
+    
+    // Check if property is already a favorite
+    const checkFavoriteStatus = async () => {
+      if (id) {
+        const favorite = await isPropertyFavorite(id.toString());
+        setIsFavorite(favorite);
+      }
+    };
+    
+    checkFavoriteStatus();
   }, [id]);
 
   const fetchPropertyDetails = async () => {
@@ -58,7 +70,6 @@ export default function PropertyScreen() {
       setLoading(true);
       setError(null);
       
-      // Using the computer's IP address instead of localhost
       const response = await fetch(`http://192.168.1.28:3000/api/properties/${id}`);
       
       if (!response.ok) {
@@ -79,10 +90,43 @@ export default function PropertyScreen() {
     }
   };
 
-  /**
-   * Fonction pour afficher les icônes d'équipement appropriées
-   * Function to display appropriate amenity icons
-   */
+  const toggleSection = (section: 'description' | 'amenities' | 'details') => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
+  const handleFavoriteToggle = async () => {
+    if (!property) return;
+    
+    try {
+      const favoriteProperty: FavoriteProperty = {
+        id: property.id,
+        title: property.title,
+        address: property.address,
+        location: property.location,
+        price: property.price,
+        rating: property.rating,
+        image_url: property.image_url,
+        savedDate: new Date().toISOString(),
+      };
+      
+      const newStatus = await toggleFavorite(favoriteProperty);
+      setIsFavorite(newStatus);
+      
+      Alert.alert(
+        newStatus ? "Ajouté aux favoris" : "Retiré des favoris",
+        newStatus 
+          ? "Cette propriété a été ajoutée à vos favoris." 
+          : "Cette propriété a été retirée de vos favoris."
+      );
+    } catch (error) {
+      console.error("Erreur lors de la modification des favoris:", error);
+      Alert.alert("Erreur", "Impossible de modifier les favoris. Veuillez réessayer.");
+    }
+  };
+
   const renderAmenityIcon = (amenity: string) => {
     switch (amenity) {
       case 'Wifi haut débit':
@@ -126,7 +170,6 @@ export default function PropertyScreen() {
     if (property.printers === 1) amenities.push('Imprimantes');
     if (property.flexible_hours === 1) amenities.push('Heures flexibles');
     
-    // If no amenities found, return empty array
     return amenities;
   };
 
@@ -176,6 +219,12 @@ export default function PropertyScreen() {
           >
             <ArrowLeft color="#fff" size={24} />
           </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.favoriteButton, isFavorite ? styles.favoriteButtonActive : {}]}
+            onPress={handleFavoriteToggle}
+          >
+            <Heart color={isFavorite ? "#FF3B30" : "#fff"} fill={isFavorite ? "#FF3B30" : "none"} size={24} />
+          </TouchableOpacity>
           <Image 
             source={{
               uri: property.image_url,
@@ -199,16 +248,28 @@ export default function PropertyScreen() {
             <Text style={styles.reviews}>({property.reviews || 0} avis professionnels)</Text>
           </View>
 
-          <View style={styles.infoContainer}>
-            <Text style={styles.infoTitle}>À propos de cet espace</Text>
-            <Text style={styles.description}>{property.description}</Text>
-          </View>
+          {/* Expandable description section */}
+          <TouchableOpacity 
+            style={styles.sectionHeader}
+            onPress={() => toggleSection('description')}
+          >
+            <Text style={styles.sectionTitle}>À propos de cet espace</Text>
+            {expandedSections.description ? 
+              <ChevronUp size={20} color="#333" /> :
+              <ChevronDown size={20} color="#333" />
+            }
+          </TouchableOpacity>
+          {expandedSections.description && (
+            <View style={styles.infoContainer}>
+              <Text style={styles.description}>{property.description}</Text>
+            </View>
+          )}
 
           <View style={styles.statsContainer}>
             {[
-              { value: property.type || 'Bureau standard', label: 'Type d\'espace' },
-              { value: `${property.workstations || 0} pers.`, label: 'Capacité' },
+              { value: property.type || 'Bureau standard', label: 'Type' },
               { value: `${property.area || 0}m²`, label: 'Surface' },
+              { value: `${property.workstations || 0} pers.`, label: 'Capacité' },
               { value: 'Immédiate', label: 'Disponibilité' },
             ].map((stat, index) => (
               <View key={index} style={styles.stat}>
@@ -218,17 +279,59 @@ export default function PropertyScreen() {
             ))}
           </View>
 
+          {/* Expandable amenities section */}
           {amenities.length > 0 && (
-            <View style={styles.amenitiesContainer}>
-              <Text style={styles.infoTitle}>Équipements & Services</Text>
-              <View style={styles.amenitiesGrid}>
-                {amenities.map((amenity, index) => (
-                  <View key={index} style={styles.amenity}>
-                    {renderAmenityIcon(amenity)}
-                    <Text style={styles.amenityText}>{amenity}</Text>
+            <>
+              <TouchableOpacity 
+                style={styles.sectionHeader}
+                onPress={() => toggleSection('amenities')}
+              >
+                <Text style={styles.sectionTitle}>Équipements & Services</Text>
+                {expandedSections.amenities ? 
+                  <ChevronUp size={20} color="#333" /> :
+                  <ChevronDown size={20} color="#333" />
+                }
+              </TouchableOpacity>
+              {expandedSections.amenities && (
+                <View style={styles.amenitiesContainer}>
+                  <View style={styles.amenitiesGrid}>
+                    {amenities.map((amenity, index) => (
+                      <View key={index} style={styles.amenity}>
+                        {renderAmenityIcon(amenity)}
+                        <Text style={styles.amenityText}>{amenity}</Text>
+                      </View>
+                    ))}
                   </View>
-                ))}
-              </View>
+                </View>
+              )}
+            </>
+          )}
+
+          {/* Expandable details section */}
+          <TouchableOpacity 
+            style={styles.sectionHeader}
+            onPress={() => toggleSection('details')}
+          >
+            <Text style={styles.sectionTitle}>Détails supplémentaires</Text>
+            {expandedSections.details ? 
+              <ChevronUp size={20} color="#333" /> :
+              <ChevronDown size={20} color="#333" />
+            }
+          </TouchableOpacity>
+          {expandedSections.details && (
+            <View style={styles.detailsContainer}>
+              <Text style={styles.detailText}>
+                <Text style={styles.detailLabel}>ID de référence:</Text> {property.id}
+              </Text>
+              <Text style={styles.detailText}>
+                <Text style={styles.detailLabel}>Type de propriété:</Text> {property.property_type || 'Commercial'}
+              </Text>
+              <Text style={styles.detailText}>
+                <Text style={styles.detailLabel}>Statut:</Text> {property.status === 'available' ? 'Disponible' : 'Non disponible'}
+              </Text>
+              <Text style={styles.detailText}>
+                <Text style={styles.detailLabel}>Mis à jour:</Text> {new Date(property.updated_at || '').toLocaleDateString('fr-FR')}
+              </Text>
             </View>
           )}
         </View>
@@ -242,8 +345,10 @@ export default function PropertyScreen() {
         <TouchableOpacity 
           style={styles.bookButton}
           onPress={() => {
-            // Logique de réservation à ajouter ici
-            // Booking logic to be added here
+            Alert.alert(
+              "Demande de réservation",
+              "Votre demande de visite a été envoyée, nous vous contacterons dans les plus brefs délais."
+            );
           }}
         >
           <Text style={styles.bookButtonText}>Réserver une visite</Text>
@@ -322,6 +427,18 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 8,
   },
+  favoriteButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    zIndex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: 20,
+    padding: 8,
+  },
+  favoriteButtonActive: {
+    backgroundColor: 'rgba(255,255,255,0.9)',
+  },
   coverImage: {
     width: '100%',
     height: '100%',
@@ -366,14 +483,21 @@ const styles = StyleSheet.create({
     color: '#666',
     marginLeft: 4,
   },
-  infoContainer: {
-    marginBottom: 24,
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderColor: '#F0F0F0',
   },
-  infoTitle: {
+  sectionTitle: {
     fontFamily: 'Inter-Bold',
-    fontSize: 20,
+    fontSize: 18,
     color: '#333',
-    marginBottom: 12,
+  },
+  infoContainer: {
+    paddingVertical: 16,
   },
   description: {
     fontFamily: 'Inter-Regular',
@@ -385,11 +509,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginVertical: 16,
     paddingVertical: 16,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderColor: '#eee',
+    borderColor: '#F0F0F0',
   },
   stat: {
     width: '48%',
@@ -408,17 +532,17 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   amenitiesContainer: {
-    marginBottom: 24,
+    paddingVertical: 16,
   },
   amenitiesGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 16,
+    justifyContent: 'space-between',
   },
   amenity: {
     alignItems: 'center',
     width: (width - 80) / 3,
-    marginBottom: 16,
+    marginBottom: 24,
   },
   amenityText: {
     fontFamily: 'Inter-Medium',
@@ -427,13 +551,26 @@ const styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'center',
   },
+  detailsContainer: {
+    paddingVertical: 16,
+  },
+  detailText: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 8,
+  },
+  detailLabel: {
+    fontFamily: 'Inter-SemiBold',
+    color: '#333',
+  },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     borderTopWidth: 1,
-    borderColor: '#eee',
+    borderColor: '#F0F0F0',
     backgroundColor: '#fff',
   },
   priceContainer: {
