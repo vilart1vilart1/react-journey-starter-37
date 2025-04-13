@@ -20,6 +20,10 @@ interface Property {
   area?: string;
   workstations?: number;
   meeting_rooms?: number;
+  // Add missing properties that were causing errors
+  property_type?: string;
+  status?: string;
+  updated_at?: string;
   // Amenities flags
   wifi?: number;
   parking?: number;
