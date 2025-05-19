@@ -52,5 +52,37 @@ namespace LMobile.Gen3LicenseManagement.Portal {
             }
             return null;
         }
+        
+        public static string CopySuccessful() {
+            return CopySuccessful(global::LMobile.Internationalization.CurrentUICulture);
+        }
+        
+        public static string CopySuccessful(global::System.Globalization.CultureInfo _language) {
+            int _lcid = 0;
+            while (_lcid != _language.LCID) {
+                _lcid = _language.LCID;
+                switch (_lcid) {
+                    case 127: return "Erfolgreich in die Zwischenablage kopiert";
+                }
+                _language = _language.Parent;
+            }
+            return null;
+        }
+        
+        public static string CopyFailed() {
+            return CopyFailed(global::LMobile.Internationalization.CurrentUICulture);
+        }
+        
+        public static string CopyFailed(global::System.Globalization.CultureInfo _language) {
+            int _lcid = 0;
+            while (_lcid != _language.LCID) {
+                _lcid = _language.LCID;
+                switch (_lcid) {
+                    case 127: return "Fehler beim Kopieren in die Zwischenablage";
+                }
+                _language = _language.Parent;
+            }
+            return null;
+        }
     }
 }
