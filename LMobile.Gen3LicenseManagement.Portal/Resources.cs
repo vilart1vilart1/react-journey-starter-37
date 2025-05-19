@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -37,7 +38,19 @@ namespace LMobile.Gen3LicenseManagement.Portal {
         }
 
         public static string CopyToClipboard() {
-            return GetString("CopyToClipboard");
+            return CopyToClipboard(global::LMobile.Internationalization.CurrentUICulture);
+        }
+        
+        public static string CopyToClipboard(global::System.Globalization.CultureInfo _language) {
+            int _lcid = 0;
+            while (_lcid != _language.LCID) {
+                _lcid = _language.LCID;
+                switch (_lcid) {
+                    case 127: return "In die Zwischenablage kopieren";
+                }
+                _language = _language.Parent;
+            }
+            return null;
         }
     }
 }
