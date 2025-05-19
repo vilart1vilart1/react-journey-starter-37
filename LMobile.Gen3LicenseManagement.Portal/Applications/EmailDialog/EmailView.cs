@@ -1,3 +1,4 @@
+
 ﻿
 using LMobile.Gen3LicenseManagement.Portal.Applications.QuestionDialog;
 using LMobile.MiniForms;
@@ -144,10 +145,10 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.EmailDialog {
 			master.Navigation.BindStyle(Application,
 								app => app.RightNavigationStyle());
 
-			// Changed from "Email Senden" to "Copy to Clipboard"
+			// Changed from "Email Senden" to use the CopyToClipboard resource
 			master.Navigation.AddActionButton()
-				.SetCaption(Resources.@CopyToClipboard()) // Using localized resource
-				.BindAction(Application, app => app.CopyEmailToClipboard()) // Using the new copy method
+				.SetCaption(Resources.@CopyToClipboard())
+				.BindAction(Application, app => app.CopyEmailToClipboard()) 
 				.BindDisplayed(Application,
 							   app => (app.Button == EQButtons.YES_NO) ||
 									  (app.Button == EQButtons.YES_NO_CANCEL));

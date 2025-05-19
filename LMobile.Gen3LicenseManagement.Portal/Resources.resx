@@ -474,83 +474,85 @@ Bitte antworten Sie nicht auf diese eMail, sondern melden sich bei Rückfragen b
   <data name="DeactivateCustomer" xml:space="preserve">
     <value>Kunden deaktivieren</value>
   </data>
-	<data name="D_Module" xml:space="preserve">
+  <data name="D_Module" xml:space="preserve">
     <value>Möchten Sie dieses Modul wirklich löschen?</value>
   </data>
-	<data name="D_Installation" xml:space="preserve">
+  <data name="D_Installation" xml:space="preserve">
     <value>Möchten Sie diese Installation wirklich löschen?</value>
   </data>
-	<data name="Confirmation" xml:space="preserve">
+  <data name="Confirmation" xml:space="preserve">
     <value>Bestätigung</value>
   </data>
-	<data name="Exit" xml:space="preserve">
+  <data name="Exit" xml:space="preserve">
     <value>Wirklich abmelden?</value>
   </data>
-	<data name="NeueLizenzNeuKunde" xml:space="preserve">
+  <data name="NeueLizenzNeuKunde" xml:space="preserve">
     <value>L-mobile neue Lizenz GEN3 Neukunde (Contract number , Project guid)</value>
   </data>
-	<data name="NeueLizenzIncreaseNumberUser" xml:space="preserve">
+  <data name="NeueLizenzIncreaseNumberUser" xml:space="preserve">
     <value>Neue Lizenz GEN3 (increase number of userlicenses)</value>
   </data>
-	<data name="NeueLizenzAddModul" xml:space="preserve">
+  <data name="NeueLizenzAddModul" xml:space="preserve">
     <value>Neue Lizenz GEN3 add Modul</value>
   </data>
-	<data name="NeueLizenzTestInstallation" xml:space="preserve">
+  <data name="NeueLizenzTestInstallation" xml:space="preserve">
     <value>Neue Lizenz GEN3 for test installation</value>
   </data>
-	<data name="NeueLizenzInventurTemporar" xml:space="preserve">
+  <data name="NeueLizenzInventurTemporar" xml:space="preserve">
     <value>Neue Lizenz GEN3 Inventur und temporär</value>
   </data>
-	<data name="NeuLizenzTestmodul" xml:space="preserve">
+  <data name="NeuLizenzTestmodul" xml:space="preserve">
     <value>Neue Lizenz GEN3 Testmodul</value>
   </data>
-	<data name="NeuLizenzNeueModulUndBenuzter" xml:space="preserve">
+  <data name="NeuLizenzNeueModulUndBenuzter" xml:space="preserve">
     <value>Neue Lizenz GEN3 neue Module und Benutzer Lizenzen</value>
   </data>
-	<data name="Herr" xml:space="preserve">
+  <data name="Herr" xml:space="preserve">
     <value>Herr</value>
   </data>
-	<data name="Frau" xml:space="preserve">
+  <data name="Frau" xml:space="preserve">
     <value>Frau</value>
   </data>
-	<data name="ProjektleiterHerr" xml:space="preserve">
+  <data name="ProjektleiterHerr" xml:space="preserve">
     <value>Projektleiter Herr</value>
   </data>
-	<data name="ProjektleiterinFrau" xml:space="preserve">
+  <data name="ProjektleiterinFrau" xml:space="preserve">
     <value>Projektleiterin Frau</value>
   </data>
-	<data name="ProjektleiterProjektleiterin" xml:space="preserve">
+  <data name="ProjektleiterProjektleiterin" xml:space="preserve">
     <value>Projektleiter/Projektleiterin Herr/Frau</value>
   </data>
-	<data name="FromAddress" xml:space="preserve">
+  <data name="FromAddress" xml:space="preserve">
     <value>support@l-mobile.com</value>
   </data>
-	<data name="EmailSubject" xml:space="preserve">
+  <data name="EmailSubject" xml:space="preserve">
     <value>L-mobile neue Lizenz</value>
   </data>
-	<data name="EmailSenden" xml:space="preserve">
+  <data name="EmailSenden" xml:space="preserve">
     <value>Email senden</value>
   </data>
-	<data name="EmailInput" xml:space="preserve">
+  <data name="EmailInput" xml:space="preserve">
     <value>Email  :</value>
   </data>
-	<data name="EinstellungenFurDenEmail" xml:space="preserve">
+  <data name="EinstellungenFurDenEmail" xml:space="preserve">
     <value>Einstellungen für den E-Mail-Versand</value>
   </data>
-	<data name="ObInput" xml:space="preserve">
+  <data name="ObInput" xml:space="preserve">
     <value>Projekt-Nummer|OB :</value>
   </data>
-	<data name="ProjektManagerInput" xml:space="preserve">
+  <data name="ProjektManagerInput" xml:space="preserve">
     <value>Projekt Manager :</value>
   </data>
-	<data name="ModulInput" xml:space="preserve">
+  <data name="ModulInput" xml:space="preserve">
     <value>Modul hinzugefügt:(module1, module2..)"</value>
   </data>
-	<data name="AbsenderInput" xml:space="preserve">
+  <data name="AbsenderInput" xml:space="preserve">
     <value>Absender :</value>
   </data>
-	<data name="EmailAuswahlen" xml:space="preserve">
+  <data name="EmailAuswahlen" xml:space="preserve">
     <value>E-Mail-Vorlage auswählen :</value>
   </data>
-	
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>In die Zwischenablage kopieren</value>
+  </data>
 </root>
