@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -144,16 +145,17 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 				throw new Error(Resources.SomebodyElseDeletedTheRecord());
 			}
 			
-			var question = new QuestionDialog.QuestionApplication();
-			question.Question = String.Format(Resources.ModuleDeleteConfirmation(), moduleToDelete.Description);
-			question.YesAction = () => {
-				DeleteModule(moduleID);
-				question.ExitApplication();
-			};
-			question.NoAction = () => {
-				question.ExitApplication();
-			};
-			question.Start();
+			// Fix: Use the proper constructor with all required parameters
+			var question = new QuestionDialog.QuestionApplication(
+				String.Format(Resources.ModuleDeleteConfirmation(), moduleToDelete.Description),
+				response => {
+					if (response == QuestionDialog.Responses.YES) {
+						DeleteModule(moduleID);
+					}
+				},
+				QuestionDialog.QButtons.YES_NO
+			);
+			question.ShowDialog();
 		}
 
 		private void LoadModules() {
