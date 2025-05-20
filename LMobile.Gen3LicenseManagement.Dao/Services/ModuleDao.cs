@@ -84,7 +84,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services
       var query = Session.Query<ModuleProperty, ModulePropertyMapping>();
       query.Where(mp => (mp.Main.PropertyName.ToUpper().Like(name) | mp.Main.Description.ToUpper().Like(name))
        & Gql.NotExists(Session.Query().From<ProjectModulePropertyMapping>().Where((pmp) => pmp.Main.ProjectID == p_ProjectID & pmp.Main.ModulePropertyID == mp.Main.ID)));
-
+      
 
       //query.Where(x => Gql.NotExists(Session.Query()
       //                            .From<ModulePropertyMapping>()
@@ -110,6 +110,28 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services
       var query = Session.Query<ModuleProperty, ModulePropertyMapping>();
       query.Where(s => s.Main.ID == modulePropertyID);
       return query.ReadFirst();
+    }
+
+    public bool DeleteModule(int moduleID)
+    {
+      if (moduleID == 0) return false;
+      
+      // First, get the module to ensure it exists and to get its description for the log entry
+      var module = GetModule(moduleID);
+      if (module == null) return false;
+      
+      // Delete all associated module properties in modules
+      var modulePropertiesInModules = Session.Query<ModulePropertiesInModules, ModulePropertiesInModulesMapping>()
+        .Where(x => x.Main.ModuleID == moduleID)
+        .ReadList();
+      
+      foreach (var item in modulePropertiesInModules)
+      {
+        Session.Delete(item);
+      }
+      
+      // Delete the module itself
+      return Session.Delete(module);
     }
   }
 }

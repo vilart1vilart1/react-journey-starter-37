@@ -116,6 +116,46 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 			Modules.First(m => m.Node.ID == module.ID).Children.Remove(prop);
 		}
 
+		public bool CanUserDeleteModule {
+			get { return this.Client.CurrentPrincipal.IsInRole("Gen3EditModule"); }
+		}
+
+		public bool DeleteModule(int moduleID) {
+			if (!CanUserDeleteModule)
+				return false;
+			
+			var moduleToDelete = this.ModuleDao.GetModule(moduleID);
+			if (moduleToDelete == null) {
+				throw new Error(Resources.SomebodyElseDeletedTheRecord());
+			}
+			
+			string moduleName = moduleToDelete.Description;
+			if (this.ModuleDao.DeleteModule(moduleID)) {
+				LicenseDao.LogEntry(null, null, MessageTypes.ModuleDeleted, "Module '" + moduleName + "' deleted by '" + Client.CurrentPrincipal.Identity.Name + "'.");
+				this.LoadModules();
+				return true;
+			}
+			return false;
+		}
+
+		public void ConfirmDeleteModule(int moduleID) {
+			var moduleToDelete = this.ModuleDao.GetModule(moduleID);
+			if (moduleToDelete == null) {
+				throw new Error(Resources.SomebodyElseDeletedTheRecord());
+			}
+			
+			var question = new QuestionDialog.QuestionApplication();
+			question.Question = String.Format(Resources.ModuleDeleteConfirmation(), moduleToDelete.Description);
+			question.YesAction = () => {
+				DeleteModule(moduleID);
+				question.ExitApplication();
+			};
+			question.NoAction = () => {
+				question.ExitApplication();
+			};
+			question.Start();
+		}
+
 		private void LoadModules() {
 			var modules = this.ModuleDao.GetModules();
 			this.AllModuleProperties = this.ModuleDao.GetModuleProperties();

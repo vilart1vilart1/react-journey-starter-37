@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -116,9 +114,8 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 				row.AddLabel().SetCaption(Resources.ProjectType());
 				row.AddLabel().SetCaption(Resources.Description());
 
-
-				// Add "Action" text for add button column
-				row.AddLabel().SetCaption("Action").SetStyle(new Style { Width = new Length(70, In.Pixels) }); // Width for Add button label
+				// Add "Action" text for buttons column
+				row.AddLabel().SetCaption("Action").SetStyle(new Style { Width = new Length(140, In.Pixels) }); // Width for buttons column
 			});
 			this.AddIteration(Modules, () => {
 				modules.AddRow(row => {
@@ -140,21 +137,34 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 						.BindCaption(Modules, module => module.Node.Description)
 						.SetStyle(ClassicStyleSheet.WRemainder);
 
-					// Edit button with increased width and even more left margin
-					row.AddActionButton()
+					// Action buttons layout
+					var actionLayout = row.AddColumnsLayout().SetStyle(new Style { Width = new Length(140, In.Pixels) });
+					
+					// Edit button
+					actionLayout.AddActionButton()
 						.SetStyle(ClassicStyleSheet.ContentIconButton(MonoIcon.Pencil) +
 							new Style {
-								Width = new Length(60, In.Pixels),
-								RightMargin = new Length(10, In.Pixels)
+								Width = new Length(40, In.Pixels),
+								RightMargin = new Length(5, In.Pixels)
 							})
 						.BindAction(Application, Modules, (app, module) => app.NavigateEditModule(module.Node.ID));
 
-					// Add Property button with increased width and even more left margin
-					row.AddActionButton()
+					// Delete button
+					actionLayout.AddActionButton()
+						.SetStyle(ClassicStyleSheet.ContentIconButton(MonoIcon.Bin) +
+							new Style {
+								Width = new Length(40, In.Pixels),
+								RightMargin = new Length(5, In.Pixels)
+							})
+						.BindDisplayed(Application, app => app.CanUserDeleteModule)
+						.BindAction(Application, Modules, (app, module) => app.ConfirmDeleteModule(module.Node.ID));
+
+					// Add Property button
+					actionLayout.AddActionButton()
 						.SetStyle(ClassicStyleSheet.ContentIconButton(MonoIcon.Plus) +
 							new Style {
-								Width = new Length(60, In.Pixels),
-								RightMargin = new Length(10, In.Pixels)
+								Width = new Length(40, In.Pixels),
+								RightMargin = new Length(5, In.Pixels)
 							})
 						.BindAction(Application, Modules, (app, module) => app.NavigateEditModuleProperty(module.Node.ID, 0));
 
