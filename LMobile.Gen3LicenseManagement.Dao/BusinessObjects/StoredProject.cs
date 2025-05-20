@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.BusinessObjects {
 		public virtual DateTime XtendedFinishDate { get; set; }
 		public virtual int XtendedLicenseCount { get; set; }
 		public virtual bool XtendedEachYear { get; set; }
+		public virtual bool IsActive { get; set; } = true; // New property with default value true
 		//public virtual int? AddTempLicenseCount { get; set; }
 		//public virtual DateTime? AddTempLicenseExpirationDate { get; set; }
 	}

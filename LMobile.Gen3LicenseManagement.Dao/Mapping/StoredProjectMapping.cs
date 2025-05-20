@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Mapping {
 		public readonly GidaColumnMapping XtendedFinishDate;
 		public readonly GidaColumnMapping XtendedLicenseCount;
 		public readonly GidaColumnMapping XtendedEachYear;
+		public readonly GidaColumnMapping IsActive;
 		public StoredProjectMapping(GidaSession session)
 			: base(session, "Project")
 		{
@@ -43,6 +45,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Mapping {
 			this.XtendedFinishDate = define.Column("XtendedFinishDate", o => o.XtendedFinishDate, (o, value) => o.XtendedFinishDate = value);
 			this.XtendedLicenseCount = define.Column("XtendedLicenseCount", o => o.XtendedLicenseCount, (o, value) => o.XtendedLicenseCount = value);
 			this.XtendedEachYear = define.Column("XtendedEachYear", o => o.XtendedEachYear, (o, value) => o.XtendedEachYear = value);
+			this.IsActive = define.Column("IsActive", o => o.IsActive, (o, value) => o.IsActive = value);
 		}
 		protected override void DefineSchema(GidaTableMappingSchemaDefinition define) {
 			base.DefineSchema(define);
@@ -54,6 +57,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Mapping {
 			base.OnInserting(entity);
 			var project = (StoredProject)entity;
 			project.ProjectGuid = Guid.NewGuid();
+			project.IsActive = true; // Ensure new projects are active by default
 		}
 	}
 }

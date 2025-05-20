@@ -41,6 +41,14 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Licenses {
 			string formattedDate = modifyDateValue.ToString("yyyy-MM-dd HH:mm:ss");
 			DateTime todayValue = DateTime.Now;
 			bool isMoreThanThreeMonths = modifyDateValue < todayValue.AddMonths(-3);
+			
+			// Auto-deactivate if more than 3 months old
+			if (isMoreThanThreeMonths && project.Node.IsActive) {
+				project.Node.IsActive = false;
+				Application.Session.Update(project.Node); // Save the change to database
+				Application.LicenseDao.LogEntry(null, project.Node.ID, MessageTypes.ProjectDeactivated, 
+					$"Project '{project.Node.Description}' auto-deactivated due to inactivity for more than 3 months");
+			}
 
 			return new ModifyDateResult {
 				FormattedDate = formattedDate,
@@ -156,6 +164,7 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Licenses {
 					.SetCaption(Resources.Activity())
 					.SetStyle(ClassicStyleSheet.W1in3Remainder);
 				row.AddLabel().SetCaption(Resources.LicenseCount());
+				row.AddLabel().SetCaption("Status");
 			});
 			this.AddIteration(Projects, () => {
 				projects.AddRow(row => {
@@ -187,6 +196,12 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Licenses {
 							Projects,
 							project => project.Node.ProductiveLicenseCount.ToString(
 								CultureInfo.InvariantCulture));
+					
+					// Add status column indicating active/inactive state
+					row.AddLabel()
+						.BindCaption(Projects, project => project.Node.IsActive ? "Active" : "Inactive")
+						.BindStyle(Projects, project => project.Node.IsActive ? ClassicStyleSheet.Positive : ClassicStyleSheet.Negative);
+						
 					row.AddActionButton()
 						.Span(1, 2)
 						.SetStyle(ClassicStyleSheet.FillCell +
