@@ -139,25 +139,6 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 			return false;
 		}
 
-		public void ConfirmDeleteModule(int moduleID) {
-			var moduleToDelete = this.ModuleDao.GetModule(moduleID);
-			if (moduleToDelete == null) {
-				throw new Error(Resources.SomebodyElseDeletedTheRecord());
-			}
-			
-			// Fix: Use the proper constructor with all required parameters
-			var question = new QuestionDialog.QuestionApplication(
-				String.Format(Resources.ModuleDeleteConfirmation(), moduleToDelete.Description),
-				response => {
-					if (response == QuestionDialog.Responses.YES) {
-						DeleteModule(moduleID);
-					}
-				},
-				QuestionDialog.QButtons.YES_NO
-			);
-			question.ShowDialog();
-		}
-
 		private void LoadModules() {
 			var modules = this.ModuleDao.GetModules();
 			this.AllModuleProperties = this.ModuleDao.GetModuleProperties();

@@ -149,7 +149,7 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 							})
 						.BindAction(Application, Modules, (app, module) => app.NavigateEditModule(module.Node.ID));
 
-					// Delete button
+					// Delete button - Modified to directly call DeleteModule without confirmation
 					actionLayout.AddActionButton()
 						.SetStyle(ClassicStyleSheet.ContentIconButton(MonoIcon.Bin) +
 							new Style {
@@ -157,7 +157,7 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 								RightMargin = new Length(5, In.Pixels)
 							})
 						.BindDisplayed(Application, app => app.CanUserDeleteModule)
-						.BindAction(Application, Modules, (app, module) => app.ConfirmDeleteModule(module.Node.ID));
+						.BindAction(Application, Modules, (app, module) => app.DeleteModule(module.Node.ID));
 
 					// Add Property button
 					actionLayout.AddActionButton()
