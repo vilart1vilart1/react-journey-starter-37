@@ -490,5 +490,34 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 				}
 			}
 		}
+
+		public void UpdateProject(Project project) {
+			// Ensure the project is not null
+			if (project == null)
+				throw new ArgumentNullException(nameof(project));
+			
+			// Get the stored project from the database
+			var storedProject = this.Session.Load<StoredProject>(project.ID);
+			
+			// Update properties from the Project to StoredProject
+			storedProject.IsActive = project.IsActive;
+			storedProject.Description = project.Description;
+			storedProject.ContractNo = project.ContractNo;
+			storedProject.ProjectType = project.ProjectType;
+			storedProject.EMail = project.EMail;
+			storedProject.NotifyEMail = project.NotifyEMail;
+			storedProject.ExpiryDate = project.ExpiryDate;
+			storedProject.ExpiryInMonths = project.ExpiryInMonths;
+			storedProject.ProductiveLicenseCount = project.ProductiveLicenseCount;
+			storedProject.TestLicenseCount = project.TestLicenseCount;
+			storedProject.UserData = project.UserData;
+			storedProject.XtendedStartDate = project.XtendedStartDate;
+			storedProject.XtendedFinishDate = project.XtendedFinishDate;
+			storedProject.XtendedLicenseCount = project.XtendedLicenseCount;
+			storedProject.XtendedEachYear = project.XtendedEachYear;
+			
+			// Save changes to the database
+			this.Session.Update(storedProject);
+		}
 	}
 }

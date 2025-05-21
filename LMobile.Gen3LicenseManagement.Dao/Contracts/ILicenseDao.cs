@@ -45,5 +45,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Contracts {
 		void LogEntry(int? customerID, int? projectID, int? installationID, MessageTypes type, string message);
 		void LogEntry(int? customerID, int? projectID, int? installationID, MessageTypes type, string message, string messageLong);
 		void LogEntry(int? customerID, int? projectID, int? installationID, MessageTypes type, string message, string messageLong, string stackTrace);
+
+		void UpdateProject(Project project);
 	}
 }
