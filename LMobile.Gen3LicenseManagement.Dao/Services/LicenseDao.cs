@@ -497,7 +497,12 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 				throw new ArgumentNullException(nameof(project));
 			
 			// Get the stored project from the database
-			var storedProject = this.Session.Load<StoredProject>(project.ID);
+			var storedProject = this.Session.Query<StoredProject>()
+				.Where(p => p.ID == project.ID)
+				.ReadFirst();
+			
+			if (storedProject == null)
+				throw new InvalidOperationException($"Project with ID {project.ID} not found");
 			
 			// Update properties from the Project to StoredProject
 			storedProject.IsActive = project.IsActive;
