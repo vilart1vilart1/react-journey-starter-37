@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -47,8 +46,8 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Licenses {
 			if (isMoreThanThreeMonths && project.Node.IsActive) {
 				project.Node.IsActive = false;
 				// Use the LicenseDao to update the project in the database
-				Application.LicenseDao.UpdateProject(project.Node);
-				Application.LicenseDao.LogEntry(null, project.Node.ID, MessageTypes.ProjectDeactivated, 
+				Application.UpdateProject(project.Node);
+				Application.LogEntry(null, project.Node.ID, MessageTypes.ProjectDeactivated, 
 					$"Project '{project.Node.Description}' auto-deactivated due to inactivity for more than 3 months");
 			}
 

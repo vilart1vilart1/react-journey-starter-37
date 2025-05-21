@@ -497,8 +497,8 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 				throw new ArgumentNullException(nameof(project));
 			
 			// Get the stored project from the database
-			var storedProject = Session.Query<StoredProject, StoredProjectMapping>()
-				.Where(p => p.Main.ID == project.ID)
+			var storedProject = Session.Query<StoredProject>()
+				.Where(p => p.ID == project.ID)
 				.ReadFirst();
 			
 			if (storedProject == null)
