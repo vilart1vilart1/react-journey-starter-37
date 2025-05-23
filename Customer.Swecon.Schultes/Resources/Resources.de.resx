@@ -1,0 +1,1352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Diagnostics" xml:space="preserve">
+    <value>Diagnose</value>
+  </data>
+  <data name="Yearofmanufacture" xml:space="preserve">
+    <value>Herstellungsjahr</value>
+  </data>
+  <data name="Disponent" xml:space="preserve">
+    <value>Disponent</value>
+  </data>
+  <data name="DisponentWorkorder" xml:space="preserve">
+    <value>Arbeitsanweisung Disponent</value>
+  </data>
+  <data name="Disposal" xml:space="preserve">
+    <value>Entsorgung</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Dokumente</value>
+  </data>
+  <data name="Fault" xml:space="preserve">
+    <value>Fehlerbeschreibung</value>
+  </data>
+  <data name="DisposedFilters" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ServiceOrderHistory" xml:space="preserve">
+    <value>Auftragshistorie</value>
+  </data>
+  <data name="Job" xml:space="preserve">
+    <value>Job</value>
+  </data>
+  <data name="Jobs" xml:space="preserve">
+    <value>Jobs</value>
+  </data>
+  <data name="JourneyHome" xml:space="preserve">
+    <value>Abfahrt</value>
+  </data>
+  <data name="JourneyThere" xml:space="preserve">
+    <value>Anfahrt</value>
+  </data>
+  <data name="Navision Export" xml:space="preserve">
+    <value>Navision Export</value>
+  </data>
+  <data name="NoDispatchesToExport" xml:space="preserve">
+    <value>Keine abgeschlossenen Einsätze zum Exportieren gefunden</value>
+  </data>
+  <data name="DisposedOil" xml:space="preserve">
+    <value>Öl</value>
+  </data>
+  <data name="Oil" xml:space="preserve">
+    <value>Öl</value>
+  </data>
+  <data name="OperatingHours" xml:space="preserve">
+    <value>Betriebsstunden</value>
+  </data>
+  <data name="Preparation" xml:space="preserve">
+    <value>Rüstzeit</value>
+  </data>
+  <data name="SpareParts" xml:space="preserve">
+    <value>Ersatzteile</value>
+  </data>
+  <data name="TapIfSerialNoCorrect" xml:space="preserve">
+    <value>Hier tippen um die Fahrgestellnummer zu bestätigen</value>
+  </data>
+  <data name="DisposedTubes" xml:space="preserve">
+    <value>Schläuche</value>
+  </data>
+  <data name="Tubes" xml:space="preserve">
+    <value>Schläuche</value>
+  </data>
+  <data name="WorkingTime" xml:space="preserve">
+    <value>Arbeitszeit</value>
+  </data>
+  <data name="LegacyInstallationId" xml:space="preserve">
+    <value>Fahrgestellnummer</value>
+  </data>
+  <data name="ChecklistHeaderLegacyInstallationId" xml:space="preserve">
+    <value>Seriennummer</value>
+  </data>
+  <data name="InstallationHistoryNote" xml:space="preserve">
+    <value>Serviceartikel Historie</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historie</value>
+  </data>
+  <data name="DisposalByCustomer" xml:space="preserve">
+    <value>Entsorgung durch Kunde</value>
+  </data>
+  <data name="ExportDate" xml:space="preserve">
+    <value>Export-Datum</value>
+  </data>
+  <data name="IncidentalMaterial" xml:space="preserve">
+    <value>Kleinmaterial</value>
+  </data>
+  <data name="ReportScheduledMaterial" xml:space="preserve">
+    <value>Geplantes Material melden</value>
+  </data>
+  <data name="ReportFollowingScheduledMaterial" xml:space="preserve">
+    <value>Folgende Mengen werden für vorgeplantes Material gemeldet</value>
+  </data>
+  <data name="ResponsiblePerson" xml:space="preserve">
+    <value>Ansprechpartner</value>
+  </data>
+  <data name="CustomInstallationType" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="ChecklistHeaderCustomInstallationType" xml:space="preserve">
+    <value>Gerät</value>
+  </data>
+  <data name="MaterialUsage" xml:space="preserve">
+    <value>Materialverbrauch</value>
+  </data>
+  <data name="ItemDescription" xml:space="preserve">
+    <value>Bezeichnung</value>
+  </data>
+  <data name="Liter" xml:space="preserve">
+    <value>Liter</value>
+  </data>
+  <data name="Piece" xml:space="preserve">
+    <value>Stück</value>
+  </data>
+  <data name="WorkDone" xml:space="preserve">
+    <value>Arbeit abgeschlossen</value>
+  </data>
+  <data name="CustomerSignature" xml:space="preserve">
+    <value>Unterschrift des Kunden</value>
+  </data>
+  <data name="ServiceLocation" xml:space="preserve">
+    <value>Reparaturort</value>
+  </data>
+  <data name="DispatchedUser" xml:space="preserve">
+    <value>Monteur</value>
+  </data>
+  <data name="NoUsedMaterial" xml:space="preserve">
+    <value>Kein verbrauchtes Material erfasst</value>
+  </data>
+  <data name="MaterialUsageTermsAndConditions" xml:space="preserve">
+    <value>Der Auftrag wurde unter Anerkennung unserer Ihnen bekannten Lieferungs- und Reparaturbedingungen ausgeführt und das Gerät wurde ordnungsgemäß übernommen.</value>
+  </data>
+  <data name="BgrConditionOk" xml:space="preserve">
+    <value>Zustand/Funktion in Ordnung</value>
+  </data>
+  <data name="Completeness" xml:space="preserve">
+    <value>Vorhanden</value>
+  </data>
+  <data name="Component" xml:space="preserve">
+    <value>Bauteil</value>
+  </data>
+  <data name="Diagnosis" xml:space="preserve">
+    <value>Fehlersuche und Diagnose</value>
+  </data>
+  <data name="ServiceLocationResponsiblePerson" xml:space="preserve">
+    <value>Ansprechpartner</value>
+  </data>
+  <data name="IsSerial" xml:space="preserve">
+    <value>Seriennummernbehaftet</value>
+  </data>
+  <data name="SerialRequired" xml:space="preserve">
+    <value>Seriennummernpflichtig</value>
+  </data>
+  <data name="ClosedOrdersWithOpenDispatches" xml:space="preserve">
+    <value>Geschlossene Aufträge mit offenen Einsätzen</value>
+  </data>
+  <data name="ClosedOrdersWithoutDispatches" xml:space="preserve">
+    <value>Geschlossene Aufträge ohne Einsätze</value>
+  </data>
+  <data name="PartiallyCompletedOrdersWithCompletedDispatches" xml:space="preserve">
+    <value>Teilweise abgeschlossene Aufträge mit abgeschlossenen Einsätzen</value>
+  </data>
+  <data name="CustomerSwecon_TakeoverPosition" xml:space="preserve">
+    <value>Übernahme</value>
+  </data>
+  <data name="Takeover" xml:space="preserve">
+    <value>Übernahme</value>
+  </data>
+  <data name="TakeoverCaption" xml:space="preserve">
+    <value>Übernahmebestätigung</value>
+  </data>
+  <data name="CustomerSwecon_WarehouseEntry" xml:space="preserve">
+    <value>Lagerplatz</value>
+  </data>
+  <data name="WarehouseEntries" xml:space="preserve">
+    <value>Lagerplatz</value>
+  </data>
+  <data name="WarehouseEntry" xml:space="preserve">
+    <value>Lagerbestand</value>
+  </data>
+  <data name="CustomerSwecon_WarehouseEntryTransfer" xml:space="preserve">
+    <value>Rückumlagerung</value>
+  </data>
+  <data name="NoWarehouseEntries" xml:space="preserve">
+    <value>Es wurden keine Artikel auf diesem Lagerplatz gefunden.</value>
+  </data>
+  <data name="MailingList" xml:space="preserve">
+    <value>E-Mail Verteiler</value>
+  </data>
+  <data name="CustomerSwecon_ReturnGood" xml:space="preserve">
+    <value>Return Goods</value>
+  </data>
+  <data name="WarrantyUntilOperatingHours" xml:space="preserve">
+    <value>Garantie-Ende (Betriebsstunden)</value>
+  </data>
+  <data name="ManufacturerWarrantyCode" xml:space="preserve">
+    <value>Hersteller Garantiecode</value>
+  </data>
+  <data name="DocumentsAndChecklists" xml:space="preserve">
+    <value>Dokumente / Checklisten</value>
+  </data>
+  <data name="ServiceReportRecipients" xml:space="preserve">
+    <value>Reparaturauftragsempfänger</value>
+  </data>
+  <data name="ServiceReportPreview" xml:space="preserve">
+    <value>Reparaturauftragsvorschau</value>
+  </data>
+  <data name="AdditionalCosts" xml:space="preserve">
+    <value>Fremdmaterial</value>
+  </data>
+  <data name="BgrDynamicFormElement" xml:space="preserve">
+    <value>Abnahme-Checkliste</value>
+  </data>
+  <data name="BgrDynamicFormElementLight" xml:space="preserve">
+    <value>Abnahme-Checkliste light</value>
+  </data>
+  <data name="DispatchLocation" xml:space="preserve">
+    <value>Reparaturort</value>
+  </data>
+  <data name="Reportdetails" xml:space="preserve">
+    <value>Auftrag</value>
+  </data>
+  <data name="Reported" xml:space="preserve">
+    <value>Auftrag angenommen am</value>
+  </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Kundenbeanstandung</value>
+  </data>
+  <data name="Machine" xml:space="preserve">
+    <value>Maschine</value>
+  </data>
+  <data name="WarrantyUntil" xml:space="preserve">
+    <value>Garantieende</value>
+  </data>
+  <data name="Installation" xml:space="preserve">
+    <value>Serviceartikel</value>
+  </data>
+  <data name="Installations" xml:space="preserve">
+    <value>Serviceartikel</value>
+  </data>
+  <data name="InstallationHistory" xml:space="preserve">
+    <value>{Installation}historie</value>
+  </data>
+  <data name="WarrantyExtensionType" xml:space="preserve">
+    <value>Garantieverlängerungs-Typ</value>
+  </data>
+  <data name="WarrantyExtensionEndDate" xml:space="preserve">
+    <value>Garantieverlängerungs-Ende (Datum)</value>
+  </data>
+  <data name="WarrantyExtensionEndOperatingHours" xml:space="preserve">
+    <value>Garantieverlängerungs-Ende (Betriebsstunden)</value>
+  </data>
+  <data name="WarrantyExtensionEnd" xml:space="preserve">
+    <value>Garantieverlängerungs-Ende</value>
+  </data>
+  <data name="ServiceOrder" xml:space="preserve">
+    <value>Reparaturauftrag</value>
+  </data>
+  <data name="ExecutedWork" xml:space="preserve">
+    <value>Durchgeführte Arbeiten</value>
+  </data>
+  <data name="OrderNo" xml:space="preserve">
+    <value>Auftragsnummer</value>
+  </data>
+  <data name="ServiceOrderType" xml:space="preserve">
+    <value>Auftragsart</value>
+  </data>
+  <data name="Company" xml:space="preserve">
+    <value>Debitor</value>
+  </data>
+  <data name="KickOffDate" xml:space="preserve">
+    <value>Übergabe-/Einweisungsdatum</value>
+  </data>
+  <data name="KickOffDateChecklistHeader" xml:space="preserve">
+    <value>Baujahr</value>
+  </data>
+  <data name="ItemNo" xml:space="preserve">
+    <value>Ersatzteil-Nr.</value>
+  </data>
+  <data name="Crm_Company" xml:space="preserve">
+    <value>Debitoren</value>
+  </data>
+  <data name="ReturnQuantity" xml:space="preserve">
+    <value>Rückumlagerung</value>
+  </data>
+  <data name="RuleViolation.ReturnQuantityGreaterThanQuantity" xml:space="preserve">
+    <value>Die Menge zur Rückumlagerung kann nicht größer als die vorhandene Menge sein</value>
+  </data>
+  <data name="RuleViolation.ReturnQuantityGreaterThan0" xml:space="preserve">
+    <value>Bitte geben Sie eine Menge ein</value>
+  </data>
+  <data name="RuleViolation.ReturnQuantityRequired" xml:space="preserve">
+    <value>Bitte geben Sie eine Menge ein</value>
+  </data>
+  <data name="PendingWarehouseEntryTransferQuantity" xml:space="preserve">
+    <value>Ausstehende Rückumlagerung</value>
+  </data>
+  <data name="MailingListSales" xml:space="preserve">
+    <value>Service- und Ersatzteilverkauf</value>
+  </data>
+  <data name="SendEmailTo" xml:space="preserve">
+    <value>E-Mail versenden an:</value>
+  </data>
+  <data name="Disponents" xml:space="preserve">
+    <value>Disponenten</value>
+  </data>
+  <data name="SparePartsSales" xml:space="preserve">
+    <value>Service- und Ersatzteilverkauf</value>
+  </data>
+  <data name="InstallationSalesPerson" xml:space="preserve">
+    <value>Verkauf</value>
+  </data>
+  <data name="EmailFromDispatchSubject" xml:space="preserve">
+    <value>Info zum Auftrag :ServiceOrderNo:, Maschinentyp :CustomInstallationType:, Seriennummer :LegacyInstallationId:, Kunde :CustomerName:</value>
+  </data>
+  <data name="SalesManufacturer" xml:space="preserve">
+    <value>Verkauf Fertiger</value>
+  </data>
+  <data name="TechnicalSupport" xml:space="preserve">
+    <value>Technical Support</value>
+  </data>
+  <data name="UnknownWarehouseEntryTransferNo" xml:space="preserve">
+    <value>Unbekannte Umlagerungsauftragsnummer</value>
+  </data>
+  <data name="ResetDataAfterChangedUserConfirmation" xml:space="preserve">
+    <value>Die Bewegungsdaten müssen zurückgesetzt werden, da sich der Benutzer geändert hat</value>
+  </data>
+  <data name="WasteProducer" xml:space="preserve">
+    <value>Abfallerzeuger</value>
+  </data>
+  <data name="Carrier" xml:space="preserve">
+    <value>Beförderer</value>
+  </data>
+  <data name="CarrierNumber" xml:space="preserve">
+    <value>Beförderernummer</value>
+  </data>
+  <data name="TakingOverCertificate" xml:space="preserve">
+    <value>Übernahmebestätigung</value>
+  </data>
+  <data name="ECNumber" xml:space="preserve">
+    <value>EG-Nummer</value>
+  </data>
+  <data name="WasteCode" xml:space="preserve">
+    <value>Abfallbezeichnung</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Menge</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Einheit</value>
+  </data>
+  <data name="TakingOverCertificateTerms" xml:space="preserve">
+    <value>Der Abfallerzeuger bestätigt mit seiner Unterschrift, dass die von ihm übergebenen Abfälle nicht mit anderen gefährlichen Stoffen vermischt sind und den aufgeführten EG-Nummern entsprechen.</value>
+  </data>
+  <data name="TakingOverCertificateCustomerSignature" xml:space="preserve">
+    <value>Unterschrift des Kunden oder dessen Beauftragter</value>
+  </data>
+  <data name="ReportFooterCol1Row1SaarMoselStation1" xml:space="preserve">
+    <value>Saar-Mosel Baumaschinen GmbH</value>
+  </data>
+  <data name="ReportFooterCol1Row1SaarMoselStation2" xml:space="preserve">
+    <value>Saar-Mosel Baumaschinen GmbH</value>
+  </data>
+  <data name="ReportFooterCol1Row1" xml:space="preserve">
+    <value>Schultes Nachf. GmbH</value>
+  </data>
+
+  <data name="ReportFooterCol1Row2SaarMoselStation1" xml:space="preserve">
+    <value>Am Mühlengarten 4</value>
+  </data>
+  <data name="ReportFooterCol1Row2SaarMoselStation2" xml:space="preserve">
+    <value>Albert-Einstein-Str. 5</value>
+  </data>
+  <data name="ReportFooterCol1Row2" xml:space="preserve">
+    <value>Obere Leimbach 7</value>
+  </data>
+
+  <data name="ReportFooterCol1Row3SaarMoselStation1" xml:space="preserve">
+    <value>66292 Riegelsberg</value>
+  </data>
+  <data name="ReportFooterCol1Row3SaarMoselStation2" xml:space="preserve">
+    <value>54329 Konz-Könen</value>
+  </data>
+  <data name="ReportFooterCol1Row3" xml:space="preserve">
+    <value>57074 Siegen</value>
+  </data>
+
+  <data name="ReportFooterCol1Row4" xml:space="preserve">
+    <value>40878 Ratingen</value>
+  </data>
+  <data name="ReportFooterCol1Row5" xml:space="preserve">
+    <value>&amp;nbsp;</value>
+  </data>
+  <data name="ReportFooterCol2Row1" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
+
+  <data name="ReportFooterCol2Row2SaarMoseStation1" xml:space="preserve">
+    <value>Telefon: 06806 98776-0</value>
+  </data>
+  <data name="ReportFooterCol2Row2SaarMoseStation2" xml:space="preserve">
+    <value>Telefon: 06501 9395-0</value>
+  </data>
+  <data name="ReportFooterCol2Row2" xml:space="preserve">
+    <value>Telefon: 0271 3508-0</value>
+  </data>
+
+  <data name="ReportFooterCol2Row3SaarMoselStation1" xml:space="preserve">
+    <value>Fax: 06806 98776-10</value>
+  </data>
+  <data name="ReportFooterCol2Row3SaarMoselStation2" xml:space="preserve">
+    <value>Fax: 06501 9395-41</value>
+  </data>
+  <data name="ReportFooterCol2Row3" xml:space="preserve">
+    <value>Fax: 0271 3508-40</value>
+  </data>
+
+  <data name="ReportFooterCol2Row4SaarMoselStation1" xml:space="preserve">
+    <value>info@saar-mosel-baumaschinen.de</value>
+  </data>
+  <data name="ReportFooterCol2Row4SaarMoselStation2" xml:space="preserve">
+    <value>info-konz@saar-mosel-baumaschinen.de</value>
+  </data>
+  <data name="ReportFooterCol2Row4" xml:space="preserve">
+    <value>info@schultes-baumaschinen.de</value>
+  </data>
+
+  <data name="ReportFooterCol2Row5" xml:space="preserve">
+    <value>www.schultes-baumschinen.de</value>
+  </data>
+  <data name="ReportFooterCol3Row1" xml:space="preserve">
+    <value>Geschäftsführer</value>
+  </data>
+	
+  <data name="ReportFooterCol3Row2" xml:space="preserve">
+    <value>André Schmitz, Christian Schmitz</value>
+  </data>
+  <data name="ReportFooterCol3Row3SaarMoselStation1" xml:space="preserve">
+    <value>Handelsregister: Saarbrücken HRB 13556</value>
+  </data>
+  <data name="ReportFooterCol3Row3SaarMoselStation2" xml:space="preserve">
+    <value>Handelsregister: Saarbrücken HRB 13556</value>
+  </data>
+  <data name="ReportFooterCol3Row3" xml:space="preserve">
+    <value>Handelsregister: Siegen HRB 1539</value>
+  </data>
+
+	<data name="ReportFooterCol3Row4" xml:space="preserve">
+    <value>Handelsregister</value>
+  </data>
+  <data name="ReportFooterCol3Row5" xml:space="preserve">
+    <value>Amtsgericht Siegen HRB 1539</value>
+  </data>
+  <data name="ReportFooterCol4Row1" xml:space="preserve">
+    <value>Ust-IDNr.</value>
+  </data>
+  <data name="ReportFooterCol4Row2" xml:space="preserve">
+    <value>DE 814 663 218</value>
+  </data>
+  <data name="ReportFooterCol4Row3" xml:space="preserve">
+    <value>&amp;nbsp;</value>
+  </data>
+  <data name="ReportFooterCol4Row4" xml:space="preserve">
+    <value>Steuer-Nr.</value>
+  </data>
+  <data name="ReportFooterCol4Row5" xml:space="preserve">
+    <value>342 5822 0382</value>
+  </data>
+  <data name="ReportFooterCol5Row1" xml:space="preserve">
+    <value>USt-IdNr.: DE 814 663 218</value>
+  </data>
+
+  <data name="ReportFooterCol5Row2SaarMoselStation1" xml:space="preserve">
+    <value>USt-ldNr.: DE 813 627 648</value>
+  </data>
+  <data name="ReportFooterCol5Row2SaarMoselStation2" xml:space="preserve">
+    <value>USt-ldNr.: DE 813 627 648</value>
+  </data>
+  <data name="ReportFooterCol5Row2" xml:space="preserve">
+    <value>USt-IdNr.: DE 814 663 218</value>
+  </data>
+
+  <data name="ReportFooterCol5Row3" xml:space="preserve">
+    <value>Steuer-Nr.: 342 5822 0382</value>
+  </data>
+	
+  <data name="ReportFooterCol5Row4" xml:space="preserve">
+    <value>Beförderer Nr.</value>
+  </data>
+  <data name="ReportFooterCol5Row5" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DispatchesNotInProgress" xml:space="preserve">
+    <value>Unbearbeitete Aufträge</value>
+  </data>
+  <data name="UsageCode" xml:space="preserve">
+    <value>Einsatzbereich</value>
+  </data>
+  <data name="TheFollowingUsageCodeIsRequiredForServiceOrderCompletion" xml:space="preserve">
+    <value>Der folgende Einsatzbereich musst vor Auftragsabschluss noch abgeschlossen werden:</value>
+  </data>
+  <data name="ArticleNoForChecklist" xml:space="preserve">
+    <value>Artikelnummer für Reparaturbericht</value>
+  </data>
+  <data name="PdfTemplatePath" xml:space="preserve">
+    <value>Pfad zu PDF Template</value>
+  </data>
+  <data name="CompletedOn" xml:space="preserve">
+    <value>Durchgeführt am</value>
+  </data>
+  <data name="CompletedBy" xml:space="preserve">
+    <value>Durchgeführt von</value>
+  </data>
+  <data name="ArticleNo" xml:space="preserve">
+    <value>Artikelnummer</value>
+  </data>
+  <data name="NextUvvDate" xml:space="preserve">
+    <value>Nächste BGR 500</value>
+  </data>
+  <data name="ContactPersons" xml:space="preserve">
+    <value>Ansprechpartner</value>
+  </data>
+  <data name="InstallationQRDetails" xml:space="preserve">
+    <value>Maschinenakte</value>
+  </data>
+  <data name="NoServiceOrderHistoryAvailable" xml:space="preserve">
+    <value>Zu diesem Auftrag ist keine Historie vorhanden</value>
+  </data>
+  <data name="CausingItemNo" xml:space="preserve">
+    <value>Artikelnummer</value>
+  </data>
+  <data name="ServiceReport" xml:space="preserve">
+    <value>Reparaturauftrag</value>
+  </data>
+  <data name="NearAccidentForm" xml:space="preserve">
+    <value>Meldebogen für Beinaheunfall</value>
+  </data>
+  <data name="CustomerSwecon_NearAccidentForm" xml:space="preserve">
+    <value>Meldebogen für Beinaheunfall</value>
+  </data>
+  <data name="FromCar" xml:space="preserve">
+    <value>Aus Servicefahrzeug</value>
+  </data>
+  <data name="AddBgr500" xml:space="preserve">
+    <value>Abnahmeprotokoll hinzufügen</value>
+  </data>
+  <data name="InstructionConfirmation" xml:space="preserve">
+    <value>Übergabe-Einweisungsbestätigung</value>
+  </data>
+  <data name="ChecklistArticleRelationship" xml:space="preserve">
+    <value>Checkliste-{Article} Zuordnung</value>
+  </data>
+  <data name="ChecklistArticleRelationshipAlreadyExists" xml:space="preserve">
+    <value>Zuordnung existiert bereits</value>
+  </data>
+  <data name="MailingListRenting" xml:space="preserve">
+    <value>Vermietung</value>
+  </data>
+  <data name="Present" xml:space="preserve">
+    <value>Vorhanden</value>
+  </data>
+  <data name="MachineInspectionProtocol" xml:space="preserve">
+    <value>Maschinenabnahmeprotokoll</value>
+  </data>
+  <data name="FormOfOrganisation" xml:space="preserve">
+    <value>Rechtsform</value>
+  </data>
+  <data name="Checked" xml:space="preserve">
+    <value>Zustand/ Funktion</value>
+  </data>
+  <data name="FixedDeliveryRate" xml:space="preserve">
+    <value>Übergabe/Einweisungspauschale</value>
+  </data>
+  <data name="CalculatedGuaranteeProvision" xml:space="preserve">
+    <value>Garantierückstellung</value>
+  </data>
+  <data name="NotChecked" xml:space="preserve">
+    <value>Nicht geprüft</value>
+  </data>
+  <data name="NotOk" xml:space="preserve">
+    <value>Nicht OK</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="MachineInspectionProtocolRemarks" xml:space="preserve">
+    <value>Maschinenabnahmeprotokoll - Bemerkungen</value>
+  </data>
+  <data name="MachineInspectionProtocolRemarksHeader" xml:space="preserve">
+    <value>Beanstandungen/Fehler, die bei obiger Prüfung festgestellt wurden</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>Bemerkung</value>
+  </data>
+  <data name="CssClasses" xml:space="preserve">
+    <value>zusätzliche CSS-Klassen</value>
+  </data>
+  <data name="DynamicFormType" xml:space="preserve">
+    <value>Eindeutiger Typ des Formulars (z.B. BGR500) - davon abhängig ist u.a. der Import aus Navision, das Aussehen/Druck und die Möglichkeit das Formular clientseitig hinzuzufügen. Der Formulartyp "Temp" kann für temporäre Checklisten verwendet werden. (mehrere Formulare vom Typ Temp sind möglich)</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Bemerkungen</value>
+  </data>
+  <data name="PlaceHolderText" xml:space="preserve">
+    <value>Platzhaltertext</value>
+  </data>
+  <data name="PlaceHolderTextDefault" xml:space="preserve">
+    <value>Die nächste Prüfung ist fällig bis &lt;b&gt;$(DATE_NEXT_CHECKUP)&lt;/b&gt;.</value>
+  </data>
+  <data name="CustomYearOfManufacture" xml:space="preserve">
+    <value>Baujahr</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>Anschaffungswert</value>
+  </data>
+  <data name="RuleViolation.MaxLength30" xml:space="preserve">
+    <value>Bitte geben Sie nicht mehr als 30 Zeichen ein.</value>
+  </data>
+  <data name="PrePayment" xml:space="preserve">
+    <value>Anzahlung</value>
+  </data>
+  <data name="FinancedPart" xml:space="preserve">
+    <value>Finanzierungswert</value>
+  </data>
+  <data name="DurationInMonths" xml:space="preserve">
+    <value>Laufzeit</value>
+  </data>
+  <data name="RemainingPaymentAfterFinancing" xml:space="preserve">
+    <value>Restwert</value>
+  </data>
+  <data name="MonthlyRate" xml:space="preserve">
+    <value>monatliche Rate</value>
+  </data>
+  <data name="Interest" xml:space="preserve">
+    <value>Zinssatz</value>
+  </data>
+  <data name="Financing" xml:space="preserve">
+    <value>Finanzierung</value>
+  </data>
+  <data name="CustomerSwecon_FinancingCalculation" xml:space="preserve">
+    <value>Finanzierung</value>
+  </data>
+  <data name="EurosPerMonth" xml:space="preserve">
+    <value>€ / mtl.</value>
+  </data>
+  <data name="SweconOrderStartGreeting" xml:space="preserve">
+    <value>
+			Sehr geehrte Damen und Herren,
+
+			wir bedanken uns für Ihr Interesse an unseren Volvo-Produkten und übersenden Ihnen,
+			wie mit unserem Frau/Herrn (name) besprochen die gewünschten Produktinformationen zu unserem
+		</value>
+  </data>
+  <data name="SweconOrderConfNumber" xml:space="preserve">
+    <value>Konfigurationsnr.</value>
+  </data>
+  <data name="SweconOrderItemListBegin" xml:space="preserve">
+    <value>Ihre gewünschte Konfiguration enthält die folgenden Komponenten</value>
+  </data>
+  <data name="SweconOrderWarranty" xml:space="preserve">
+    <value>Schultes Garantie</value>
+  </data>
+  <data name="SweconOrderWarrantyText" xml:space="preserve">
+    <value>
+			Die Maschine wird mit einer Schultes Garantie für die ersten 12 Monate / 2.500 Bh geliefert.
+			Alle Details sind in den angehängten Schultes Garantiebedingungen mit Stand 08/2012 nachzulesen.
+		</value>
+  </data>
+  <data name="SweconOrderOptionalItemListBegin" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="SweconOrderPriceDisplayDetails" xml:space="preserve">
+    <value>Alle aufgeführten Preise verstehen sich in Euro und zuzüglich 19% Mehrwertsteuer.</value>
+  </data>
+  <data name="SweconOrderFurtherInformation" xml:space="preserve">
+    <value>
+			Für weitere Fragen stehen wir Ihnen jederzeit gerne in einem persönlichen Gespräch zur Verfügung.
+			Wir würden uns freuen, wenn Ihnen unser Angebot zusagt und verbleiben
+		</value>
+  </data>
+  <data name="SweconOrderClosing" xml:space="preserve">
+    <value>mit freundlichen Grüßen</value>
+  </data>
+  <data name="SweconOrderPresentationOfPriceInfoForModel" xml:space="preserve">
+    <value>Preisinformation über einen</value>
+  </data>
+  <data name="SweconOrderPriceColumn" xml:space="preserve">
+    <value>zum Preis von</value>
+  </data>
+  <data name="HasAccessory" xml:space="preserve">
+    <value>Konfigurierbar</value>
+  </data>
+  <data name="Accessory" xml:space="preserve">
+    <value>Baugruppen</value>
+  </data>
+  <data name="ConfiguredAccessory" xml:space="preserve">
+    <value>Zusatzausstattung</value>
+  </data>
+  <data name="ShowAccessory" xml:space="preserve">
+    <value>Konfigurieren</value>
+  </data>
+  <data name="KeyAccount" xml:space="preserve">
+    <value>Key Account</value>
+  </data>
+  <data name="MachineType" xml:space="preserve">
+    <value>Volvomaschinentyp</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Menge</value>
+  </data>
+  <data name="MachineState" xml:space="preserve">
+    <value>Neu / Gebraucht</value>
+  </data>
+  <data name="DeliveryDate" xml:space="preserve">
+    <value>Lieferdatum</value>
+  </data>
+  <data name="Campaign" xml:space="preserve">
+    <value>Kampagnennr.</value>
+  </data>
+  <data name="CampaignId" xml:space="preserve">
+    <value>Kampagnennr.</value>
+  </data>
+  <data name="Event" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="EventFilterCaption" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="CampaignFilterCaption" xml:space="preserve">
+    <value>Kampagne</value>
+  </data>
+  <data name="FinancingPDFTitle" xml:space="preserve">
+    <value>Finanzierung über Volvo Financial Services GmbH</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>Aktivitäten</value>
+  </data>
+  <data name="CreateNote" xml:space="preserve">
+    <value>Neue Aktivität anlegen</value>
+  </data>
+  <data name="LostProjectInformation" xml:space="preserve">
+    <value>Informationen über das verlorene Projekt</value>
+  </data>
+  <data name="YearOfConstruction" xml:space="preserve">
+    <value>Baujahr</value>
+  </data>
+  <data name="OperationHours" xml:space="preserve">
+    <value>Betriebsstunden</value>
+  </data>
+  <data name="CloseProjectCode" xml:space="preserve">
+    <value>Abschlussgrund</value>
+  </data>
+  <data name="LostOnPrice" xml:space="preserve">
+    <value>Verkaufspreis lt. Wettbewerb</value>
+  </data>
+  <data name="LostOnType" xml:space="preserve">
+    <value>Verloren an Typ</value>
+  </data>
+  <data name="LostOnManufacturer" xml:space="preserve">
+    <value>Verloren an Herstellercode</value>
+  </data>
+  <data name="LegacyId" xml:space="preserve">
+    <value>Kontaktnummer</value>
+  </data>
+  <data name="IsTechnicalContactPerson" xml:space="preserve">
+    <value>Technischer Ansprechpartner</value>
+  </data>
+  <data name="IsSalesContactPerson" xml:space="preserve">
+    <value>Kaufmännischer Ansprechpartner</value>
+  </data>
+  <data name="ProjectStatus" xml:space="preserve">
+    <value>Phase</value>
+  </data>
+  <data name="IsContactAcquiredThroughVolvo" xml:space="preserve">
+    <value>Kontaktaufnahme durch Volvo erlaubt?</value>
+  </data>
+  <data name="IsWantingToJoinTheDriversClub" xml:space="preserve">
+    <value>Volvo-Fahrerclub</value>
+  </data>
+  <data name="InterestedIn" xml:space="preserve">
+    <value>Interessiert an</value>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>Funktion</value>
+  </data>
+  <data name="Offers" xml:space="preserve">
+    <value>Konfigurationen</value>
+  </data>
+  <data name="Offer" xml:space="preserve">
+    <value>Konfiguration</value>
+  </data>
+  <data name="Name2" xml:space="preserve">
+    <value>Firmenzusatz</value>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>Branche</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Strasse und Hausnummer</value>
+  </data>
+  <data name="SetAsPreferredOffer" xml:space="preserve">
+    <value>Zu bevorzugter Konfiguration machen</value>
+  </data>
+  <data name="CreateOffer" xml:space="preserve">
+    <value>Konfiguration anlegen</value>
+  </data>
+  <data name="ProjectCategory" xml:space="preserve">
+    <value>Volvomaschinentyp</value>
+  </data>
+  <data name="EditProject" xml:space="preserve">
+    <value>Projektkopf bearbeiten</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Wahrscheinlichkeit</value>
+  </data>
+  <data name="Deadline" xml:space="preserve">
+    <value>Abschlussdatum</value>
+  </data>
+  <data name="LegacyIdAndName" xml:space="preserve">
+    <value>Nr. und Name</value>
+  </data>
+  <data name="ProjectValue" xml:space="preserve">
+    <value>Letzter Volvo Preis</value>
+  </data>
+  <data name="VolvoSubtotal" xml:space="preserve">
+    <value>Einstandspreis Volvo</value>
+  </data>
+  <data name="NavisionDebitorNo" xml:space="preserve">
+    <value>Debitorennummer</value>
+  </data>
+  <data name="NavisionContactNo" xml:space="preserve">
+    <value>Kontaktnummer</value>
+  </data>
+  <data name="OffersEmptyStateTitle" xml:space="preserve">
+    <value>Keine Konfigurationen</value>
+  </data>
+  <data name="NoOffersAvailable" xml:space="preserve">
+    <value>Es wurden noch keine Konfigurationen für dieses Projekt erstellt.</value>
+  </data>
+  <data name="DuplicateCompanyErrorMessage" xml:space="preserve">
+    <value>Diese Firma existiert bereits (Kontaktnummer: {0})</value>
+  </data>
+  <data name="DuplicatePersonErrorMessage" xml:space="preserve">
+    <value>Diese Person existiert bereits (Kontaktnummer: {0})</value>
+  </data>
+  <data name="PurchaseInterest" xml:space="preserve">
+    <value>Interessiert An</value>
+  </data>
+  <data name="OfferSaveWillBreakERPLinkWarning" xml:space="preserve">
+    <value>Zu dieser Konfiguration wurde bereits ein Angebot in Navision verknüpft. Speichern der Änderungen erfordert das Anfordern eines neuen Angebots in Navision.</value>
+  </data>
+  <data name="OfferSaveMightBreakERPLinkWarning" xml:space="preserve">
+    <value>Für diese Konfiguration wurde bereits ein Angebot erstellt. Wenn Sie erneut gespeichert wird, wird ein neues Angebot erstellt.</value>
+  </data>
+  <data name="CouldNotFindNavisionLink" xml:space="preserve">
+    <value>Es wurde kein Angebot für diese Konfiguration gefunden. Bitte versuchen Sie es später erneut.again later.</value>
+  </data>
+  <data name="OpenLinkedOfferInERP" xml:space="preserve">
+    <value>Angebot öffnen</value>
+  </data>
+  <data name="ExporConfigurationAsOffer" xml:space="preserve">
+    <value>Angebot für diese Konfiguration anfordern</value>
+  </data>
+  <data name="OfferNotExportedYet" xml:space="preserve">
+    <value>Ein Angebot für diese Konfiguration wurde noch nicht erstellt.</value>
+  </data>
+  <data name="ERPLinkStale" xml:space="preserve">
+    <value>Die Konfiguration wurde geändert. Ein neues Angebot wird in Navision erstellt.</value>
+  </data>
+  <data name="CanNotOpenLinkedOfferInERP" xml:space="preserve">
+    <value>Das Angebot kann nicht geöffnet werden</value>
+  </data>
+  <data name="AlternativeFor" xml:space="preserve">
+    <value>Ersetzt</value>
+  </data>
+  <data name="TradeinType" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="TradeinComesWithEquipment" xml:space="preserve">
+    <value>Mit Ausstattung</value>
+  </data>
+  <data name="BuildYear" xml:space="preserve">
+    <value>Baujahr</value>
+  </data>
+  <data name="HoursInOperation" xml:space="preserve">
+    <value>Betriebsstunden</value>
+  </data>
+  <data name="SerialNumber" xml:space="preserve">
+    <value>Seriennummer</value>
+  </data>
+  <data name="TradeinPrice" xml:space="preserve">
+    <value>Inzahlungnahme-Preis</value>
+  </data>
+  <data name="Tradein" xml:space="preserve">
+    <value>Inzahlungnahme</value>
+  </data>
+  <data name="Tradeins" xml:space="preserve">
+    <value>Inzahlungnahmen</value>
+  </data>
+  <data name="FillTradein" xml:space="preserve">
+    <value>Übertragen</value>
+  </data>
+  <data name="OrCreateProject" xml:space="preserve">
+    <value>Oder Projekt anlegen</value>
+  </data>
+  <data name="OrSelectProject" xml:space="preserve">
+    <value>Oder Projekt auswählen</value>
+  </data>
+  <data name="NoteText" xml:space="preserve">
+    <value>Aktivität Text</value>
+  </data>
+  <data name="NoteType" xml:space="preserve">
+    <value>Aktivitätsart</value>
+  </data>
+  <data name="NoteEvaluation" xml:space="preserve">
+    <value>Bewertung / Evaluation</value>
+  </data>
+  <data name="NoteInfoFlow" xml:space="preserve">
+    <value>Informationsfluss</value>
+  </data>
+  <data name="AdditionalCampaignInfo" xml:space="preserve">
+    <value>Erweiterte Kampagneninfo</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="AddNote" xml:space="preserve">
+    <value>Aktivität hinzufügen</value>
+  </data>
+  <data name="NewOfferItem" xml:space="preserve">
+    <value>Ausstattungssuche</value>
+  </data>
+  <data name="CompanyDebitorBlockedWarning" xml:space="preserve">
+    <value>Debitor gesperrt</value>
+  </data>
+  <data name="CompanyBlockedWarning" xml:space="preserve">
+    <value>Kontakt gesperrt</value>
+  </data>
+  <data name="CompanyInactiveWarning" xml:space="preserve">
+    <value>Kontakt inaktiv</value>
+  </data>
+  <data name="PersonInactiveWarning" xml:space="preserve">
+    <value>Kontakt inaktiv</value>
+  </data>
+  <data name="OpenProjects" xml:space="preserve">
+    <value>Offene Projekte</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="Weeks" xml:space="preserve">
+    <value>Wochen</value>
+  </data>
+  <data name="Months" xml:space="preserve">
+    <value>Monaten</value>
+  </data>
+  <data name="Years" xml:space="preserve">
+    <value>Jahren</value>
+  </data>
+  <data name="RepeatTaskWhenClosed" xml:space="preserve">
+    <value>Aufgabe wiederholen, wenn geschlossen</value>
+  </data>
+  <data name="EditNotesForTask" xml:space="preserve">
+    <value>Aktivitäten für die Aufgabe</value>
+  </data>
+  <data name="CancelTask" xml:space="preserve">
+    <value>Aufgabe stornieren</value>
+  </data>
+  <data name="IsAllDay" xml:space="preserve">
+    <value>Ganztägig</value>
+  </data>
+  <data name="CanNotExportOffer" xml:space="preserve">
+    <value>Das Angebot kann nicht exportiert werden</value>
+  </data>
+  <data name="ParentCompanyIsBlocked" xml:space="preserve">
+    <value>Der Kontakt ist blockiert.</value>
+  </data>
+  <data name="UnconfiguredItemsExist" xml:space="preserve">
+    <value>Nicht alle konfigurierbaren Anbauteile sind konfiguriert</value>
+  </data>
+  <data name="Machines" xml:space="preserve">
+    <value>Maschinen</value>
+  </data>
+  <data name="CustomerSwecon_Machine" xml:space="preserve">
+    <value>Maschinen</value>
+  </data>
+  <data name="ForeignMachines" xml:space="preserve">
+    <value>Fremdmaschinen</value>
+  </data>
+  <data name="MachinesEmptyStateTitle" xml:space="preserve">
+    <value>Keine Ergebnisse gefunden</value>
+  </data>
+  <data name="NoMachinesAvailable" xml:space="preserve">
+    <value>Keine Maschinen verfügbar für diesen Kontakt</value>
+  </data>
+  <data name="NoForeignMachinesAvailable" xml:space="preserve">
+    <value>Keine Fremdmaschinen verfügbar für diesen Kontakt</value>
+  </data>
+  <data name="AddForeignMachine" xml:space="preserve">
+    <value>Fremdmaschine hinzufügen</value>
+  </data>
+  <data name="Keyword" xml:space="preserve">
+    <value>Stichwort</value>
+  </data>
+  <data name="EditMachine" xml:space="preserve">
+    <value>Maschine bearbeiten</value>
+  </data>
+  <data name="IsPotential" xml:space="preserve">
+    <value>Potentialerfassung</value>
+  </data>
+  <data name="ArticleCategory" xml:space="preserve">
+    <value>Artikelkategorie</value>
+  </data>
+  <data name="ForeignMachineType" xml:space="preserve">
+    <value>Maschinentyp</value>
+  </data>
+  <data name="CustomerofFinisher" xml:space="preserve">
+    <value>Fertigerkunde</value>
+  </data>
+  <data name="SennebogenContact" xml:space="preserve">
+    <value>Sennebogen Kunde</value>
+  </data>
+  <data name="PartnerPurchaser" xml:space="preserve">
+    <value>Partnerhändler</value>
+  </data>
+  <data name="CustomerClassification" xml:space="preserve">
+    <value>Ist-Klassifizierung</value>
+  </data>
+  <data name="EmployeeClass" xml:space="preserve">
+    <value>Beschäftigtenklasse</value>
+  </data>
+  <data name="PotentialModel" xml:space="preserve">
+    <value>Potentialmodell-Klassifizierung</value>
+  </data>
+  <data name="PotentialClassification" xml:space="preserve">
+    <value>Potential-Klassifizierung</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Lagerort</value>
+  </data>
+  <data name="HasNoForeignMachine" xml:space="preserve">
+    <value>Keine Fremdmaschine im Einsatz</value>
+  </data>
+  <data name="SalesPersonEmail" xml:space="preserve">
+    <value>Verkauf</value>
+  </data>
+  <data name="StationKey" xml:space="preserve">
+    <value>Standort</value>
+  </data>
+  <data name="TechnicalSupportEmail" xml:space="preserve">
+    <value>Technical Support</value>
+  </data>
+  <data name="TravelLumpSum" xml:space="preserve">
+    <value>Entfernungspauschale</value>
+  </data>
+  <data name="OfferIsClosed" xml:space="preserve">
+    <value>Konfiguration ist Schreibgeschützt</value>
+  </data>
+  <data name="CantSaveClosedOfferMessage" xml:space="preserve">
+    <value>Die Konfiguration ist Schreibgeschützt. Es ist nicht möglich, die Änderungen zu speichern.</value>
+  </data>
+  <data name="NotConfirmed" xml:space="preserve">
+    <value>Nicht bestätigt</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Bestätigt</value>
+  </data>
+  <data name="ShowInactive" xml:space="preserve">
+    <value>Inaktive anzeigen</value>
+  </data>
+  <data name="ShowActive" xml:space="preserve">
+    <value>Aktive anzeigen</value>
+  </data>
+  <data name="ConfirmForeignMachine" xml:space="preserve">
+    <value>Fremdmaschine bestätigen</value>
+  </data>
+  <data name="SetForeignMachineInactive" xml:space="preserve">
+    <value>Fremdmaschine inaktiv setzen</value>
+  </data>
+  <data name="StockMachines" xml:space="preserve">
+    <value>Lagermaschinen</value>
+  </data>
+  <data name="LoadConfiguration" xml:space="preserve">
+    <value>Konfiguration laden</value>
+  </data>
+  <data name="CustomerSwecon_MachineType" xml:space="preserve">
+    <value>Maschinentypen</value>
+  </data>
+  <data name="CustomerSwecon_StockMachine" xml:space="preserve">
+    <value>Lagermaschinen</value>
+  </data>
+  <data name="SweconLocation" xml:space="preserve">
+    <value>Schultes Location</value>
+  </data>
+  <data name="SweconNoteType" xml:space="preserve">
+    <value>Schultes Note Type</value>
+  </data>
+  <data name="NoteTypeKey" xml:space="preserve">
+    <value>NoteTypeKey</value>
+  </data>
+  <data name="BillingAddressCity" xml:space="preserve">
+    <value>Billing Address City</value>
+  </data>
+  <data name="kj" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WarehouseEntryTransfer" xml:space="preserve">
+    <value>Warehouse Entry Transfer</value>
+  </data>
+  <data name="ExportedPath" xml:space="preserve">
+    <value>Exported Path</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="Backend" xml:space="preserve">
+    <value>Backend</value>
+  </data>
+  <data name="CreatePos" xml:space="preserve">
+    <value>CreatePos</value>
+  </data>
+  <data name="CreatePosSerial" xml:space="preserve">
+    <value>CreatePosSerial</value>
+  </data>
+  <data name="DeleteProfilingSession" xml:space="preserve">
+    <value>Profilerstellungssitzung löschen</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>Detach</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Dokument</value>
+  </data>
+  <data name="DynamicFormCategory" xml:space="preserve">
+    <value>Dynamische Formularkategorie</value>
+  </data>
+  <data name="FinancingCalculation" xml:space="preserve">
+    <value>Finanzierung Berechnung</value>
+  </data>
+  <data name="GetProfilingSessionDetails" xml:space="preserve">
+    <value>Details zur Profilerstellungssitzung abrufen</value>
+  </data>
+  <data name="InstallationAddressRelationshipType" xml:space="preserve">
+    <value>Installationsadressen-Beziehungstyp</value>
+  </data>
+  <data name="InternalSalest" xml:space="preserve">
+    <value>Interne Salest</value>
+  </data>
+  <data name="NoCausingItemSerialNoReason" xml:space="preserve">
+    <value>Kein verursachender Artikel Seriennr. Grund</value>
+  </data>
+  <data name="ReturnGood" xml:space="preserve">
+    <value>RückkehrGut</value>
+  </data>
+  <data name="SeeAllUsersExpenses" xml:space="preserve">
+    <value>Siehe Alle Benutzerkosten</value>
+  </data>
+  <data name="SeeAllUsersTimeEntries" xml:space="preserve">
+    <value>Alle Zeiteinträge für Benutzer anzeigen</value>
+  </data>
+  <data name="SeeTransferCostsAndWarrantyProvisionsInOffer" xml:space="preserve">
+    <value>SeeTransfer Kosten und Garantie Bestimmungen im Angebot</value>
+  </data>
+  <data name="SendLocalDatabaseLog" xml:space="preserve">
+    <value>Senden Sie das lokale Datenbankprotokoll</value>
+  </data>
+  <data name="ServiceContractLimitType" xml:space="preserve">
+    <value>Service-Vertragslimit-Typ</value>
+  </data>
+  <data name="ServiceContractStatus" xml:space="preserve">
+    <value>Service Vertrag Status</value>
+  </data>
+  <data name="ServiceObjectCategory" xml:space="preserve">
+    <value>Dienstobjektkategorie</value>
+  </data>
+  <data name="ServiceOrderInvoiceReason" xml:space="preserve">
+    <value>Serviceauftrag Rechnungsgrund</value>
+  </data>
+  <data name="SkillAssign" xml:space="preserve">
+    <value>Fähigkeitszuweisung</value>
+  </data>
+  <data name="SparePartsBudgetInvoiceType" xml:space="preserve">
+    <value>SparePartsBudgetInvoiceType</value>
+  </data>
+  <data name="StockMachine" xml:space="preserve">
+    <value> Lagermaschine</value>
+  </data>
+  <data name="TakeoverPosition" xml:space="preserve">
+    <value>Takeover Position</value>
+  </data>
+  <data name="ViewPurchasePrices" xml:space="preserve">
+    <value>Kaufpreise anzeigen</value>
+  </data>
+  <data name="NotesEmptyStateTitle" xml:space="preserve">
+    <value>Keine Aktivitäten</value>
+  </data>
+  <data name="NoNoteInfo" xml:space="preserve">
+    <value>Hier können Sie Activitäten über Telefonate, Meetings oder Gespräche, die Sie gerade mit diesem Kontakt hatten, eingeben. Activitäten sind eine großartige Möglichkeit, um ihre Interaktionen oder Kommunikation mit einem Kontakt zu archivieren.</value>
+  </data>
+  <data name="clock" xml:space="preserve">
+    <value>Uhr</value>
+  </data>
+  <data name="LastPage" xml:space="preserve">
+    <value>Letzte Seite</value>
+  </data>
+  <data name="NoServiceOrdersToExport" xml:space="preserve">
+    <value>Keine zu exportierenden Serviceaufträge</value>
+  </data>
+  <data name="ArticleDescription" xml:space="preserve">
+    <value>Artikelbeschreibung</value>
+  </data>
+  <data name="OperatingHoursMustBeGreaterThanFromInstallation" xml:space="preserve">
+    <value>Die Betriebsstunden müssen größer als die der Installation sein: {0}</value>
+  </data>
+  <data name="NewSerialNo" xml:space="preserve">
+    <value>Seriennummer Neu</value>
+  </data>
+  <data name="MissingExecutedWorkForTimePostings" xml:space="preserve">
+    <value>Die Angabe der durchgeführten Arbeiten fehlt für eine oder mehrere Zeitmeldungen</value>
+  </data>
+  <data name="MissingDiagnosisForSomeJobs" xml:space="preserve">
+    <value>Die Angabe der "Fehlersuche und Diagnose" fehlt für folgende Jobs</value>
+  </data>
+</root>
