@@ -1,3 +1,4 @@
+
 ﻿$(function () {
 	var baseViewModel = namespace("Sms.Checklists.ViewModels").ChecklistChecklistEditorViewModel;
 	namespace("Sms.Checklists.ViewModels").ChecklistChecklistEditorViewModel = function (routeValues) {
@@ -124,7 +125,7 @@
 							checklist.ReferenceKey === this.serviceOrderId
 					}, {
 						dynamicFormType: window.Customer.Swecon.Settings.Checklists.PictureProofChecklistDynamicFormType,
-						dispatchId: self.dispatch().Id()
+						serviceOrderId: window.ko.unwrap(self.serviceOrder().Id)
 					}).toArray()
 				})
 				.then(function (checklistResult) {
@@ -153,3 +154,4 @@
 		});
 	};
 });
+
