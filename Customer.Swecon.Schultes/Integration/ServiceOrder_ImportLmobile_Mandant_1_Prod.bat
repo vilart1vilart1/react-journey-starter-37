@@ -1,3 +1,0 @@
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileProd_Tenant_1 -i "C:\LMobile\Integration\Prod\Customer.Swecon.Schultes\Integration\Import\I_External_ServiceOrder_Tenant_1.sql" -o "C:\LMobile\Import\Prod_Tenant_1\Log\I_External_ServiceOrder.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileProd_Tenant_1 -i "C:\LMobile\Integration\Prod\Customer.Swecon.Schultes\Integration\Import\I_External_ServiceOrderMaterial_Tenant_1.sql" -o "C:\LMobile\Import\Prod_Tenant_1\Log\I_External_ServiceOrderMaterial_Tenant_1.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileProd_Tenant_1 -i "C:\LMobile\Integration\Prod\Customer.Swecon.Schultes\Integration\Import\I_External_ServiceOrderTimes.sql" -o "C:\LMobile\Import\Prod_Tenant_1\Log\I_External_ServiceOrderTimes.log"

@@ -1,6 +1,0 @@
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileTest -i "C:\LMobile\Integration\Test\Customer.Swecon.Schultes\Integration\Import\I_External_Company.sql" -o "C:\LMobile\Import\Test\Log\I_External_Company.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileTest -i "C:\LMobile\Integration\Test\Customer.Swecon.Schultes\Integration\Import\I_External_Installation.sql" -o "C:\LMobile\Import\Test\Log\I_External_Installation.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileTest -i "C:\LMobile\Integration\Test\Customer.Swecon.Schultes\Integration\Import\I_External_Address.sql" -o "C:\LMobile\Import\Test\Log\I_External_Address.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileTest -i "C:\LMobile\Integration\Test\Customer.Swecon.Schultes\Integration\Import\I_External_Article.sql" -o "C:\LMobile\Import\Test\Log\I_External_Article.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileTest -i "C:\LMobile\Integration\Test\Customer.Swecon.Schultes\Integration\Import\I_External_Communication.sql" -o "C:\LMobile\Import\Test\Log\I_External_Communication.log"
-osql -E -S ESN-SERV08\SQLSERVER -d LMobileTest -i "C:\LMobile\Integration\Test\Customer.Swecon.Schultes\Integration\Import\I_External_Person.sql" -o "C:\LMobile\Import\Test\Log\I_External_Person.log"
