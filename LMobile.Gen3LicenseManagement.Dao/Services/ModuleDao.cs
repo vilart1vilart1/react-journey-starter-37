@@ -23,14 +23,14 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 		}
 		public List<Module> GetModules(string projectType) {
 			var query = Session.Query<Module, ModuleMapping>()
-				.Where(s => s.Main.ProjectType == projectType && s.Main.IsActive == true)
+				.Where(s => s.Main.ProjectType == projectType & s.Main.IsActive == true)
 				.OrderBy(s => s.Main.Description);
 			return query.ReadList();
 		}
 		public Module GetModule(int moduleID) {
 			if (moduleID == 0) return null;
 			var query = Session.Query<Module, ModuleMapping>();
-			query.Where(s => s.Main.ID == moduleID && s.Main.IsActive == true);
+			query.Where(s => s.Main.ID == moduleID & s.Main.IsActive == true);
 			return query.ReadFirst();
 		}
 
@@ -49,7 +49,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 
 			var query = Session.Query<ModuleProperty, ModulePropertyMapping>();
 			query.Where(s =>
-			  s.Main.ID.In(ids.ToArray()) && s.Main.IsActive == true);
+			  s.Main.ID.In(ids.ToArray()) & s.Main.IsActive == true);
 			query.OrderBy(s => s.Main.Description);
 			return query.ReadList();
 		}
@@ -63,7 +63,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 			query.Where(s =>
 			  (s.Main.PropertyName.ToUpper().Like(name)
 			  | s.Main.Description.ToUpper().Like(name))
-			  && s.Main.IsActive == true);
+			  & s.Main.IsActive == true);
 
 			query.OrderBy(s => s.Main.Description);
 			return query.ReadList();
@@ -76,8 +76,8 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 
 			var query = Session.Query<ModuleProperty, ModulePropertyMapping>();
 			query.Where(mp => (mp.Main.PropertyName.ToUpper().Like(name) | mp.Main.Description.ToUpper().Like(name))
-			 && mp.Main.IsActive == true
-			 && Gql.NotExists(Session.Query().From<ProjectModulePropertyMapping>().Where((pmp) => pmp.Main.ProjectID == p_ProjectID && pmp.Main.ModulePropertyID == mp.Main.ID)));
+			 & mp.Main.IsActive == true
+			 & Gql.NotExists(Session.Query().From<ProjectModulePropertyMapping>().Where((pmp) => pmp.Main.ProjectID == p_ProjectID & pmp.Main.ModulePropertyID == mp.Main.ID)));
 
 			query.OrderBy(s => s.Main.Description);
 			return query.ReadList();
@@ -90,7 +90,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 		public ModuleProperty GetModuleProperty(int modulePropertyID) {
 			if (modulePropertyID == 0) return null;
 			var query = Session.Query<ModuleProperty, ModulePropertyMapping>();
-			query.Where(s => s.Main.ID == modulePropertyID && s.Main.IsActive == true);
+			query.Where(s => s.Main.ID == modulePropertyID & s.Main.IsActive == true);
 			return query.ReadFirst();
 		}
 
