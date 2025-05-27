@@ -1,3 +1,4 @@
+
 ﻿using System.Collections.Generic;
 using LMobile.Gida;
 using LMobile.Gen3LicenseManagement.Dao.BusinessObjects;
@@ -76,7 +77,7 @@ namespace LMobile.Gen3LicenseManagement.Dao.Services {
 			var query = Session.Query<ModuleProperty, ModulePropertyMapping>();
 			query.Where(mp => (mp.Main.PropertyName.ToUpper().Like(name) | mp.Main.Description.ToUpper().Like(name))
 			 && mp.Main.IsActive == true
-			 & Gql.NotExists(Session.Query().From<ProjectModulePropertyMapping>().Where((pmp) => pmp.Main.ProjectID == p_ProjectID & pmp.Main.ModulePropertyID == mp.Main.ID)));
+			 && Gql.NotExists(Session.Query().From<ProjectModulePropertyMapping>().Where((pmp) => pmp.Main.ProjectID == p_ProjectID && pmp.Main.ModulePropertyID == mp.Main.ID)));
 
 			query.OrderBy(s => s.Main.Description);
 			return query.ReadList();
