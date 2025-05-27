@@ -1,3 +1,4 @@
+
 ﻿
 
 using System;
@@ -71,8 +72,32 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 				row.AddLabel().SetCaption("Action").SetStyle(new Style { Width = new Length(140, In.Pixels) });
 			});
 
-			// Package rows
+			// Add separator after header
+			packagesTable.AddRow(row => {
+				row.AddLabel().SetStyle(new Style { 
+					Width = ClassicStyleSheet.W100.Width, 
+					Height = new Length(1, In.Pixels), 
+					BackgroundColor = Color.Gray 
+				});
+			});
+
+			// Package rows with separators
+			bool isFirstItem = true;
 			this.AddIteration(Packages, () => {
+				// Add separator before each item (except the first one)
+				if (!isFirstItem) {
+					packagesTable.AddRow(row => {
+						row.AddLabel().SetStyle(new Style { 
+							Width = ClassicStyleSheet.W100.Width, 
+							Height = new Length(1, In.Pixels), 
+							BackgroundColor = Color.LightGray,
+							TopMargin = new Length(2, In.Points),
+							BottomMargin = new Length(2, In.Points)
+						});
+					});
+				}
+				isFirstItem = false;
+
 				packagesTable.AddRow(row => {
 					row.AddLabel()
 						.BindCaption(Packages, package => package.ID.ToString())
@@ -106,7 +131,12 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 						.BindDisplayed(Application, app => app.CanUserDeletePackage)
 						.BindAction(Application, Packages, (app, package) => app.ConfirmDeletePackage(package.ID));
 
-				}).SetStyle(new Style { Border = new Length(1, In.Pixels), BorderColor = Color.Black });
+				}).SetStyle(new Style { 
+					Border = new Length(1, In.Pixels), 
+					BorderColor = Color.Black,
+					TopPadding = new Length(4, In.Points),
+					BottomPadding = new Length(4, In.Points)
+				});
 			});
 			#endregion
 
