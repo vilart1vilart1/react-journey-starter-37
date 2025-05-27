@@ -91,7 +91,9 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 			string packageName = packageToDelete.PropertyName;
 			if (this.ModuleDao.DeleteModuleProperty(packageID)) {
 				LicenseDao.LogEntry(null, null, MessageTypes.ModulePropertyModified, "Package '" + packageName + "' deleted by '" + Client.CurrentPrincipal.Identity.Name + "'.");
+				this.CurrentPackage = null;
 				this.LoadPackages();
+				this.DisplayView<ModulesDirectView>();
 				return true;
 			}
 			return false;

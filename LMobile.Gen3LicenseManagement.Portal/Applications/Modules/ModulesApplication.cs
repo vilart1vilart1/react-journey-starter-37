@@ -98,6 +98,7 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 			this.CurrentModuleProperty = null;
 			this.AllModuleProperties = this.ModuleDao.GetModuleProperties();
 		}
+
 		public void AddExistingModulePropertyToModule(Module module, ModuleProperty prop) {
 			var mpInM = new ModulePropertiesInModules {
 				ModuleID = module.ID,
@@ -155,7 +156,11 @@ namespace LMobile.Gen3LicenseManagement.Portal.Applications.Modules {
 			string moduleName = moduleToDelete.Description;
 			if (this.ModuleDao.DeleteModule(moduleID)) {
 				LicenseDao.LogEntry(null, null, MessageTypes.ModuleModified, "Module '" + moduleName + "' deleted by '" + Client.CurrentPrincipal.Identity.Name + "'.");
+				// Clear current module and reload data to show only active modules
+				this.CurrentModule = null;
 				this.LoadModules();
+				// Refresh the view to show updated data
+				this.DisplayView<ModulesView>();
 				return true;
 			}
 			return false;
