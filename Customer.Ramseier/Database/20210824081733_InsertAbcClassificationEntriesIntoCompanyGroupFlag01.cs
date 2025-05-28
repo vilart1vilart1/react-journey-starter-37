@@ -1,0 +1,154 @@
+namespace Customer.Ramseier.Database
+{
+	using Crm.Library.Data.MigratorDotNet.Framework;
+
+	[Migration(20210824081733)]
+	public class InsertAbcClassificationEntriesIntoCompanyGroupFlag01 : Migration
+	{
+		public override void Up()
+		{
+			Database.ExecuteNonQuery(
+				@"
+IF NOT EXISTS(SELECT * FROM LU.CompanyGroupFlag1 WHERE [Value] = '-')
+BEGIN
+	INSERT INTO LU.CompanyGroupFlag1
+        ([Name]
+        ,[Language]
+        ,[Value]
+        ,[Favorite]
+        ,[SortOrder]
+        ,[CreateDate]
+        ,[ModifyDate]
+        ,[CreateUser]
+        ,[ModifyUser]
+        ,[IsActive])
+	VALUES
+		('-'
+		,'de'
+		,'-'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1),
+		('-'
+		,'en'
+		,'-'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1)
+END
+IF NOT EXISTS(SELECT * FROM LU.CompanyGroupFlag1 WHERE [Value] = 'A')
+BEGIN
+	INSERT INTO LU.CompanyGroupFlag1
+        ([Name]
+        ,[Language]
+        ,[Value]
+        ,[Favorite]
+        ,[SortOrder]
+        ,[CreateDate]
+        ,[ModifyDate]
+        ,[CreateUser]
+        ,[ModifyUser]
+        ,[IsActive])
+	VALUES
+		('A'
+		,'de'
+		,'A'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1),
+		('A'
+		,'en'
+		,'A'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1)
+END
+IF NOT EXISTS(SELECT * FROM LU.CompanyGroupFlag1 WHERE [Value] = 'B')
+BEGIN
+	INSERT INTO LU.CompanyGroupFlag1
+        ([Name]
+        ,[Language]
+        ,[Value]
+        ,[Favorite]
+        ,[SortOrder]
+        ,[CreateDate]
+        ,[ModifyDate]
+        ,[CreateUser]
+        ,[ModifyUser]
+        ,[IsActive])
+	VALUES
+		('B'
+		,'de'
+		,'B'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1),
+		('B'
+		,'en'
+		,'B'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1)
+END
+IF NOT EXISTS(SELECT * FROM LU.CompanyGroupFlag1 WHERE [Value] = 'C')
+BEGIN
+	INSERT INTO LU.CompanyGroupFlag1
+        ([Name]
+        ,[Language]
+        ,[Value]
+        ,[Favorite]
+        ,[SortOrder]
+        ,[CreateDate]
+        ,[ModifyDate]
+        ,[CreateUser]
+        ,[ModifyUser]
+        ,[IsActive])
+	VALUES
+		('C'
+		,'de'
+		,'C'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1),
+		('C'
+		,'en'
+		,'C'
+		,0
+		,0
+		,GETUTCDATE()
+		,GETUTCDATE()
+		,'Migration'
+		,'Migration'
+		,1)
+END");
+		}
+	}
+}
