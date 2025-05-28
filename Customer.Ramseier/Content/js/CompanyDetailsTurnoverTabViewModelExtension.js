@@ -99,11 +99,13 @@
 				});
 				groupedTurnoverItems.ExtrapolatedCurrentYearValue = window.ko.computed(function () {
 					if (groupedTurnoverItems.CurrentYearValue()) {
+						// Get the current date and calculate days passed and total days in year
 						var now = new Date();
 						var startOfYear = new Date(now.getFullYear(), 0, 1);
-						var daysPassed = Math.floor((now - startOfYear) / (24 * 60 * 60 * 1000));
+						var daysPassed = Math.floor((now - startOfYear) / (24 * 60 * 60 * 1000)) + 1;
 						var daysInYear = now.getFullYear() % 4 === 0 ? 366 : 365;
 
+						// Calculate extrapolation based on days instead of months
 						return groupedTurnoverItems.CurrentYearValue().total / daysPassed * daysInYear;
 					}
 					return 0;
@@ -151,19 +153,13 @@
 					isVolume: viewModel.showVolume()
 				})
 			.map(function(m) {
-				var now = new Date();
-				var startOfYear = new Date(now.getFullYear(), 0, 1);
-				var daysPassed = Math.floor((now - startOfYear) / (24 * 60 * 60 * 1000));
-				var daysInYear = now.getFullYear() % 4 === 0 ? 366 : 365;
-				var extrapolatedTotal = m.TotalCurrentYear / daysPassed * daysInYear;
-				
 				return {
 					TotalCurrentYear: m.TotalCurrentYear,
-					ExtrapolatedTotalCurrentYear: extrapolatedTotal,
+					ExtrapolatedTotalCurrentYear: m.ExtrapolatedTotalCurrentYear,
 					TotalPreviousYear: m.TotalPreviousYear,
 					TotalPrePreviousYear: m.TotalPrePreviousYear,
 					TotalMinusThreeYears: m.TotalMinusThreeYears,
-					Difference: extrapolatedTotal - m.TotalPreviousYear
+					Difference: m.Difference
 				}
 			})
 			.single()
