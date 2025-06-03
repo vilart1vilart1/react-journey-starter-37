@@ -1,3 +1,4 @@
+
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
@@ -90,7 +91,9 @@ BEGIN
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
-			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
+			-- Modified index creation to handle large LegacyId values
+			-- Limit the index key to first 450 characters to avoid 8000 byte limit
+			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead (LEFT([LegacyId], 450) ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
 			SELECT @logmessage = CONVERT(nvarchar, @count) + ' Records transferred to input table'
@@ -345,4 +348,3 @@ BEGIN
 	END CATCH;
 END
 GO
-
