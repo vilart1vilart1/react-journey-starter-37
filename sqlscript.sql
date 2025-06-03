@@ -42,15 +42,15 @@ BEGIN
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_AddressNo ON #RemoteInstallation ([AddressNo] ASC)
 
 			SELECT DISTINCT
-				-- Truncate LegacyId to 400 characters to stay well below index key limits
+				-- Truncate LegacyId to 200 characters to stay well below index key limits (400 bytes)
 				CASE 
-					WHEN LEN(v.[LegacyId]) > 400 THEN LEFT(v.[LegacyId], 400)
+					WHEN LEN(v.[LegacyId]) > 200 THEN LEFT(v.[LegacyId], 200)
 					ELSE v.[LegacyId]
 				END as LegacyId,
 				CASE
 					WHEN v.[DESCRIPTION] is null THEN ''
 					ELSE CASE 
-						WHEN LEN(v.[DESCRIPTION]) > 255 THEN LEFT(v.[DESCRIPTION], 255)
+						WHEN LEN(v.[DESCRIPTION]) > 200 THEN LEFT(v.[DESCRIPTION], 200)
 						ELSE v.[DESCRIPTION]
 					END
 				END AS [Description],
@@ -62,7 +62,7 @@ BEGIN
 				END AS [LegacyInstallationId],
 				v.[KickOffDate],
 				CASE 
-					WHEN LEN(v.[ExactPlace]) > 255 THEN LEFT(v.[ExactPlace], 255)
+					WHEN LEN(v.[ExactPlace]) > 200 THEN LEFT(v.[ExactPlace], 200)
 					ELSE v.[ExactPlace]
 				END AS [ExactPlace],
 				v.[NextUvvDate],
@@ -85,13 +85,13 @@ BEGIN
 				a.AddressId AS AddressKey,
 			BINARY_CHECKSUM (
 				CASE 
-					WHEN LEN(v.[LegacyId]) > 400 THEN LEFT(v.[LegacyId], 400)
+					WHEN LEN(v.[LegacyId]) > 200 THEN LEFT(v.[LegacyId], 200)
 					ELSE v.[LegacyId]
 				END,
 				CASE
 					WHEN v.[DESCRIPTION] is null THEN ''
 					ELSE CASE 
-						WHEN LEN(v.[DESCRIPTION]) > 255 THEN LEFT(v.[DESCRIPTION], 255)
+						WHEN LEN(v.[DESCRIPTION]) > 200 THEN LEFT(v.[DESCRIPTION], 200)
 						ELSE v.[DESCRIPTION]
 					END
 				END,
@@ -103,7 +103,7 @@ BEGIN
 				END,
 				v.[KickOffDate],
 				CASE 
-					WHEN LEN(v.[ExactPlace]) > 255 THEN LEFT(v.[ExactPlace], 255)
+					WHEN LEN(v.[ExactPlace]) > 200 THEN LEFT(v.[ExactPlace], 200)
 					ELSE v.[ExactPlace]
 				END,
 				v.[OperatingHours],
@@ -131,7 +131,7 @@ BEGIN
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
-			-- Create index on the truncated LegacyId column (400 chars = 800 bytes, well below 900 byte limit)
+			-- Create index on the truncated LegacyId column (200 chars = 400 bytes, well below 900 byte limit)
 			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
