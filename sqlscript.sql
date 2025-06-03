@@ -1,4 +1,5 @@
 
+
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
@@ -26,6 +27,32 @@ BEGIN
 			LegacyVersion BIGINT)
 			
 			IF OBJECT_ID('tempdb..#InstallationHead') IS NOT NULL DROP TABLE #InstallationHead
+			
+			-- Create the temporary table with explicitly defined column lengths
+			CREATE TABLE #InstallationHead 
+			(
+				LegacyId NVARCHAR(100),
+				Description NVARCHAR(100),
+				Commission DECIMAL(18,2),
+				InstallationType INT,
+				LegacyInstallationId NVARCHAR(100),
+				KickOffDate DATETIME,
+				ExactPlace NVARCHAR(100),
+				NextUvvDate DATETIME,
+				GarantieVerlaengerungsTyp INT,
+				OperatingHours DECIMAL(18,2),
+				CustomInstallationType NVARCHAR(100),
+				WarrantyUntilOperatingHours DECIMAL(18,2),
+				WarrantyExtensionEndOperatingHours DECIMAL(18,2),
+				WarrantyExtensionEndDate DATETIME,
+				TravelLumpSum DECIMAL(18,2),
+				StationKey NVARCHAR(100),
+				ManufacturingDate DATETIME,
+				CustomerId UNIQUEIDENTIFIER,
+				AddressKey UNIQUEIDENTIFIER,
+				LegacyVersion BIGINT
+			)
+			
 			IF OBJECT_ID('tempdb..#RemoteInstallation') IS NOT NULL DROP TABLE #RemoteInstallation
 			
 			IF OBJECT_ID('tempdb..#InstallationChange') IS NOT NULL DROP TABLE #InstallationChange
@@ -41,97 +68,77 @@ BEGIN
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_CompanyNo ON #RemoteInstallation ([CompanyNo] ASC)
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_AddressNo ON #RemoteInstallation ([AddressNo] ASC)
 
+			-- Insert data into the pre-defined temporary table
+			INSERT INTO #InstallationHead (
+				LegacyId,
+				Description,
+				Commission,
+				InstallationType,
+				LegacyInstallationId,
+				KickOffDate,
+				ExactPlace,
+				NextUvvDate,
+				GarantieVerlaengerungsTyp,
+				OperatingHours,
+				CustomInstallationType,
+				WarrantyUntilOperatingHours,
+				WarrantyExtensionEndOperatingHours,
+				WarrantyExtensionEndDate,
+				TravelLumpSum,
+				StationKey,
+				ManufacturingDate,
+				CustomerId,
+				AddressKey,
+				LegacyVersion
+			)
 			SELECT DISTINCT
-				-- Truncate LegacyId to 200 characters to stay well below index key limits (400 bytes)
-				CASE 
-					WHEN LEN(v.[LegacyId]) > 200 THEN LEFT(v.[LegacyId], 200)
-					ELSE v.[LegacyId]
-				END as LegacyId,
-				CASE
-					WHEN v.[DESCRIPTION] is null THEN ''
-					ELSE CASE 
-						WHEN LEN(v.[DESCRIPTION]) > 200 THEN LEFT(v.[DESCRIPTION], 200)
-						ELSE v.[DESCRIPTION]
-					END
-				END AS [Description],
+				-- Truncate to match the defined column length
+				LEFT(ISNULL(v.[LegacyId], ''), 100) as LegacyId,
+				LEFT(ISNULL(v.[DESCRIPTION], ''), 100) AS [Description],
 				v.[Commission],
 				v.[InstallationType],
-				CASE 
-					WHEN LEN(v.[LegacyInstallationId]) > 100 THEN LEFT(v.[LegacyInstallationId], 100)
-					ELSE v.[LegacyInstallationId]
-				END AS [LegacyInstallationId],
+				LEFT(ISNULL(v.[LegacyInstallationId], ''), 100) AS [LegacyInstallationId],
 				v.[KickOffDate],
-				CASE 
-					WHEN LEN(v.[ExactPlace]) > 200 THEN LEFT(v.[ExactPlace], 200)
-					ELSE v.[ExactPlace]
-				END AS [ExactPlace],
+				LEFT(ISNULL(v.[ExactPlace], ''), 100) AS [ExactPlace],
 				v.[NextUvvDate],
 				v.[GarantieVerlaengerungsTyp],
 				v.[OperatingHours],
-				CASE 
-					WHEN LEN(v.[CustomInstallationType]) > 100 THEN LEFT(v.[CustomInstallationType], 100)
-					ELSE v.[CustomInstallationType]
-				END AS [CustomInstallationType],
+				LEFT(ISNULL(v.[CustomInstallationType], ''), 100) AS [CustomInstallationType],
 				v.[WarrantyUntilOperatingHours],
 				v.[WarrantyExtensionEndOperatingHours],
 				v.[WarrantyExtensionEndDate],
 				v.[TravelLumpSum],
-				CASE 
-					WHEN LEN(v.[StationKey]) > 100 THEN LEFT(v.[StationKey], 100)
-					ELSE v.[StationKey]
-				END AS [StationKey],
+				LEFT(ISNULL(v.[StationKey], ''), 100) AS [StationKey],
 				v.[ManufacturingDate],
 				c.ContactId AS CustomerId,
 				a.AddressId AS AddressKey,
-			BINARY_CHECKSUM (
-				CASE 
-					WHEN LEN(v.[LegacyId]) > 200 THEN LEFT(v.[LegacyId], 200)
-					ELSE v.[LegacyId]
-				END,
-				CASE
-					WHEN v.[DESCRIPTION] is null THEN ''
-					ELSE CASE 
-						WHEN LEN(v.[DESCRIPTION]) > 200 THEN LEFT(v.[DESCRIPTION], 200)
-						ELSE v.[DESCRIPTION]
-					END
-				END,
-				v.[Commission],
-				v.[InstallationType],
-				CASE 
-					WHEN LEN(v.[LegacyInstallationId]) > 100 THEN LEFT(v.[LegacyInstallationId], 100)
-					ELSE v.[LegacyInstallationId]
-				END,
-				v.[KickOffDate],
-				CASE 
-					WHEN LEN(v.[ExactPlace]) > 200 THEN LEFT(v.[ExactPlace], 200)
-					ELSE v.[ExactPlace]
-				END,
-				v.[OperatingHours],
-				CASE 
-					WHEN LEN(v.[CustomInstallationType]) > 100 THEN LEFT(v.[CustomInstallationType], 100)
-					ELSE v.[CustomInstallationType]
-				END,
-				v.[WarrantyUntilOperatingHours],
-				v.[WarrantyExtensionEndOperatingHours],
-				v.[WarrantyExtensionEndDate],
-				v.[TravelLumpSum],
-				v.[GarantieVerlaengerungsTyp],
-				CASE 
-					WHEN LEN(v.[StationKey]) > 100 THEN LEFT(v.[StationKey], 100)
-					ELSE v.[StationKey]
-				END,
-				v.[ManufacturingDate],
-				c.ContactId,
-				a.AddressId
-			) AS LegacyVersion
-			INTO #InstallationHead
-			from #RemoteInstallation AS v
+				BINARY_CHECKSUM (
+					LEFT(ISNULL(v.[LegacyId], ''), 100),
+					LEFT(ISNULL(v.[DESCRIPTION], ''), 100),
+					v.[Commission],
+					v.[InstallationType],
+					LEFT(ISNULL(v.[LegacyInstallationId], ''), 100),
+					v.[KickOffDate],
+					LEFT(ISNULL(v.[ExactPlace], ''), 100),
+					v.[OperatingHours],
+					LEFT(ISNULL(v.[CustomInstallationType], ''), 100),
+					v.[WarrantyUntilOperatingHours],
+					v.[WarrantyExtensionEndOperatingHours],
+					v.[WarrantyExtensionEndDate],
+					v.[TravelLumpSum],
+					v.[GarantieVerlaengerungsTyp],
+					LEFT(ISNULL(v.[StationKey], ''), 100),
+					v.[ManufacturingDate],
+					c.ContactId,
+					a.AddressId
+				) AS LegacyVersion
+			FROM #RemoteInstallation AS v
 			JOIN [CRM].[Contact] c
 				ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
-			-- Create index on the truncated LegacyId column (200 chars = 400 bytes, well below 900 byte limit)
+			-- Create index on the explicitly sized LegacyId column
 			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
@@ -387,3 +394,4 @@ BEGIN
 	END CATCH;
 END
 GO
+
