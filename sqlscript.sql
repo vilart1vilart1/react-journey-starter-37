@@ -42,7 +42,11 @@ BEGIN
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_AddressNo ON #RemoteInstallation ([AddressNo] ASC)
 
 			SELECT DISTINCT
-				v.[LegacyId] as LegacyId,
+				-- Truncate LegacyId to prevent index key size issues
+				CASE 
+					WHEN LEN(v.[LegacyId]) > 450 THEN LEFT(v.[LegacyId], 450)
+					ELSE v.[LegacyId]
+				END as LegacyId,
 				CASE
 					WHEN v.[DESCRIPTION] is null THEN ''
 					ELSE v.[DESCRIPTION]
@@ -65,7 +69,10 @@ BEGIN
 				c.ContactId AS CustomerId,
 				a.AddressId AS AddressKey,
 			BINARY_CHECKSUM (
-				v.[LegacyId],
+				CASE 
+					WHEN LEN(v.[LegacyId]) > 450 THEN LEFT(v.[LegacyId], 450)
+					ELSE v.[LegacyId]
+				END,
 				v.[DESCRIPTION],
 				v.[Commission],
 				v.[InstallationType],
@@ -91,9 +98,8 @@ BEGIN
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
-			-- Modified index creation to handle large LegacyId values
-			-- Limit the index key to first 450 characters to avoid 8000 byte limit
-			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead (LEFT([LegacyId], 450) ASC)
+			-- Create index on the truncated LegacyId column
+			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
 			SELECT @logmessage = CONVERT(nvarchar, @count) + ' Records transferred to input table'
