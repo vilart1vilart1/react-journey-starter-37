@@ -1,3 +1,4 @@
+
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
@@ -41,20 +42,41 @@ BEGIN
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_AddressNo ON #RemoteInstallation ([AddressNo] ASC)
 
 			SELECT DISTINCT
-				v.[LegacyId] as LegacyId,
+				LEFT(v.[LegacyId], 30) as LegacyId, -- Truncate to match InstallationNo max length
 				CASE
 					WHEN v.[DESCRIPTION] is null THEN ''
+					WHEN LEN(v.[DESCRIPTION]) > 150 THEN LEFT(v.[DESCRIPTION], 150)
 					ELSE v.[DESCRIPTION]
 				END AS [Description],
 				v.[Commission],
-				v.[InstallationType],
-				v.[LegacyInstallationId],
+				CASE 
+					WHEN v.[InstallationType] IS NULL THEN NULL
+					WHEN LEN(v.[InstallationType]) > 20 THEN LEFT(v.[InstallationType], 20)
+					ELSE v.[InstallationType]
+				END AS [InstallationType],
+				CASE 
+					WHEN v.[LegacyInstallationId] IS NULL THEN NULL
+					WHEN LEN(v.[LegacyInstallationId]) > 50 THEN LEFT(v.[LegacyInstallationId], 50)
+					ELSE v.[LegacyInstallationId]
+				END AS [LegacyInstallationId],
 				v.[KickOffDate],
-				v.[ExactPlace],
+				CASE 
+					WHEN v.[ExactPlace] IS NULL THEN NULL
+					WHEN LEN(v.[ExactPlace]) > 4000 THEN LEFT(v.[ExactPlace], 4000)
+					ELSE v.[ExactPlace]
+				END AS [ExactPlace],
 				v.[NextUvvDate],
-				v.[GarantieVerlaengerungsTyp],
+				CASE 
+					WHEN v.[GarantieVerlaengerungsTyp] IS NULL THEN NULL
+					WHEN LEN(v.[GarantieVerlaengerungsTyp]) > 255 THEN LEFT(v.[GarantieVerlaengerungsTyp], 255)
+					ELSE v.[GarantieVerlaengerungsTyp]
+				END AS [GarantieVerlaengerungsTyp],
 				v.[OperatingHours],
-				v.[CustomInstallationType],
+				CASE 
+					WHEN v.[CustomInstallationType] IS NULL THEN NULL
+					WHEN LEN(v.[CustomInstallationType]) > 255 THEN LEFT(v.[CustomInstallationType], 255)
+					ELSE v.[CustomInstallationType]
+				END AS [CustomInstallationType],
 				v.[WarrantyUntilOperatingHours],
 				v.[WarrantyExtensionEndOperatingHours],
 				v.[WarrantyExtensionEndDate],
@@ -64,20 +86,44 @@ BEGIN
 				c.ContactId AS CustomerId,
 				a.AddressId AS AddressKey,
 			BINARY_CHECKSUM (
-				v.[LegacyId],
-				v.[DESCRIPTION],
+				LEFT(v.[LegacyId], 30),
+				CASE
+					WHEN v.[DESCRIPTION] is null THEN ''
+					WHEN LEN(v.[DESCRIPTION]) > 150 THEN LEFT(v.[DESCRIPTION], 150)
+					ELSE v.[DESCRIPTION]
+				END,
 				v.[Commission],
-				v.[InstallationType],
-				v.[LegacyInstallationId],
+				CASE 
+					WHEN v.[InstallationType] IS NULL THEN NULL
+					WHEN LEN(v.[InstallationType]) > 20 THEN LEFT(v.[InstallationType], 20)
+					ELSE v.[InstallationType]
+				END,
+				CASE 
+					WHEN v.[LegacyInstallationId] IS NULL THEN NULL
+					WHEN LEN(v.[LegacyInstallationId]) > 50 THEN LEFT(v.[LegacyInstallationId], 50)
+					ELSE v.[LegacyInstallationId]
+				END,
 				v.[KickOffDate],
-				v.[ExactPlace],
+				CASE 
+					WHEN v.[ExactPlace] IS NULL THEN NULL
+					WHEN LEN(v.[ExactPlace]) > 4000 THEN LEFT(v.[ExactPlace], 4000)
+					ELSE v.[ExactPlace]
+				END,
 				v.[OperatingHours],
-				v.[CustomInstallationType],
+				CASE 
+					WHEN v.[CustomInstallationType] IS NULL THEN NULL
+					WHEN LEN(v.[CustomInstallationType]) > 255 THEN LEFT(v.[CustomInstallationType], 255)
+					ELSE v.[CustomInstallationType]
+				END,
 				v.[WarrantyUntilOperatingHours],
 				v.[WarrantyExtensionEndOperatingHours],
 				v.[WarrantyExtensionEndDate],
 				v.[TravelLumpSum],
-				v.[GarantieVerlaengerungsTyp],
+				CASE 
+					WHEN v.[GarantieVerlaengerungsTyp] IS NULL THEN NULL
+					WHEN LEN(v.[GarantieVerlaengerungsTyp]) > 255 THEN LEFT(v.[GarantieVerlaengerungsTyp], 255)
+					ELSE v.[GarantieVerlaengerungsTyp]
+				END,
 				v.[StationKey],
 				v.[ManufacturingDate],
 				c.ContactId,
@@ -90,6 +136,7 @@ BEGIN
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
+			-- Create index with limited key length (30 characters max)
 			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
@@ -115,7 +162,10 @@ BEGIN
 						[target].[LegacyVersion] = source.[LegacyVersion],
 						[target].[ModifyDate] = getutcdate(),
 						[target].[ModifyUser] = 'Import',
-						[target].[Name] = source.[DESCRIPTION],
+						[target].[Name] = CASE 
+							WHEN LEN(source.[DESCRIPTION]) > 450 THEN LEFT(source.[DESCRIPTION], 450)
+							ELSE source.[DESCRIPTION]
+						END,
 						[target].[IsActive] = 1
 				-- If not found we try to insert with the appropriate data
 				WHEN NOT MATCHED 
@@ -138,7 +188,10 @@ BEGIN
 						source.[LegacyId],
 						source.[LegacyVersion],
 						0,
-						source.[DESCRIPTION],
+						CASE 
+							WHEN LEN(source.[DESCRIPTION]) > 450 THEN LEFT(source.[DESCRIPTION], 450)
+							ELSE source.[DESCRIPTION]
+						END,
 						1,
 						2,
 						getutcdate(),
@@ -211,7 +264,6 @@ BEGIN
 				WHEN MATCHED
 					THEN
 					UPDATE SET
-						
 						[Description] = source.[Description],
 						[ExactPlace] = source.[ExactPlace],
 						[OperatingHours] = source.[OperatingHours],
@@ -223,7 +275,11 @@ BEGIN
 						[WarrantyExtensionType] = source.[GarantieVerlaengerungsTyp],
 						[WarrantyExtensionEndDate]  = source.[WarrantyExtensionEndDate],
 						[StationKey] = source.[StationKey],
-						[ManufactureYear] = source.[ManufacturingDate],
+						[ManufactureYear] = CASE 
+							WHEN source.[ManufacturingDate] IS NULL THEN NULL
+							WHEN LEN(CAST(YEAR(source.[ManufacturingDate]) AS NVARCHAR)) > 255 THEN LEFT(CAST(YEAR(source.[ManufacturingDate]) AS NVARCHAR), 255)
+							ELSE CAST(YEAR(source.[ManufacturingDate]) AS NVARCHAR)
+						END,
 						[LocationAddressKey] = source.AddressKey,
 						[LocationContactId] = source.CustomerId,
 						[KickOffDate]  = source.[KickOffDate],
@@ -251,8 +307,10 @@ BEGIN
 						[NextUvvDate],
 						[WarrantyExtensionType],
 						[WarrantyExtensionEndDate],
-						[WarrantyExtensionEndOperatingHours]
-					
+						[WarrantyExtensionEndOperatingHours],
+						[TravelLumpSum],
+						[StationKey],
+						[WarrantyUntilOperatingHours]
 					)
 					VALUES
 					(
@@ -260,25 +318,29 @@ BEGIN
 						source.[ContactId],
 						source.[InstallationType],
 						source.[LegacyInstallationId],
-						CASE WHEN source.[KickOffDate] <> '' 
-						THEN  CONVERT(DATETIME, source.[ManufacturingDate])
-						ELSE source.[KickOffDate] END,
+						source.[KickOffDate],
 						source.[Description],
 						0,
-						0,
+						'0', -- Status as string, not int
 						0,
 						source.[OperatingHours],
 						source.[CustomInstallationType],
 						source.AddressKey,
 						0,
 						source.[CustomerId],
-						source.[ManufacturingDate],
+						CASE 
+							WHEN source.[ManufacturingDate] IS NULL THEN NULL
+							WHEN LEN(CAST(YEAR(source.[ManufacturingDate]) AS NVARCHAR)) > 255 THEN LEFT(CAST(YEAR(source.[ManufacturingDate]) AS NVARCHAR), 255)
+							ELSE CAST(YEAR(source.[ManufacturingDate]) AS NVARCHAR)
+						END,
 						source.[ExactPlace],
 						source.[NextUvvDate],
 						source.[GarantieVerlaengerungsTyp],
 						source.[WarrantyExtensionEndDate],
-						source.[WarrantyExtensionEndOperatingHours]
-						
+						source.[WarrantyExtensionEndOperatingHours],
+						source.[TravelLumpSum],
+						source.[StationKey],
+						source.[WarrantyUntilOperatingHours]
 					)
 				OUTPUT $action
 				INTO #InstallationChange;
@@ -345,4 +407,3 @@ BEGIN
 	END CATCH;
 END
 GO
-
