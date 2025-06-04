@@ -1,5 +1,4 @@
 
-
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
@@ -34,7 +33,7 @@ BEGIN
 				LegacyId NVARCHAR(100),
 				Description NVARCHAR(100),
 				Commission DECIMAL(18,2),
-				InstallationType INT,
+				InstallationType NVARCHAR(100), -- Changed from INT to NVARCHAR
 				LegacyInstallationId NVARCHAR(100),
 				KickOffDate DATETIME,
 				ExactPlace NVARCHAR(100),
@@ -96,7 +95,7 @@ BEGIN
 				LEFT(ISNULL(v.[LegacyId], ''), 100) as LegacyId,
 				LEFT(ISNULL(v.[DESCRIPTION], ''), 100) AS [Description],
 				v.[Commission],
-				v.[InstallationType],
+				LEFT(ISNULL(CAST(v.[InstallationType] AS NVARCHAR(100)), ''), 100) AS [InstallationType], -- Convert to string and truncate
 				LEFT(ISNULL(v.[LegacyInstallationId], ''), 100) AS [LegacyInstallationId],
 				v.[KickOffDate],
 				LEFT(ISNULL(v.[ExactPlace], ''), 100) AS [ExactPlace],
@@ -115,22 +114,22 @@ BEGIN
 				BINARY_CHECKSUM (
 					LEFT(ISNULL(v.[LegacyId], ''), 100),
 					LEFT(ISNULL(v.[DESCRIPTION], ''), 100),
-					v.[Commission],
-					v.[InstallationType],
+					ISNULL(v.[Commission], 0),
+					LEFT(ISNULL(CAST(v.[InstallationType] AS NVARCHAR(100)), ''), 100), -- Convert to string in checksum too
 					LEFT(ISNULL(v.[LegacyInstallationId], ''), 100),
-					v.[KickOffDate],
+					ISNULL(v.[KickOffDate], '1900-01-01'),
 					LEFT(ISNULL(v.[ExactPlace], ''), 100),
-					v.[OperatingHours],
+					ISNULL(v.[OperatingHours], 0),
 					LEFT(ISNULL(v.[CustomInstallationType], ''), 100),
-					v.[WarrantyUntilOperatingHours],
-					v.[WarrantyExtensionEndOperatingHours],
-					v.[WarrantyExtensionEndDate],
-					v.[TravelLumpSum],
-					v.[GarantieVerlaengerungsTyp],
+					ISNULL(v.[WarrantyUntilOperatingHours], 0),
+					ISNULL(v.[WarrantyExtensionEndOperatingHours], 0),
+					ISNULL(v.[WarrantyExtensionEndDate], '1900-01-01'),
+					ISNULL(v.[TravelLumpSum], 0),
+					ISNULL(v.[GarantieVerlaengerungsTyp], 0),
 					LEFT(ISNULL(v.[StationKey], ''), 100),
-					v.[ManufacturingDate],
-					c.ContactId,
-					a.AddressId
+					ISNULL(v.[ManufacturingDate], '1900-01-01'),
+					ISNULL(c.ContactId, '00000000-0000-0000-0000-000000000000'),
+					ISNULL(a.AddressId, '00000000-0000-0000-0000-000000000000')
 				) AS LegacyVersion
 			FROM #RemoteInstallation AS v
 			JOIN [CRM].[Contact] c
@@ -307,11 +306,16 @@ BEGIN
 					(
 						source.[LegacyId],
 						source.[ContactId],
-						source.[InstallationType],
+						-- Convert InstallationType to INT if the target table expects INT
+						CASE 
+							WHEN ISNUMERIC(source.[InstallationType]) = 1 
+							THEN CAST(source.[InstallationType] AS INT)
+							ELSE 0 -- Default value for non-numeric installation types
+						END,
 						source.[LegacyInstallationId],
-						CASE WHEN source.[KickOffDate] <> '' 
-						THEN  CONVERT(DATETIME, source.[ManufacturingDate])
-						ELSE source.[KickOffDate] END,
+						CASE WHEN source.[KickOffDate] IS NOT NULL 
+						THEN  source.[KickOffDate]
+						ELSE source.[ManufacturingDate] END,
 						source.[Description],
 						0,
 						0,
@@ -394,4 +398,3 @@ BEGIN
 	END CATCH;
 END
 GO
-
