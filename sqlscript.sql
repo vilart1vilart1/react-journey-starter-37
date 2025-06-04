@@ -41,8 +41,33 @@ BEGIN
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_CompanyNo ON #RemoteInstallation ([CompanyNo] ASC)
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_AddressNo ON #RemoteInstallation ([AddressNo] ASC)
 
+			-- Create temporary table with explicit column definitions
+			CREATE TABLE #InstallationHead (
+				LegacyId NVARCHAR(100),  -- Changed from 30 to 100
+				[Description] NVARCHAR(150),
+				Commission FLOAT,
+				InstallationType NVARCHAR(20),
+				LegacyInstallationId NVARCHAR(50),
+				KickOffDate DATETIME,
+				ExactPlace NVARCHAR(4000),
+				NextUvvDate DATETIME,
+				GarantieVerlaengerungsTyp NVARCHAR(255),
+				OperatingHours FLOAT,
+				CustomInstallationType NVARCHAR(255),
+				WarrantyUntilOperatingHours FLOAT,
+				WarrantyExtensionEndOperatingHours FLOAT,
+				WarrantyExtensionEndDate DATETIME,
+				TravelLumpSum FLOAT,
+				StationKey NVARCHAR(255),
+				ManufacturingDate DATETIME,
+				CustomerId UNIQUEIDENTIFIER,
+				AddressKey UNIQUEIDENTIFIER,
+				LegacyVersion INT
+			)
+
+			INSERT INTO #InstallationHead
 			SELECT DISTINCT
-				LEFT(v.[LegacyId], 30) as LegacyId, -- Truncate to match InstallationNo max length
+				LEFT(v.[LegacyId], 100) as LegacyId, -- Changed from 30 to 100
 				CASE
 					WHEN v.[DESCRIPTION] is null THEN ''
 					WHEN LEN(v.[DESCRIPTION]) > 150 THEN LEFT(v.[DESCRIPTION], 150)
@@ -86,7 +111,7 @@ BEGIN
 				c.ContactId AS CustomerId,
 				a.AddressId AS AddressKey,
 			BINARY_CHECKSUM (
-				LEFT(v.[LegacyId], 30),
+				LEFT(v.[LegacyId], 100), -- Changed from 30 to 100
 				CASE
 					WHEN v.[DESCRIPTION] is null THEN ''
 					WHEN LEN(v.[DESCRIPTION]) > 150 THEN LEFT(v.[DESCRIPTION], 150)
@@ -129,20 +154,21 @@ BEGIN
 				c.ContactId,
 				a.AddressId
 			) AS LegacyVersion
-			INTO #InstallationHead
 			from #RemoteInstallation AS v
 			JOIN [CRM].[Contact] c
 				ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
-			-- Create index with limited key length (30 characters max)
+			-- Create index with proper key length
 			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
 			SELECT @logmessage = CONVERT(nvarchar, @count) + ' Records transferred to input table'
 			PRINT @logmessage
 		END
+		
+		-- ... keep existing code (transaction and merge operations)
 		
 		BEGIN TRANSACTION
 		BEGIN TRY
