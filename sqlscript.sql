@@ -1,4 +1,3 @@
-
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
 	-- interfering with SELECT statements.
@@ -26,32 +25,6 @@ BEGIN
 			LegacyVersion BIGINT)
 			
 			IF OBJECT_ID('tempdb..#InstallationHead') IS NOT NULL DROP TABLE #InstallationHead
-			
-			-- Create the temporary table with explicitly defined column lengths
-			CREATE TABLE #InstallationHead 
-			(
-				LegacyId NVARCHAR(100),
-				Description NVARCHAR(100),
-				Commission DECIMAL(18,2),
-				InstallationType NVARCHAR(100), -- Changed from INT to NVARCHAR
-				LegacyInstallationId NVARCHAR(100),
-				KickOffDate DATETIME,
-				ExactPlace NVARCHAR(100),
-				NextUvvDate DATETIME,
-				GarantieVerlaengerungsTyp INT,
-				OperatingHours DECIMAL(18,2),
-				CustomInstallationType NVARCHAR(100),
-				WarrantyUntilOperatingHours DECIMAL(18,2),
-				WarrantyExtensionEndOperatingHours DECIMAL(18,2),
-				WarrantyExtensionEndDate DATETIME,
-				TravelLumpSum DECIMAL(18,2),
-				StationKey NVARCHAR(100),
-				ManufacturingDate DATETIME,
-				CustomerId UNIQUEIDENTIFIER,
-				AddressKey UNIQUEIDENTIFIER,
-				LegacyVersion BIGINT
-			)
-			
 			IF OBJECT_ID('tempdb..#RemoteInstallation') IS NOT NULL DROP TABLE #RemoteInstallation
 			
 			IF OBJECT_ID('tempdb..#InstallationChange') IS NOT NULL DROP TABLE #InstallationChange
@@ -67,77 +40,56 @@ BEGIN
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_CompanyNo ON #RemoteInstallation ([CompanyNo] ASC)
 			CREATE NONCLUSTERED INDEX IX_#RemoteInstallation_AddressNo ON #RemoteInstallation ([AddressNo] ASC)
 
-			-- Insert data into the pre-defined temporary table
-			INSERT INTO #InstallationHead (
-				LegacyId,
-				Description,
-				Commission,
-				InstallationType,
-				LegacyInstallationId,
-				KickOffDate,
-				ExactPlace,
-				NextUvvDate,
-				GarantieVerlaengerungsTyp,
-				OperatingHours,
-				CustomInstallationType,
-				WarrantyUntilOperatingHours,
-				WarrantyExtensionEndOperatingHours,
-				WarrantyExtensionEndDate,
-				TravelLumpSum,
-				StationKey,
-				ManufacturingDate,
-				CustomerId,
-				AddressKey,
-				LegacyVersion
-			)
 			SELECT DISTINCT
-				-- Truncate to match the defined column length
-				LEFT(ISNULL(v.[LegacyId], ''), 100) as LegacyId,
-				LEFT(ISNULL(v.[DESCRIPTION], ''), 100) AS [Description],
+				v.[LegacyId] as LegacyId,
+				CASE
+					WHEN v.[DESCRIPTION] is null THEN ''
+					ELSE v.[DESCRIPTION]
+				END AS [Description],
 				v.[Commission],
-				LEFT(ISNULL(CAST(v.[InstallationType] AS NVARCHAR(100)), ''), 100) AS [InstallationType], -- Convert to string and truncate
-				LEFT(ISNULL(v.[LegacyInstallationId], ''), 100) AS [LegacyInstallationId],
+				v.[InstallationType],
+				v.[LegacyInstallationId],
 				v.[KickOffDate],
-				LEFT(ISNULL(v.[ExactPlace], ''), 100) AS [ExactPlace],
+				v.[ExactPlace],
 				v.[NextUvvDate],
 				v.[GarantieVerlaengerungsTyp],
 				v.[OperatingHours],
-				LEFT(ISNULL(v.[CustomInstallationType], ''), 100) AS [CustomInstallationType],
+				v.[CustomInstallationType],
 				v.[WarrantyUntilOperatingHours],
 				v.[WarrantyExtensionEndOperatingHours],
 				v.[WarrantyExtensionEndDate],
 				v.[TravelLumpSum],
-				LEFT(ISNULL(v.[StationKey], ''), 100) AS [StationKey],
+				v.[StationKey],
 				v.[ManufacturingDate],
 				c.ContactId AS CustomerId,
 				a.AddressId AS AddressKey,
-				BINARY_CHECKSUM (
-					LEFT(ISNULL(v.[LegacyId], ''), 100),
-					LEFT(ISNULL(v.[DESCRIPTION], ''), 100),
-					ISNULL(v.[Commission], 0),
-					LEFT(ISNULL(CAST(v.[InstallationType] AS NVARCHAR(100)), ''), 100), -- Convert to string in checksum too
-					LEFT(ISNULL(v.[LegacyInstallationId], ''), 100),
-					ISNULL(v.[KickOffDate], '1900-01-01'),
-					LEFT(ISNULL(v.[ExactPlace], ''), 100),
-					ISNULL(v.[OperatingHours], 0),
-					LEFT(ISNULL(v.[CustomInstallationType], ''), 100),
-					ISNULL(v.[WarrantyUntilOperatingHours], 0),
-					ISNULL(v.[WarrantyExtensionEndOperatingHours], 0),
-					ISNULL(v.[WarrantyExtensionEndDate], '1900-01-01'),
-					ISNULL(v.[TravelLumpSum], 0),
-					ISNULL(v.[GarantieVerlaengerungsTyp], 0),
-					LEFT(ISNULL(v.[StationKey], ''), 100),
-					ISNULL(v.[ManufacturingDate], '1900-01-01'),
-					ISNULL(c.ContactId, '00000000-0000-0000-0000-000000000000'),
-					ISNULL(a.AddressId, '00000000-0000-0000-0000-000000000000')
-				) AS LegacyVersion
-			FROM #RemoteInstallation AS v
+			BINARY_CHECKSUM (
+				v.[LegacyId],
+				v.[DESCRIPTION],
+				v.[Commission],
+				v.[InstallationType],
+				v.[LegacyInstallationId],
+				v.[KickOffDate],
+				v.[ExactPlace],
+				v.[OperatingHours],
+				v.[CustomInstallationType],
+				v.[WarrantyUntilOperatingHours],
+				v.[WarrantyExtensionEndOperatingHours],
+				v.[WarrantyExtensionEndDate],
+				v.[TravelLumpSum],
+				v.[GarantieVerlaengerungsTyp],
+				v.[StationKey],
+				v.[ManufacturingDate],
+				c.ContactId,
+				a.AddressId
+			) AS LegacyVersion
+			INTO #InstallationHead
+			from #RemoteInstallation AS v
 			JOIN [CRM].[Contact] c
 				ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
 			LEFT OUTER JOIN [CRM].[Address] a
 				ON v.[AddressNo] = a.LegacyId
 				
-			-- Create index on the explicitly sized LegacyId column
 			CREATE NONCLUSTERED INDEX IX_#InstallationHead_LegacyId ON #InstallationHead ([LegacyId] ASC)
 
 			SELECT @count = COUNT(*) FROM #InstallationHead
@@ -306,16 +258,11 @@ BEGIN
 					(
 						source.[LegacyId],
 						source.[ContactId],
-						-- Convert InstallationType to INT if the target table expects INT
-						CASE 
-							WHEN ISNUMERIC(source.[InstallationType]) = 1 
-							THEN CAST(source.[InstallationType] AS INT)
-							ELSE 0 -- Default value for non-numeric installation types
-						END,
+						source.[InstallationType],
 						source.[LegacyInstallationId],
-						CASE WHEN source.[KickOffDate] IS NOT NULL 
-						THEN  source.[KickOffDate]
-						ELSE source.[ManufacturingDate] END,
+						CASE WHEN source.[KickOffDate] <> '' 
+						THEN  CONVERT(DATETIME, source.[ManufacturingDate])
+						ELSE source.[KickOffDate] END,
 						source.[Description],
 						0,
 						0,
@@ -398,3 +345,4 @@ BEGIN
 	END CATCH;
 END
 GO
+
