@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -9,6 +9,11 @@ import Footer from '@/components/Footer';
 const ChildCount = () => {
   const [selectedCount, setSelectedCount] = useState<number | null>(null);
   const navigate = useNavigate();
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const childOptions = [
     { count: 1, emoji: '👧', title: '1 enfant', subtitle: 'Une histoire unique' },
@@ -35,8 +40,16 @@ const ChildCount = () => {
 
   const handleNext = () => {
     if (selectedCount) {
+      // Scroll to top before navigation
+      window.scrollTo(0, 0);
       navigate('/personalize', { state: { childCount: selectedCount } });
     }
+  };
+
+  const handleBack = () => {
+    // Scroll to top before navigation
+    window.scrollTo(0, 0);
+    navigate('/');
   };
 
   return (
@@ -96,7 +109,7 @@ const ChildCount = () => {
           {/* Navigation */}
           <div id="navigation-section" className="flex justify-between items-center max-w-4xl mx-auto">
             <Button
-              onClick={() => navigate('/')}
+              onClick={handleBack}
               variant="outline"
               className="flex items-center gap-2 px-6 py-3 rounded-full border-2 border-slate-300 hover:border-orange-300 transition-colors"
             >

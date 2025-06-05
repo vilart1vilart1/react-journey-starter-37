@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,6 +21,11 @@ const Index = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [showFaqModal, setShowFaqModal] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handlePersonalizeClick = () => {
     window.scrollTo(0, 0);
