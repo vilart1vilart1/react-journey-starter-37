@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -62,75 +63,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-50 relative">
-      {/* Static decorative elements - no animations and positioned to not overlap footer */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ bottom: '400px' }}>
-        {/* Books floating around */}
-        <div className="absolute top-20 left-10 text-6xl">
-          📚
-        </div>
-        <div className="absolute top-32 right-16 text-5xl">
-          📖
-        </div>
-        <div className="absolute bottom-32 left-20 text-4xl">
-          📕
-        </div>
-        <div className="absolute top-64 left-1/4 text-5xl">
-          📘
-        </div>
-        
-        {/* Family and children elements */}
-        <div className="absolute bottom-48 right-24 text-6xl">
-          👨‍👩‍👧‍👦
-        </div>
-        <div className="absolute top-40 right-1/3 text-5xl">
-          👶
-        </div>
-        <div className="absolute bottom-64 left-1/3 text-6xl">
-          👧
-        </div>
-        <div className="absolute top-80 right-8 text-5xl">
-          👦
-        </div>
-        
-        {/* Magical and interface elements */}
-        <div className="absolute top-16 right-32 text-4xl">
-          🎨
-        </div>
-        <div className="absolute bottom-20 left-8 text-3xl">
-          💡
-        </div>
-        <div className="absolute top-48 left-16 text-4xl">
-          🖱️
-        </div>
-        <div className="absolute bottom-40 right-16 text-3xl">
-          📱
-        </div>
-        
-        {/* Stars and sparkles for magic */}
-        <div className="absolute top-28 left-1/2 text-yellow-400">
-          <div className="text-3xl">⭐</div>
-        </div>
-        <div className="absolute bottom-56 left-40 text-yellow-400">
-          <div className="text-2xl">✨</div>
-        </div>
-        <div className="absolute top-72 right-20 text-yellow-400">
-          <div className="text-4xl">🌟</div>
-        </div>
-        <div className="absolute bottom-72 right-40 text-yellow-400">
-          <div className="text-2xl">💫</div>
-        </div>
-      </div>
-
-      {/* Static bubbles for extra magic */}
-      <div className="absolute inset-0 pointer-events-none" style={{ bottom: '400px' }}>
-        <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-pink-300/30 rounded-full"></div>
-        <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-purple-300/30 rounded-full"></div>
-        <div className="absolute bottom-1/4 left-1/3 w-3 h-3 bg-blue-300/30 rounded-full"></div>
-        <div className="absolute bottom-1/3 right-1/3 w-5 h-5 bg-yellow-300/30 rounded-full"></div>
-        <div className="absolute top-2/3 left-1/5 w-4 h-4 bg-green-300/30 rounded-full"></div>
-        <div className="absolute top-1/2 right-1/5 w-3 h-3 bg-orange-300/30 rounded-full"></div>
-      </div>
-
       <Header />
       
       {/* Enhanced Hero Section */}
