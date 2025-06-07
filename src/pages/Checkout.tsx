@@ -96,7 +96,35 @@ const Checkout = () => {
         <div className="max-w-7xl mx-auto grid lg:grid-cols-3 gap-4 md:gap-6">
           {/* Left Column - Order Details & Info Sections */}
           <div className="lg:col-span-2 space-y-3 md:space-y-6">
-            {/* Plan Selection */}
+            {/* Order Summary - MOVED TO TOP */}
+            <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-6 shadow-lg">
+              <h3 className="text-base md:text-xl font-bold text-slate-700 mb-3 md:mb-4">Résumé de votre commande</h3>
+              <div className="space-y-2 md:space-y-3">
+                {children.map((child: any, index: number) => (
+                  <div key={index} className="flex justify-between items-center py-1 md:py-2 border-b border-slate-100 last:border-b-0">
+                    <div className="flex items-center space-x-2 md:space-x-3">
+                      {child.photoUrl && (
+                        <img 
+                          src={child.photoUrl} 
+                          alt={child.name}
+                          className="w-6 h-6 md:w-8 md:h-8 rounded-full object-cover border-2 border-orange-200"
+                        />
+                      )}
+                      <span className="text-slate-600 text-xs md:text-base">Livre pour {child.name} ({child.age} ans)</span>
+                    </div>
+                    <span className="font-semibold">✨</span>
+                  </div>
+                ))}
+                <div className="pt-2 md:pt-3 border-t border-slate-200">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm md:text-lg font-semibold text-slate-700">Total</span>
+                    <span className="text-lg md:text-2xl font-bold text-orange-500">{plans[selectedPlan].price}€</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Plan Selection - MOVED TO SECOND */}
             <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-6 shadow-lg">
               <h3 className="text-base md:text-xl font-bold text-slate-700 mb-3 md:mb-4">Choisissez votre formule</h3>
               <div className="space-y-2 md:space-y-3">
@@ -130,7 +158,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            {/* INFO LIVRAISON */}
+            {/* INFO LIVRAISON - MOVED TO THIRD */}
             <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-6 shadow-lg">
               <div className="flex items-center mb-3 md:mb-4">
                 <Truck className="w-4 h-4 md:w-5 md:h-5 text-blue-500 mr-2" />
@@ -229,34 +257,6 @@ const Checkout = () => {
                   >
                     Voir tous les avis sur Trustpilot →
                   </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Order Summary */}
-            <div className="bg-white rounded-xl md:rounded-2xl p-3 md:p-6 shadow-lg">
-              <h3 className="text-base md:text-xl font-bold text-slate-700 mb-3 md:mb-4">Résumé de votre commande</h3>
-              <div className="space-y-2 md:space-y-3">
-                {children.map((child: any, index: number) => (
-                  <div key={index} className="flex justify-between items-center py-1 md:py-2 border-b border-slate-100 last:border-b-0">
-                    <div className="flex items-center space-x-2 md:space-x-3">
-                      {child.photoUrl && (
-                        <img 
-                          src={child.photoUrl} 
-                          alt={child.name}
-                          className="w-6 h-6 md:w-8 md:h-8 rounded-full object-cover border-2 border-orange-200"
-                        />
-                      )}
-                      <span className="text-slate-600 text-xs md:text-base">Livre pour {child.name} ({child.age} ans)</span>
-                    </div>
-                    <span className="font-semibold">✨</span>
-                  </div>
-                ))}
-                <div className="pt-2 md:pt-3 border-t border-slate-200">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm md:text-lg font-semibold text-slate-700">Total</span>
-                    <span className="text-lg md:text-2xl font-bold text-orange-500">{plans[selectedPlan].price}€</span>
-                  </div>
                 </div>
               </div>
             </div>
