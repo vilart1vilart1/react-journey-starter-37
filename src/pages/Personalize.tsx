@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ChildForm from '@/components/ChildForm';
@@ -13,6 +13,7 @@ interface Child {
   message: string;
   photo?: File;
   photoUrl?: string;
+  objective?: string;
 }
 
 const Personalize = () => {
@@ -24,7 +25,8 @@ const Personalize = () => {
     Array.from({ length: childCount }, () => ({
       name: '',
       age: '',
-      message: ''
+      message: '',
+      objective: ''
     }))
   );
 
@@ -42,8 +44,19 @@ const Personalize = () => {
     }
   };
 
-  const isCurrentChildValid = children[currentChildIndex]?.name && children[currentChildIndex]?.age;
-  const isFormValid = children.every(child => child.name && child.age);
+  // Enhanced validation - all fields required
+  const isCurrentChildValid = () => {
+    const child = children[currentChildIndex];
+    return child?.name && 
+           child?.age && 
+           child?.message && 
+           child?.objective && 
+           child?.photo;
+  };
+
+  const isFormValid = children.every(child => 
+    child.name && child.age && child.message && child.objective && child.photo
+  );
 
   const handleNext = () => {
     if (childCount === 1) {
@@ -54,7 +67,7 @@ const Personalize = () => {
     } else {
       // Multiple children - go to next child or checkout
       if (currentChildIndex < childCount - 1) {
-        if (isCurrentChildValid) {
+        if (isCurrentChildValid()) {
           setCurrentChildIndex(prev => prev + 1);
         }
       } else {
@@ -71,13 +84,6 @@ const Personalize = () => {
     } else {
       navigate('/children');
     }
-  };
-
-  const getProgressPercentage = () => {
-    if (childCount === 1) return 75;
-    const baseProgress = 50;
-    const stepProgress = 40 / childCount;
-    return baseProgress + ((currentChildIndex + 1) * stepProgress);
   };
 
   const getNextButtonText = () => {
@@ -106,12 +112,12 @@ const Personalize = () => {
 
         <div className="container mx-auto px-4 py-6 md:py-8 relative z-10">
           {/* Header */}
-          <div className="text-center mb-8 md:mb-12">
-            <h1 className="text-3xl md:text-5xl font-bold text-slate-800 mb-4 leading-tight">
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-800 mb-4 leading-tight">
               Créons ensemble une
               <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-pink-500"> histoire magique ✨</span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed px-4">
               {childCount === 1 
                 ? "Partagez-nous tout sur votre petit héros pour créer une aventure sur mesure"
                 : `Partagez-nous tout sur ${childCount > 1 ? 'vos petits héros' : 'votre petit héros'} pour créer une aventure sur mesure`
@@ -119,16 +125,29 @@ const Personalize = () => {
             </p>
           </div>
 
-          {/* Progress Bar */}
-          <div className="max-w-2xl mx-auto mb-8 md:mb-12">
-            <div className="bg-white/80 backdrop-blur-sm rounded-full p-1 shadow-lg border border-white/20">
-              <div className="bg-gradient-to-r from-orange-500 to-pink-500 h-3 rounded-full transition-all duration-700 shadow-sm" style={{ width: `${getProgressPercentage()}%` }}></div>
+          {/* Progress with Check Circles */}
+          <div className="flex justify-center mb-6 md:mb-8">
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+                <Check className="w-4 h-4 text-white" />
+              </div>
+              <div className="w-6 md:w-8 h-1 bg-green-500"></div>
+              <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-md">
+                <Check className="w-4 h-4 text-white" />
+              </div>
+              <div className="w-6 md:w-8 h-1 bg-orange-500"></div>
+              <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center shadow-md">
+                <span className="text-white text-sm font-bold">3</span>
+              </div>
+              <div className="w-6 md:w-8 h-1 bg-gray-300"></div>
+              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                <span className="text-gray-600 text-sm font-bold">4</span>
+              </div>
             </div>
-            <p className="text-center text-slate-600 mt-3 font-medium">{Math.round(getProgressPercentage())}% terminé</p>
           </div>
 
           {/* Child Form */}
-          <div className="mb-8 md:mb-12">
+          <div className="mb-6 md:mb-8">
             <ChildForm
               child={children[currentChildIndex]}
               childNumber={currentChildIndex + 1}
@@ -139,7 +158,7 @@ const Personalize = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex flex-col md:flex-row justify-between items-center max-w-2xl mx-auto gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center max-w-2xl mx-auto gap-4 px-4">
             <Button
               onClick={handlePrevious}
               variant="outline"
@@ -151,10 +170,10 @@ const Personalize = () => {
 
             <Button
               onClick={handleNext}
-              disabled={!isCurrentChildValid}
+              disabled={!isCurrentChildValid()}
               className={`
                 w-full md:w-auto flex items-center justify-center gap-2 px-8 py-3 md:py-4 rounded-full text-white font-semibold transition-all duration-300 text-base
-                ${isCurrentChildValid 
+                ${isCurrentChildValid() 
                   ? 'bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95' 
                   : 'bg-gray-300 cursor-not-allowed'
                 }
@@ -167,7 +186,7 @@ const Personalize = () => {
 
           {/* Multiple children indicator */}
           {childCount > 1 && (
-            <div className="text-center mt-6 max-w-2xl mx-auto">
+            <div className="text-center mt-6 max-w-2xl mx-auto px-4">
               <div className="flex justify-center space-x-2">
                 {Array.from({ length: childCount }, (_, index) => (
                   <div

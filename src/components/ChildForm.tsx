@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Upload, Heart } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Upload, Heart, User, Calendar, MessageSquare, Camera, Target } from 'lucide-react';
 
 interface Child {
   name: string;
@@ -10,6 +11,7 @@ interface Child {
   message: string;
   photo?: File;
   photoUrl?: string;
+  objective?: string;
 }
 
 interface ChildFormProps {
@@ -21,6 +23,14 @@ interface ChildFormProps {
 }
 
 const ChildForm = ({ child, childNumber, totalChildren, onUpdate, onPhotoUpload }: ChildFormProps) => {
+  const ageOptions = Array.from({ length: 15 }, (_, i) => i + 3); // Ages 3-17
+  
+  const objectiveOptions = [
+    { value: 'courage', label: 'Développer le courage' },
+    { value: 'confiance', label: 'Renforcer la confiance en soi' },
+    { value: 'creativite', label: 'Stimuler la créativité' }
+  ];
+
   const handlePhotoUpload = (file: File | null) => {
     if (file) {
       // Create a smaller version of the image
@@ -66,8 +76,8 @@ const ChildForm = ({ child, childNumber, totalChildren, onUpdate, onPhotoUpload 
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="group bg-white/90 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
+    <div className="max-w-2xl mx-auto px-4">
+      <div className="group bg-white/95 backdrop-blur-sm rounded-2xl md:rounded-3xl p-4 md:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-white/50">
         {/* Card Header with Photo */}
         <div className="flex items-center mb-6">
           <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4 shadow-lg overflow-hidden">
@@ -85,45 +95,72 @@ const ChildForm = ({ child, childNumber, totalChildren, onUpdate, onPhotoUpload 
             <h3 className="text-xl md:text-2xl font-bold text-slate-800">
               {child.name || `Enfant ${childNumber}`}
             </h3>
-            <p className="text-sm text-slate-500">Informations de base</p>
+            {totalChildren > 1 && (
+              <p className="text-sm text-slate-500">Enfant {childNumber} sur {totalChildren}</p>
+            )}
           </div>
         </div>
 
         <div className="space-y-4 md:space-y-6">
-          {/* Name and Age Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <div className="space-y-2">
-              <label className="block text-slate-700 font-semibold text-sm md:text-base">
-                Prénom <span className="text-orange-500">*</span>
-              </label>
-              <Input
-                value={child.name}
-                onChange={(e) => onUpdate('name', e.target.value)}
-                placeholder="Ex: Emma, Lucas..."
-                className="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-orange-400 focus:ring-orange-200 transition-all duration-200 text-base bg-white/80 backdrop-blur-sm"
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <label className="block text-slate-700 font-semibold text-sm md:text-base">
-                Âge <span className="text-orange-500">*</span>
-              </label>
-              <Input
-                type="number"
-                value={child.age}
-                onChange={(e) => onUpdate('age', e.target.value)}
-                placeholder="6"
-                min="1"
-                max="18"
-                className="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-orange-400 focus:ring-orange-200 transition-all duration-200 text-base bg-white/80 backdrop-blur-sm"
-              />
-            </div>
+          {/* Name Field */}
+          <div className="space-y-2">
+            <label className="flex items-center text-slate-700 font-semibold text-sm md:text-base gap-2">
+              <User className="w-4 h-4 text-orange-500" />
+              Prénom <span className="text-red-500">*</span>
+            </label>
+            <Input
+              value={child.name}
+              onChange={(e) => onUpdate('name', e.target.value)}
+              placeholder="Ex: Emma, Lucas..."
+              className="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-orange-400 focus:ring-orange-200 transition-all duration-200 text-base bg-white/80 backdrop-blur-sm"
+            />
+          </div>
+
+          {/* Age Field */}
+          <div className="space-y-2">
+            <label className="flex items-center text-slate-700 font-semibold text-sm md:text-base gap-2">
+              <Calendar className="w-4 h-4 text-orange-500" />
+              Âge <span className="text-red-500">*</span>
+            </label>
+            <Select value={child.age} onValueChange={(value) => onUpdate('age', value)}>
+              <SelectTrigger className="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-orange-400 transition-all duration-200 text-base bg-white/80 backdrop-blur-sm">
+                <SelectValue placeholder="Sélectionnez l'âge" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-2 border-slate-200 rounded-xl shadow-lg max-h-48 overflow-y-auto">
+                {ageOptions.map((age) => (
+                  <SelectItem key={age} value={age.toString()} className="px-4 py-2 hover:bg-orange-50 cursor-pointer">
+                    {age} ans
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Objective Field */}
+          <div className="space-y-2">
+            <label className="flex items-center text-slate-700 font-semibold text-sm md:text-base gap-2">
+              <Target className="w-4 h-4 text-orange-500" />
+              Objectif <span className="text-red-500">*</span>
+            </label>
+            <Select value={child.objective} onValueChange={(value) => onUpdate('objective', value)}>
+              <SelectTrigger className="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-orange-400 transition-all duration-200 text-base bg-white/80 backdrop-blur-sm">
+                <SelectValue placeholder="Choisissez un objectif" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-2 border-slate-200 rounded-xl shadow-lg">
+                {objectiveOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value} className="px-4 py-2 hover:bg-orange-50 cursor-pointer">
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Photo Upload */}
           <div className="space-y-2">
-            <label className="block text-slate-700 font-semibold text-sm md:text-base">
-              Photo (optionnel)
+            <label className="flex items-center text-slate-700 font-semibold text-sm md:text-base gap-2">
+              <Camera className="w-4 h-4 text-orange-500" />
+              Photo à déposer <span className="text-red-500">*</span>
             </label>
             <div className="border-2 border-dashed border-slate-300 rounded-xl p-4 md:p-6 text-center hover:border-orange-400 hover:bg-orange-50/50 transition-all duration-300 cursor-pointer group/upload active:scale-95">
               <input
@@ -136,7 +173,7 @@ const ChildForm = ({ child, childNumber, totalChildren, onUpdate, onPhotoUpload 
               <label htmlFor={`photo-${childNumber}`} className="cursor-pointer block">
                 {child.photoUrl ? (
                   <div className="space-y-3">
-                    <div className="w-16 h-16 mx-auto rounded-full overflow-hidden border-4 border-green-200">
+                    <div className="w-16 h-16 md:w-20 md:h-20 mx-auto rounded-full overflow-hidden border-4 border-green-200">
                       <img 
                         src={child.photoUrl} 
                         alt="Preview" 
@@ -151,7 +188,7 @@ const ChildForm = ({ child, childNumber, totalChildren, onUpdate, onPhotoUpload 
                     <Upload className="w-6 h-6 md:w-8 md:h-8 mx-auto text-slate-400 group-hover/upload:text-orange-500 transition-colors" />
                     <div>
                       <p className="text-slate-700 font-medium text-sm md:text-base">Ajoutez une photo</p>
-                      <p className="text-xs md:text-sm text-slate-500 mt-1">Pour personnaliser encore plus l'histoire</p>
+                      <p className="text-xs md:text-sm text-slate-500 mt-1">Photo requise pour personnaliser l'histoire</p>
                     </div>
                   </div>
                 )}
@@ -161,14 +198,14 @@ const ChildForm = ({ child, childNumber, totalChildren, onUpdate, onPhotoUpload 
 
           {/* Message */}
           <div className="space-y-2">
-            <label className="flex items-center text-slate-700 font-semibold text-sm md:text-base">
-              Message personnalisé 
-              <Heart className="w-4 h-4 ml-2 text-pink-500" />
+            <label className="flex items-center text-slate-700 font-semibold text-sm md:text-base gap-2">
+              <MessageSquare className="w-4 h-4 text-pink-500" />
+              Message personnalisé <span className="text-red-500">*</span>
             </label>
             <Textarea
               value={child.message}
               onChange={(e) => onUpdate('message', e.target.value)}
-              placeholder="Un petit message d'amour pour rendre l'histoire encore plus spéciale... ❤️"
+              placeholder="Un message spécial qui apparaîtra dans l'histoire personnalisée... ❤️"
               className="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-orange-400 focus:ring-orange-200 transition-all duration-200 resize-none text-base bg-white/80 backdrop-blur-sm min-h-[100px]"
               rows={3}
             />
