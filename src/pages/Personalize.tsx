@@ -1,10 +1,9 @@
-
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 import ChildForm from '@/components/ChildForm';
 
 interface Child {
@@ -158,7 +157,7 @@ const Personalize = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex flex-col md:flex-row justify-between items-center max-w-2xl mx-auto gap-4 px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center max-w-2xl mx-auto gap-4 px-4 mb-8 md:mb-12">
             <Button
               onClick={handlePrevious}
               variant="outline"
@@ -186,7 +185,7 @@ const Personalize = () => {
 
           {/* Multiple children indicator */}
           {childCount > 1 && (
-            <div className="text-center mt-6 max-w-2xl mx-auto px-4">
+            <div className="text-center mt-6 max-w-2xl mx-auto px-4 mb-8 md:mb-12">
               <div className="flex justify-center space-x-2">
                 {Array.from({ length: childCount }, (_, index) => (
                   <div
@@ -212,7 +211,7 @@ const Personalize = () => {
         </div>
       </div>
       
-      <Footer />
+      <TestimonialsCarousel />
     </div>
   );
 };

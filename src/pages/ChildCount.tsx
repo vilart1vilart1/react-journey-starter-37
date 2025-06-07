@@ -1,10 +1,9 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
 
 const ChildCount = () => {
   const [selectedCount, setSelectedCount] = useState<number | null>(null);
@@ -127,7 +126,7 @@ const ChildCount = () => {
           </div>
 
           {/* Navigation */}
-          <div id="navigation-section" className="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-4 px-4">
+          <div id="navigation-section" className="flex flex-col md:flex-row justify-between items-center max-w-4xl mx-auto gap-4 px-4 mb-8 md:mb-12">
             <Button
               onClick={() => navigate('/')}
               variant="outline"
@@ -155,7 +154,7 @@ const ChildCount = () => {
         </div>
       </div>
       
-      <Footer />
+      <TestimonialsCarousel />
     </div>
   );
 };
