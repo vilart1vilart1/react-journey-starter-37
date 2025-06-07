@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, CreditCard, Shield, Lock, User, UserPlus, Truck, Info, Star, Gift } from 'lucide-react';
+import { ArrowLeft, CreditCard, Shield, Lock, User, UserPlus, Truck, Info, Star } from 'lucide-react';
 import SignupModal from '@/components/SignupModal';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -12,7 +12,7 @@ const Checkout = () => {
   const location = useLocation();
   const children = location.state?.children || [];
   
-  const [selectedPlan, setSelectedPlan] = useState<'onetime' | 'subscription' | 'gift'>('onetime');
+  const [selectedPlan, setSelectedPlan] = useState<'onetime' | 'subscription'>('onetime');
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [showAccountSuggestion, setShowAccountSuggestion] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,12 +38,6 @@ const Checkout = () => {
       title: 'Abonnement mensuel', 
       subtitle: 'Un nouveau livre chaque mois (-25%)',
       badge: 'Économisez 25%'
-    },
-    gift: {
-      price: 22.49,
-      title: 'Un cadeau magique à offrir',
-      subtitle: '1 livre surprise lié à votre objectif par enfant par mois',
-      badge: 'Abonnement mensuel'
     }
   };
 
@@ -53,9 +47,9 @@ const Checkout = () => {
 
   const isFormValid = Object.values(formData).every(value => value.trim() !== '');
 
-  const handlePlanChange = (plan: 'onetime' | 'subscription' | 'gift') => {
+  const handlePlanChange = (plan: 'onetime' | 'subscription') => {
     setSelectedPlan(plan);
-    if (plan === 'subscription' || plan === 'gift') {
+    if (plan === 'subscription') {
       setShowSignupModal(true);
     }
   };
@@ -147,7 +141,7 @@ const Checkout = () => {
                 {Object.entries(plans).map(([key, plan]) => (
                   <div
                     key={key}
-                    onClick={() => handlePlanChange(key as 'onetime' | 'subscription' | 'gift')}
+                    onClick={() => handlePlanChange(key as 'onetime' | 'subscription')}
                     className={`
                       p-2 md:p-4 rounded-lg md:rounded-xl cursor-pointer transition-all duration-300 border-2 relative
                       ${selectedPlan === key 
@@ -156,16 +150,11 @@ const Checkout = () => {
                       }
                     `}
                   >
-                    {key === 'gift' && (
-                      <div className="absolute top-2 right-2">
-                        <Gift className="w-4 h-4 md:w-5 md:h-5 text-pink-500" />
-                      </div>
-                    )}
                     <div className="flex justify-between items-center">
                       <div>
                         <h4 className="font-semibold text-slate-700 text-xs md:text-base">{plan.title}</h4>
                         <p className="text-slate-500 text-xs md:text-sm">{plan.subtitle}</p>
-                        {(key === 'subscription' || key === 'gift') && (
+                        {key === 'subscription' && (
                           <p className="text-orange-600 text-xs font-semibold mt-1">Compte requis</p>
                         )}
                         <span className="inline-block mt-1 px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-700 font-semibold">
@@ -174,7 +163,7 @@ const Checkout = () => {
                       </div>
                       <div className="text-right">
                         <p className="text-lg md:text-2xl font-bold text-slate-700">{plan.price}€</p>
-                        {(key === 'subscription' || key === 'gift') && <p className="text-green-600 text-xs md:text-sm font-semibold">Économisez 25%</p>}
+                        {key === 'subscription' && <p className="text-green-600 text-xs md:text-sm font-semibold">Économisez 25%</p>}
                       </div>
                     </div>
                   </div>
