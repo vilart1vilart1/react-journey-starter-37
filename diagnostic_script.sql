@@ -49,8 +49,8 @@ WHERE LegacyId = @TargetLegacyId
    OR DESCRIPTION LIKE '%' + @TargetDescription + '%';
 
 PRINT '';
-PRINT '2. CHECKING DATE VALUES AND CONVERSION';
-PRINT '=====================================';
+PRINT '2. CHECKING DATE VALUES';
+PRINT '=======================';
 
 -- Check date values (datetime2 columns don't need ISDATE validation)
 SELECT 
@@ -104,8 +104,7 @@ SELECT
 FROM V_External_Installation v
 LEFT JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
 WHERE v.LegacyId = @TargetLegacyId
-   OR v.DESCRIPTION LIKE '%' + @TargetDescription + '%'
-   OR c.ContactId IS NULL;
+   OR v.DESCRIPTION LIKE '%' + @TargetDescription + '%';
 
 PRINT '';
 PRINT '4. CHECKING ADDRESS RELATIONSHIP';
@@ -215,63 +214,7 @@ WHERE v.LegacyId = @TargetLegacyId
    OR v.DESCRIPTION LIKE '%' + @TargetDescription + '%';
 
 PRINT '';
-PRINT '7. CHECKING FOR MISSING COMPANY REFERENCES';
-PRINT '==========================================';
-
--- Find installations that would be blocked due to missing company references
-SELECT TOP 20
-    'MISSING_COMPANIES' AS CheckType,
-    v.LegacyId,
-    v.DESCRIPTION,
-    v.CompanyNo,
-    'Company reference not found in CRM.Contact' AS Issue_Type
-FROM V_External_Installation v
-LEFT JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
-WHERE c.ContactId IS NULL;
-
-PRINT '';
-PRINT '8. SUMMARY OF BLOCKING ISSUES';
-PRINT '=============================';
-
--- Summary of all blocking issues
-SELECT 
-    'SUMMARY' AS CheckType,
-    COUNT(*) AS Count,
-    'Records with missing company references' AS Issue_Description
-FROM V_External_Installation v
-LEFT JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
-WHERE c.ContactId IS NULL
-
-UNION ALL
-
-SELECT 
-    'SUMMARY' AS CheckType,
-    COUNT(*) AS Count,
-    'Records with inactive companies' AS Issue_Description
-FROM V_External_Installation v
-JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
-WHERE c.IsActive = 0
-
-UNION ALL
-
-SELECT 
-    'SUMMARY' AS CheckType,
-    COUNT(*) AS Count,
-    'Records with missing address references' AS Issue_Description
-FROM V_External_Installation v
-LEFT JOIN [CRM].[Address] a ON v.[AddressNo] = a.LegacyId
-WHERE v.AddressNo IS NOT NULL AND a.AddressId IS NULL
-
-UNION ALL
-
-SELECT 
-    'SUMMARY' AS CheckType,
-    COUNT(*) AS Count,
-    'Total records in V_External_Installation' AS Issue_Description
-FROM V_External_Installation;
-
-PRINT '';
-PRINT '9. DETAILED ANALYSIS FOR TARGET RECORD';
+PRINT '7. DETAILED ANALYSIS FOR TARGET RECORD';
 PRINT '======================================';
 
 -- Detailed analysis specifically for the target record
