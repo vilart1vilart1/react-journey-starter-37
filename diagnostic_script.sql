@@ -49,12 +49,12 @@ WHERE LegacyId = @TargetLegacyId
    OR DESCRIPTION LIKE '%' + @TargetDescription + '%';
 
 PRINT '';
-PRINT '2. CHECKING DATE CONVERSION ISSUES';
-PRINT '==================================';
+PRINT '2. CHECKING DATE VALUES AND CONVERSION';
+PRINT '=====================================';
 
--- Check for date conversion problems in the source data
+-- Check date values (datetime2 columns don't need ISDATE validation)
 SELECT 
-    'DATE_ISSUES' AS CheckType,
+    'DATE_VALUES' AS CheckType,
     LegacyId,
     DESCRIPTION,
     KickOffDate,
@@ -62,27 +62,24 @@ SELECT
     WarrantyExtensionEndDate,
     ManufacturingDate,
     CASE 
-        WHEN ISDATE(KickOffDate) = 0 AND KickOffDate IS NOT NULL THEN 'KickOffDate_INVALID'
-        ELSE 'KickOffDate_OK'
+        WHEN KickOffDate IS NULL THEN 'KickOffDate_NULL'
+        ELSE 'KickOffDate_HAS_VALUE'
     END AS KickOffDate_Status,
     CASE 
-        WHEN ISDATE(NextUvvDate) = 0 AND NextUvvDate IS NOT NULL THEN 'NextUvvDate_INVALID'
-        ELSE 'NextUvvDate_OK'
+        WHEN NextUvvDate IS NULL THEN 'NextUvvDate_NULL'
+        ELSE 'NextUvvDate_HAS_VALUE'
     END AS NextUvvDate_Status,
     CASE 
-        WHEN ISDATE(WarrantyExtensionEndDate) = 0 AND WarrantyExtensionEndDate IS NOT NULL THEN 'WarrantyExtensionEndDate_INVALID'
-        ELSE 'WarrantyExtensionEndDate_OK'
+        WHEN WarrantyExtensionEndDate IS NULL THEN 'WarrantyExtensionEndDate_NULL'
+        ELSE 'WarrantyExtensionEndDate_HAS_VALUE'
     END AS WarrantyExtensionEndDate_Status,
     CASE 
-        WHEN ISDATE(ManufacturingDate) = 0 AND ManufacturingDate IS NOT NULL THEN 'ManufacturingDate_INVALID'
-        ELSE 'ManufacturingDate_OK'
+        WHEN ManufacturingDate IS NULL THEN 'ManufacturingDate_NULL'
+        ELSE 'ManufacturingDate_HAS_VALUE'
     END AS ManufacturingDate_Status
 FROM V_External_Installation 
-WHERE (LegacyId = @TargetLegacyId OR DESCRIPTION LIKE '%' + @TargetDescription + '%')
-   OR (ISDATE(KickOffDate) = 0 AND KickOffDate IS NOT NULL)
-   OR (ISDATE(NextUvvDate) = 0 AND NextUvvDate IS NOT NULL)
-   OR (ISDATE(WarrantyExtensionEndDate) = 0 AND WarrantyExtensionEndDate IS NOT NULL)
-   OR (ISDATE(ManufacturingDate) = 0 AND ManufacturingDate IS NOT NULL);
+WHERE LegacyId = @TargetLegacyId
+   OR DESCRIPTION LIKE '%' + @TargetDescription + '%';
 
 PRINT '';
 PRINT '3. CHECKING COMPANY/CONTACT RELATIONSHIP';
@@ -218,51 +215,19 @@ WHERE v.LegacyId = @TargetLegacyId
    OR v.DESCRIPTION LIKE '%' + @TargetDescription + '%';
 
 PRINT '';
-PRINT '7. CHECKING FOR GENERAL DATE CONVERSION ISSUES';
-PRINT '==============================================';
+PRINT '7. CHECKING FOR MISSING COMPANY REFERENCES';
+PRINT '==========================================';
 
--- Find all records with date conversion issues
+-- Find installations that would be blocked due to missing company references
 SELECT TOP 20
-    'GENERAL_DATE_ISSUES' AS CheckType,
-    LegacyId,
-    DESCRIPTION,
-    'KickOffDate conversion issue' AS Issue_Type,
-    KickOffDate AS Problematic_Value
-FROM V_External_Installation 
-WHERE ISDATE(KickOffDate) = 0 AND KickOffDate IS NOT NULL
-
-UNION ALL
-
-SELECT TOP 20
-    'GENERAL_DATE_ISSUES' AS CheckType,
-    LegacyId,
-    DESCRIPTION,
-    'NextUvvDate conversion issue' AS Issue_Type,
-    NextUvvDate AS Problematic_Value
-FROM V_External_Installation 
-WHERE ISDATE(NextUvvDate) = 0 AND NextUvvDate IS NOT NULL
-
-UNION ALL
-
-SELECT TOP 20
-    'GENERAL_DATE_ISSUES' AS CheckType,
-    LegacyId,
-    DESCRIPTION,
-    'WarrantyExtensionEndDate conversion issue' AS Issue_Type,
-    WarrantyExtensionEndDate AS Problematic_Value
-FROM V_External_Installation 
-WHERE ISDATE(WarrantyExtensionEndDate) = 0 AND WarrantyExtensionEndDate IS NOT NULL
-
-UNION ALL
-
-SELECT TOP 20
-    'GENERAL_DATE_ISSUES' AS CheckType,
-    LegacyId,
-    DESCRIPTION,
-    'ManufacturingDate conversion issue' AS Issue_Type,
-    ManufacturingDate AS Problematic_Value
-FROM V_External_Installation 
-WHERE ISDATE(ManufacturingDate) = 0 AND ManufacturingDate IS NOT NULL;
+    'MISSING_COMPANIES' AS CheckType,
+    v.LegacyId,
+    v.DESCRIPTION,
+    v.CompanyNo,
+    'Company reference not found in CRM.Contact' AS Issue_Type
+FROM V_External_Installation v
+LEFT JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
+WHERE c.ContactId IS NULL;
 
 PRINT '';
 PRINT '8. SUMMARY OF BLOCKING ISSUES';
@@ -292,36 +257,61 @@ UNION ALL
 SELECT 
     'SUMMARY' AS CheckType,
     COUNT(*) AS Count,
-    'Records with invalid KickOffDate' AS Issue_Description
-FROM V_External_Installation 
-WHERE ISDATE(KickOffDate) = 0 AND KickOffDate IS NOT NULL
+    'Records with missing address references' AS Issue_Description
+FROM V_External_Installation v
+LEFT JOIN [CRM].[Address] a ON v.[AddressNo] = a.LegacyId
+WHERE v.AddressNo IS NOT NULL AND a.AddressId IS NULL
 
 UNION ALL
 
 SELECT 
     'SUMMARY' AS CheckType,
     COUNT(*) AS Count,
-    'Records with invalid NextUvvDate' AS Issue_Description
+    'Total records in V_External_Installation' AS Issue_Description
+FROM V_External_Installation;
+
+PRINT '';
+PRINT '9. DETAILED ANALYSIS FOR TARGET RECORD';
+PRINT '======================================';
+
+-- Detailed analysis specifically for the target record
+SELECT 
+    'TARGET_ANALYSIS' AS CheckType,
+    'Step 1: Record exists in source' AS Analysis_Step,
+    CASE WHEN COUNT(*) > 0 THEN 'PASS' ELSE 'FAIL' END AS Result,
+    CAST(COUNT(*) AS NVARCHAR(10)) + ' records found' AS Details
 FROM V_External_Installation 
-WHERE ISDATE(NextUvvDate) = 0 AND NextUvvDate IS NOT NULL
+WHERE LegacyId = @TargetLegacyId OR DESCRIPTION LIKE '%' + @TargetDescription + '%'
 
 UNION ALL
 
 SELECT 
-    'SUMMARY' AS CheckType,
-    COUNT(*) AS Count,
-    'Records with invalid WarrantyExtensionEndDate' AS Issue_Description
-FROM V_External_Installation 
-WHERE ISDATE(WarrantyExtensionEndDate) = 0 AND WarrantyExtensionEndDate IS NOT NULL
+    'TARGET_ANALYSIS' AS CheckType,
+    'Step 2: Company reference exists' AS Analysis_Step,
+    CASE WHEN COUNT(c.ContactId) > 0 THEN 'PASS' ELSE 'FAIL' END AS Result,
+    CASE WHEN COUNT(c.ContactId) > 0 
+         THEN 'Company found: ' + ISNULL(MAX(c.Name), 'Unknown')
+         ELSE 'Company not found for CompanyNo: ' + ISNULL(MAX(v.CompanyNo), 'NULL')
+    END AS Details
+FROM V_External_Installation v
+LEFT JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
+WHERE (v.LegacyId = @TargetLegacyId OR v.DESCRIPTION LIKE '%' + @TargetDescription + '%')
 
 UNION ALL
 
 SELECT 
-    'SUMMARY' AS CheckType,
-    COUNT(*) AS Count,
-    'Records with invalid ManufacturingDate' AS Issue_Description
-FROM V_External_Installation 
-WHERE ISDATE(ManufacturingDate) = 0 AND ManufacturingDate IS NOT NULL;
+    'TARGET_ANALYSIS' AS CheckType,
+    'Step 3: Company is active' AS Analysis_Step,
+    CASE WHEN COUNT(CASE WHEN c.IsActive = 1 THEN 1 END) > 0 THEN 'PASS' 
+         WHEN COUNT(c.ContactId) > 0 THEN 'FAIL'
+         ELSE 'N/A' END AS Result,
+    CASE WHEN COUNT(c.ContactId) = 0 THEN 'No company found'
+         WHEN COUNT(CASE WHEN c.IsActive = 1 THEN 1 END) > 0 THEN 'Company is active'
+         ELSE 'Company is inactive'
+    END AS Details
+FROM V_External_Installation v
+LEFT JOIN [CRM].[Contact] c ON v.[CompanyNo] = c.[LegacyId] AND c.[ContactType] = 'Company'
+WHERE (v.LegacyId = @TargetLegacyId OR v.DESCRIPTION LIKE '%' + @TargetDescription + '%');
 
 PRINT '';
 PRINT '=== END OF DIAGNOSTIC SCRIPT ===';
