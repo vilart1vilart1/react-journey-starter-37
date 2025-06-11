@@ -15,7 +15,7 @@ const CartIcon = () => {
     <CartDropdown>
       {isMobile ? (
         <div className="relative p-2 cursor-pointer hover:opacity-80 transition-opacity">
-          <ShoppingCart className="w-9 h-9 text-slate-700" />
+          <ShoppingCart className="w-6 h-6 text-slate-700" />
           {itemCount > 0 && (
             <Badge 
               variant="destructive" 
@@ -31,7 +31,7 @@ const CartIcon = () => {
           size="sm"
           className="relative p-2 sm:p-3 hover:bg-slate-100 transition-colors rounded-lg"
         >
-          <ShoppingCart className="w-9 h-9 sm:w-10 sm:h-10 text-slate-700" />
+          <ShoppingCart className="w-6 h-6 text-slate-700" />
           {itemCount > 0 && (
             <Badge 
               variant="destructive" 
