@@ -3,9 +3,13 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '@/components/admin/AdminLayout';
 import VisitorsTable from '@/components/admin/VisitorsTable';
+import { useVisitorTracking } from '@/hooks/useVisitorTracking';
 
 const AdminVisitors = () => {
   const navigate = useNavigate();
+  
+  // Add visitor tracking for admin interface
+  useVisitorTracking('Admin - Visitors');
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('adminAuth');

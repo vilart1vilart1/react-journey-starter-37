@@ -10,6 +10,11 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 interface VisitorData {
   page_visitors: string;
   referrer?: string;
+  user_location?: {
+    country?: string;
+    city?: string;
+    ip?: string;
+  };
 }
 
 interface ApiResponse {
@@ -24,6 +29,39 @@ interface ApiResponse {
     date: string;
   };
 }
+
+/**
+ * Gets visitor location information using IP geolocation
+ */
+const getVisitorLocation = async (): Promise<{ country?: string; city?: string; ip?: string }> => {
+  try {
+    // Using a free IP geolocation service
+    const response = await axios.get('https://ipapi.co/json/', {
+      timeout: 3000
+    });
+    
+    return {
+      country: response.data.country_name || response.data.country,
+      city: response.data.city,
+      ip: response.data.ip
+    };
+  } catch (error) {
+    console.warn('Failed to get location data:', error);
+    
+    // Fallback: try another service
+    try {
+      const fallbackResponse = await axios.get('https://api.ipify.org?format=json', {
+        timeout: 2000
+      });
+      return {
+        ip: fallbackResponse.data.ip
+      };
+    } catch (fallbackError) {
+      console.warn('Failed to get IP from fallback service:', fallbackError);
+      return {};
+    }
+  }
+};
 
 /**
  * Gets the referrer source with enhanced detection
@@ -60,6 +98,9 @@ const getReferrerSource = (): string => {
     }
     if (hostname.includes('pinterest.com')) {
       return 'Pinterest';
+    }
+    if (hostname.includes('lovable.dev')) {
+      return 'Lovable';
     }
     
     // Search engines
@@ -100,21 +141,27 @@ export const trackVisitor = async (pageName: string, retryCount = 0): Promise<vo
     
     const referrerSource = getReferrerSource();
     
+    // Get visitor location information
+    const locationData = await getVisitorLocation();
+    
     const visitorData: VisitorData = {
       page_visitors: pageName,
-      referrer: referrerSource
+      referrer: referrerSource,
+      user_location: locationData
     };
+
+    console.log('Sending visitor data:', visitorData);
 
     const response = await axios.post<ApiResponse>(API_URL, visitorData, {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      timeout: 5000
+      timeout: 8000
     });
 
     if (response.data.status === 'success') {
-      console.log(`Visit tracked successfully: ${pageName} (from: ${referrerSource})`);
+      console.log(`Visit tracked successfully: ${pageName} (from: ${referrerSource}, country: ${locationData.country || 'Unknown'})`);
     } else {
       throw new Error(response.data.message || 'Unknown error occurred');
     }

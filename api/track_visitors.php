@@ -65,12 +65,25 @@ try {
     // Generate session ID based on IP and user agent
     $session_id = md5($ip_address . $user_agent . date('Y-m-d'));
     
-    // Try to get location info (basic implementation)
+    // Get location data from the frontend or try to get it server-side
     $city = null;
     $country = null;
     
-    // You can integrate with a geolocation service here if needed
-    // For now, we'll leave these as null or implement basic detection
+    if (isset($input['user_location'])) {
+        $location = $input['user_location'];
+        $city = isset($location['city']) ? trim($location['city']) : null;
+        $country = isset($location['country']) ? trim($location['country']) : null;
+        
+        // If frontend provided an IP, use it (might be more accurate)
+        if (isset($location['ip']) && !empty($location['ip'])) {
+            $ip_address = $location['ip'];
+        }
+    }
+    
+    // If no location data from frontend, try to get it server-side (basic implementation)
+    if (!$country && function_exists('geoip_country_name_by_name')) {
+        $country = geoip_country_name_by_name($ip_address);
+    }
     
     // Prepare SQL statement with proper UUID generation
     $query = "INSERT INTO visitor_tracking 
