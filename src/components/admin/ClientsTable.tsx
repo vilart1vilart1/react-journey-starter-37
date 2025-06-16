@@ -107,16 +107,16 @@ const ClientsTable = () => {
     if (filters.childrenCountFilter !== 'all') {
       switch (filters.childrenCountFilter) {
         case '0':
-          filtered = filtered.filter(user => parseInt(user.children_count) === 0);
+          filtered = filtered.filter(user => Number(user.children_count) === 0);
           break;
         case '1':
-          filtered = filtered.filter(user => parseInt(user.children_count) === 1);
+          filtered = filtered.filter(user => Number(user.children_count) === 1);
           break;
         case '2':
-          filtered = filtered.filter(user => parseInt(user.children_count) === 2);
+          filtered = filtered.filter(user => Number(user.children_count) === 2);
           break;
         case '3+':
-          filtered = filtered.filter(user => parseInt(user.children_count) >= 3);
+          filtered = filtered.filter(user => Number(user.children_count) >= 3);
           break;
       }
     }
@@ -220,7 +220,8 @@ const ClientsTable = () => {
       const response = await adminUserService.getAllUsers();
       
       if (response.success) {
-        const usersData = response.data.users || response.data || [];
+        // Fix: Properly extract users array from response
+        const usersData = response.data.users;
         console.log('Users data received:', usersData);
         
         // Add realistic books count to each user
