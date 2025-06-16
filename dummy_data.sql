@@ -1,4 +1,5 @@
 
+
 -- MySQL compatible dummy data for MyLittle project
 -- This script inserts realistic test data into all tables
 
@@ -55,18 +56,18 @@ INSERT INTO delivery_links (id, order_id, tracking_url, carrier_name, tracking_n
 ('dl0e8400-e29b-41d4-a716-446655440004', '750e8400-e29b-41d4-a716-446655440008', 'https://www.laposte.fr/outils/suivre-vos-envois?code=7A23456789012', 'Colissimo', '7A23456789012', '2024-05-19 11:30:00', '2024-05-19 11:30:00'),
 ('dl0e8400-e29b-41d4-a716-446655440005', '750e8400-e29b-41d4-a716-446655440009', 'https://www.chronopost.fr/tracking-no-cms/suivi-page?listeNumerosLT=3456789012345678', 'Chronopost', '3456789012345678', '2024-07-06 14:15:00', '2024-07-06 14:15:00');
 
--- Insert dummy subscriptions with proper relationships to orders
+-- Insert dummy subscriptions with proper relationships to orders (FIXED VERSION)
 INSERT INTO subscriptions (id, user_id, stripe_subscription_id, order_id, status, current_period_start, current_period_end, cancel_at_period_end, cancellation_reason, created_at, updated_at) VALUES
--- Active subscriptions
+-- Active subscriptions (only referencing existing subscription orders)
 ('950e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440002', 'sub_1P1234567890', '750e8400-e29b-41d4-a716-446655440002', 'active', '2024-02-15 10:15:00', '2024-03-15 10:15:00', FALSE, NULL, '2024-02-15 10:15:00', '2024-02-15 10:15:00'),
 ('950e8400-e29b-41d4-a716-446655440002', '550e8400-e29b-41d4-a716-446655440004', 'sub_1P2345678901', '750e8400-e29b-41d4-a716-446655440004', 'active', '2024-04-18 09:30:00', '2024-05-18 09:30:00', FALSE, NULL, '2024-04-18 09:30:00', '2024-04-18 09:30:00'),
 ('950e8400-e29b-41d4-a716-446655440003', '550e8400-e29b-41d4-a716-446655440006', 'sub_1P3456789012', '750e8400-e29b-41d4-a716-446655440006', 'active', '2024-06-05 12:10:00', '2024-07-05 12:10:00', FALSE, NULL, '2024-06-05 12:10:00', '2024-06-05 12:10:00'),
 
--- Cancelled subscriptions
+-- Cancelled subscriptions (only referencing existing subscription orders)
 ('950e8400-e29b-41d4-a716-446655440004', '550e8400-e29b-41d4-a716-446655440002', 'sub_1P4567890123', '750e8400-e29b-41d4-a716-446655440007', 'cancelled', '2024-03-15 10:15:00', '2024-04-15 10:15:00', TRUE, 'Customer requested cancellation due to budget constraints', '2024-03-15 10:15:00', '2024-04-01 14:30:00'),
 ('950e8400-e29b-41d4-a716-446655440005', '550e8400-e29b-41d4-a716-446655440004', 'sub_1P5678901234', '750e8400-e29b-41d4-a716-446655440008', 'cancelled', '2024-05-18 09:30:00', '2024-06-18 09:30:00', TRUE, 'Child lost interest in reading', '2024-05-18 09:30:00', '2024-06-10 16:45:00'),
 
--- Expired subscription
+-- Expired subscription (only referencing existing subscription orders)
 ('950e8400-e29b-41d4-a716-446655440006', '550e8400-e29b-41d4-a716-446655440006', 'sub_1P6789012345', '750e8400-e29b-41d4-a716-446655440009', 'expired', '2024-07-05 12:10:00', '2024-08-05 12:10:00', FALSE, NULL, '2024-07-05 12:10:00', '2024-08-05 12:10:00');
 
 -- Insert dummy addresses
@@ -154,3 +155,4 @@ INSERT INTO visitor_tracking (ip_address, page_visited, referrer, user_agent, ci
 
 -- Note: The user with email 'test@example.com' has password '123123' (hashed with bcrypt)
 -- You can use this account to test login functionality.
+
