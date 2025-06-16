@@ -1,0 +1,130 @@
+
+import axios from 'axios';
+
+const API_URL = 'https://www.respizenmedical.com/mylittle/api/track_visitors.php';
+const MAX_RETRIES = 2;
+const RETRY_DELAY = 40000; // 40 seconds
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+interface VisitorData {
+  page_visitors: string;
+  referrer?: string;
+}
+
+interface ApiResponse {
+  status: string;
+  message: string;
+  data?: {
+    ip: string;
+    city: string;
+    country: string;
+    page: string;
+    referrer?: string;
+    date: string;
+  };
+}
+
+/**
+ * Gets the referrer source with enhanced detection
+ */
+const getReferrerSource = (): string => {
+  const referrer = document.referrer;
+  
+  if (!referrer) {
+    return 'Direct';
+  }
+
+  try {
+    const referrerUrl = new URL(referrer);
+    const hostname = referrerUrl.hostname.toLowerCase();
+    
+    // Social media platforms
+    if (hostname.includes('facebook.com') || hostname.includes('fb.com')) {
+      return 'Facebook';
+    }
+    if (hostname.includes('instagram.com')) {
+      return 'Instagram';
+    }
+    if (hostname.includes('twitter.com') || hostname.includes('x.com')) {
+      return 'Twitter/X';
+    }
+    if (hostname.includes('linkedin.com')) {
+      return 'LinkedIn';
+    }
+    if (hostname.includes('tiktok.com')) {
+      return 'TikTok';
+    }
+    if (hostname.includes('youtube.com')) {
+      return 'YouTube';
+    }
+    if (hostname.includes('pinterest.com')) {
+      return 'Pinterest';
+    }
+    
+    // Search engines
+    if (hostname.includes('google.')) {
+      return 'Google Search';
+    }
+    if (hostname.includes('bing.com')) {
+      return 'Bing Search';
+    }
+    if (hostname.includes('yahoo.com')) {
+      return 'Yahoo Search';
+    }
+    if (hostname.includes('duckduckgo.com')) {
+      return 'DuckDuckGo Search';
+    }
+    
+    // Email providers
+    if (hostname.includes('gmail.com') || hostname.includes('outlook.com') || hostname.includes('yahoo.com')) {
+      return 'Email';
+    }
+    
+    // Return the domain name for other sources
+    return hostname;
+  } catch (error) {
+    console.warn('Error parsing referrer URL:', error);
+    return referrer;
+  }
+};
+
+/**
+ * Tracks a page visit by sending data to the tracking API
+ * @param pageName Name of the page being visited
+ * @param retryCount Current retry attempt (used internally)
+ */
+export const trackVisitor = async (pageName: string, retryCount = 0): Promise<void> => {
+  try {
+    console.log(`Tracking visit to: ${pageName}`);
+    
+    const referrerSource = getReferrerSource();
+    
+    const visitorData: VisitorData = {
+      page_visitors: pageName,
+      referrer: referrerSource
+    };
+
+    const response = await axios.post<ApiResponse>(API_URL, visitorData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      timeout: 5000
+    });
+
+    if (response.data.status === 'success') {
+      console.log(`Visit tracked successfully: ${pageName} (from: ${referrerSource})`);
+    } else {
+      throw new Error(response.data.message || 'Unknown error occurred');
+    }
+  } catch (error) {
+    console.error(`Error tracking visit to ${pageName}:`, error);
+    
+    if (retryCount < MAX_RETRIES) {
+      console.log(`Retrying tracking (${retryCount + 1}/${MAX_RETRIES}) after delay...`);
+      await delay(RETRY_DELAY * (retryCount + 1));
+      return trackVisitor(pageName, retryCount + 1);
+    }
+  }
+};
