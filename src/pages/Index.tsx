@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import NewsletterService from '@/services/newsletterService';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { Book, Camera, Heart, Gift, ArrowRight, ArrowLeft } from 'lucide-react';
+
 const Index = () => {
   const navigate = useNavigate();
   const {
@@ -42,9 +43,11 @@ const Index = () => {
   const newsletterAnimation = useScrollAnimation({
     threshold: 0.3
   });
+
   const handlePersonalizeClick = useCallback(() => {
     setShowLoading(true);
   }, []);
+
   const handleLoadingComplete = useCallback(() => {
     setShowLoading(false);
     window.scrollTo(0, 0);
@@ -88,9 +91,11 @@ const Index = () => {
       setIsNewsletterLoading(false);
     }
   };
+
   if (showLoading) {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
   }
+
   return <>      
       <CustomScrollbar className="min-h-screen">
         <div className="min-h-screen relative font-baloo">
@@ -107,8 +112,8 @@ const Index = () => {
               <ResponsiveFloatingElements />
             </div>
 
-            {/* Hero Section */}
-            <div ref={heroAnimation.ref} className={`relative z-20 pt-20 md:pt-32 pb-16 transition-all duration-1000 ${heroAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {/* Hero Section - adjusted padding-top to account for Trustpilot bar */}
+            <div ref={heroAnimation.ref} className={`relative z-20 pt-28 md:pt-40 pb-16 transition-all duration-1000 ${heroAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
               <div className="container mx-auto px-4">
                 {/* Main Hero Content - Mobile: Image first, then text. Desktop: Side by side */}
                 <div className="lg:px-8 mb-16 md:mb-20 relative">
@@ -170,26 +175,26 @@ const Index = () => {
                 <div ref={cardsAnimation.ref} className={`lg:px-8 relative z-15 mt-8 transition-all duration-1000 delay-300 ${cardsAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
                   <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto relative z-30">
                     {[{
-                    icon: "https://i.ibb.co/B5pNZYj5/instructions.png",
-                    title: "Un livre sur-mesure",
-                    subtitle: "pour votre enfant",
-                    delay: "delay-[100ms]"
-                  }, {
-                    icon: "https://i.ibb.co/hxPKDRmc/family-picture.png",
-                    title: "Photo, prénom, âge",
-                    subtitle: "et message personnalisés",
-                    delay: "delay-[200ms]"
-                  }, {
-                    icon: "https://i.ibb.co/0pjrrN4J/butterfly.png",
-                    title: "Des histoires éducatives :",
-                    subtitle: "confiance, courage, partage, etc.",
-                    delay: "delay-[300ms]"
-                  }, {
-                    icon: "https://i.ibb.co/Z1GCrKv5/gift.png",
-                    title: "À offrir ou à vivre en famille",
-                    subtitle: "encore et encore",
-                    delay: "delay-[400ms]"
-                  }].map((card, index) => <div key={index} className={`bg-purple-100/50 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-lg border border-purple-300/40 hover:shadow-xl transition-all duration-700 ${card.delay} ${cardsAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                      icon: "https://i.ibb.co/B5pNZYj5/instructions.png",
+                      title: "Un livre sur-mesure",
+                      subtitle: "pour votre enfant",
+                      delay: "delay-[100ms]"
+                    }, {
+                      icon: "https://i.ibb.co/hxPKDRmc/family-picture.png",
+                      title: "Photo, prénom, âge",
+                      subtitle: "et message personnalisés",
+                      delay: "delay-[200ms]"
+                    }, {
+                      icon: "https://i.ibb.co/0pjrrN4J/butterfly.png",
+                      title: "Des histoires éducatives :",
+                      subtitle: "confiance, courage, partage, etc.",
+                      delay: "delay-[300ms]"
+                    }, {
+                      icon: "https://i.ibb.co/Z1GCrKv5/gift.png",
+                      title: "À offrir ou à vivre en famille",
+                      subtitle: "encore et encore",
+                      delay: "delay-[400ms]"
+                    }].map((card, index) => <div key={index} className={`bg-purple-100/50 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-lg border border-purple-300/40 hover:shadow-xl transition-all duration-700 ${card.delay} ${cardsAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                         {/* Mobile: Image on top, Desktop: Image on left */}
                         <div className="flex flex-col md:flex-row items-center md:items-center gap-3 md:gap-4">
                           <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -214,27 +219,27 @@ const Index = () => {
                     <div className="hidden md:flex items-center justify-between gap-1 md:gap-2 min-w-max">
                       
                       {[{
-                      icon: "https://i.ibb.co/9kQjQgB4/children.png",
-                      title: "Combien d'enfants ?",
-                      subtitle: "1, 2 ou 3 ?",
-                      delay: "delay-[600ms]"
-                    }, {
-                      icon: "https://i.ibb.co/2Yg0q9rB/control.png",
-                      title: "Personnalisation",
-                      subtitle: "Indiquez le prénom, âge, message perso",
-                      delay: "delay-[700ms]"
-                    }, {
-                      icon: "https://i.ibb.co/Cp55n822/books.png",
-                      title: "Choisissez votre formule",
-                      subtitle: "2 types de formule",
-                      delay: "delay-[800ms]"
-                    }, {
-                      icon: "https://i.ibb.co/ycBXn998/launch.png",
-                      title: "Bravo !",
-                      subtitle: "Votre aventure commence",
-                      delay: "delay-[900ms]",
-                      isLast: true
-                    }].map((step, index) => <div key={index} className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+                        icon: "https://i.ibb.co/9kQjQgB4/children.png",
+                        title: "Combien d'enfants ?",
+                        subtitle: "1, 2 ou 3 ?",
+                        delay: "delay-[600ms]"
+                      }, {
+                        icon: "https://i.ibb.co/2Yg0q9rB/control.png",
+                        title: "Personnalisation",
+                        subtitle: "Indiquez le prénom, âge, message perso",
+                        delay: "delay-[700ms]"
+                      }, {
+                        icon: "https://i.ibb.co/Cp55n822/books.png",
+                        title: "Choisissez votre formule",
+                        subtitle: "2 types de formule",
+                        delay: "delay-[800ms]"
+                      }, {
+                        icon: "https://i.ibb.co/ycBXn998/launch.png",
+                        title: "Bravo !",
+                        subtitle: "Votre aventure commence",
+                        delay: "delay-[900ms]",
+                        isLast: true
+                      }].map((step, index) => <div key={index} className="flex items-center gap-1 md:gap-2 flex-shrink-0">
                           <div className={`text-center min-w-[100px] md:min-w-[140px] transition-all duration-700 ${step.delay} ${stepsAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                             <div className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-2 md:mb-3 flex items-center justify-center">
                               <img src={step.icon} alt={step.title} className="w-full h-full" />
@@ -372,4 +377,5 @@ const Index = () => {
       </CustomScrollbar>
     </>;
 };
+
 export default Index;

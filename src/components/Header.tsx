@@ -1,7 +1,9 @@
+
 import { useState } from 'react';
 import { Menu, User } from 'lucide-react';
 import Logo from '@/components/ui/Logo';
 import CartIcon from '@/components/ui/CartIcon';
+import TrustpilotBar from '@/components/ui/TrustpilotBar';
 import LoginModal from './auth/LoginModal';
 import SignupModal from './auth/SignupModal';
 import MobileSidebar from './MobileSidebar';
@@ -42,7 +44,10 @@ const Header = () => {
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-50">
+      {/* Trustpilot Bar at the very top */}
+      <TrustpilotBar />
+      
+      <header className="absolute top-12 left-0 right-0 z-50">
         <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-3">
           <div className="flex items-center justify-between">
             <div className="flex-1 flex justify-start">
