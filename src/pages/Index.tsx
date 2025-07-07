@@ -1,3 +1,4 @@
+
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomScrollbar } from '@/components/ui/custom-scrollbar';
@@ -113,26 +114,70 @@ const Index = () => {
                   </div>
                 </div>
 
-                {/* Mobile book grid - below button */}
-                <div className="lg:hidden w-full">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-md mx-auto">
-                    <div className="transform rotate-1 hover:rotate-0 transition-all duration-300 hover:shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=200&h=280&fit=crop" alt="Book cover" className="w-full h-32 object-cover rounded-lg shadow-lg" />
+                {/* Mobile book grid - identical to desktop but smaller */}
+                <div className="lg:hidden w-full relative">
+                  <div className="max-w-xs mx-auto relative z-10">
+                    {/* Books arranged in structured grid with staggered heights - scaled down */}
+                    <div className="grid grid-cols-3 gap-2 h-48 relative my-0 py-0 pt-4">
+                      {/* Left column - starts lower */}
+                      <div className="flex flex-col gap-2 pt-6 py-0 my-[52px]">
+                        {/* Book 1 - Top left (lower start) */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="Thomas and the Magical Judo Adventure" className="w-full h-18 object-cover rounded-lg shadow-lg" src="/lovable-uploads/e4c91fce-bc18-4e42-a454-1f9b8fece80e.png" />
+                        </div>
+                        {/* Book 3 - Bottom left */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="The Magical Unicorn of Friendship" className="w-full h-18 object-cover rounded-lg shadow-lg" src="/lovable-uploads/0fc670a6-d247-4ff6-a08f-892d9c684d76.png" />
+                        </div>
+                      </div>
+                      
+                      {/* Center column - starts highest */}
+                      <div className="flex flex-col gap-2 pt-0 my-[43px]">
+                        {/* Book 2 - Top center (highest start) */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="Alice Among the Enchanted Dreams" className="w-full h-20 object-cover rounded-lg shadow-lg" src="/lovable-uploads/cc3ab2c5-c5af-410e-9519-7abddb26f463.png" />
+                        </div>
+                        {/* Book 4 - Bottom center */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="James Space Flight" className="w-full h-18 object-cover rounded-lg shadow-lg" src="/lovable-uploads/29c0557a-22be-4375-af08-8f745adf0e60.png" />
+                        </div>
+                      </div>
+                      
+                      {/* Right column - starts middle height */}
+                      <div className="flex flex-col gap-2 pt-3 my-0">
+                        {/* New Book - Top right (new addition) */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="The Magic Forest Adventure" className="w-full h-16 object-cover rounded-lg shadow-lg" src="/lovable-uploads/e3eb0ac3-a28d-47b8-807d-3963b2ce38df.png" />
+                        </div>
+                        {/* Book 5 - Top right (middle start) */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="Cardboard the Brave Dinos Adventure" className="w-full h-18 object-cover rounded-lg shadow-lg" src="/lovable-uploads/6bb1affc-16ed-4c1c-8385-7588a54d5023.png" />
+                        </div>
+                        {/* Book 6 - Bottom right */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="The Adventures of Lisa and the Unicorn" className="w-full h-18 object-cover rounded-lg shadow-lg" src="/lovable-uploads/d5574267-4370-41e1-ae3d-52f3db0cac80.png" />
+                        </div>
+                      </div>
                     </div>
-                    <div className="transform -rotate-1 hover:rotate-0 transition-all duration-300 hover:shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=200&h=280&fit=crop" alt="Book cover" className="w-full h-32 object-cover rounded-lg shadow-lg" />
-                    </div>
-                    <div className="transform rotate-2 hover:rotate-0 transition-all duration-300 hover:shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1458668383970-8ddd3927deed?w=200&h=280&fit=crop" alt="Book cover" className="w-full h-32 object-cover rounded-lg shadow-lg" />
-                    </div>
-                    <div className="transform -rotate-2 hover:rotate-0 transition-all duration-300 hover:shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=200&h=280&fit=crop" alt="Book cover" className="w-full h-32 object-cover rounded-lg shadow-lg" />
-                    </div>
-                    <div className="transform rotate-1 hover:rotate-0 transition-all duration-300 hover:shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151?w=200&h=280&fit=crop" alt="Book cover" className="w-full h-32 object-cover rounded-lg shadow-lg" />
-                    </div>
-                    <div className="transform -rotate-1 hover:rotate-0 transition-all duration-300 hover:shadow-2xl">
-                      <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=200&h=280&fit=crop" alt="Book cover" className="w-full h-32 object-cover rounded-lg shadow-lg" />
+                  </div>
+                  
+                  {/* Books that appear behind/cropped by the Steps Section - Mobile */}
+                  <div className="absolute -bottom-3 left-0 right-0 z-0">
+                    <div className="max-w-xs mx-auto">
+                      <div className="grid grid-cols-3 gap-2">
+                        {/* Cropped book 4 */}
+                        <div className="transform hover:scale-105 transition-all duration-300">
+                          <img src="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?w=180&h=240&fit=crop" alt="Book cropped behind" className="w-full h-10 object-cover object-top rounded-lg shadow-lg opacity-90" />
+                        </div>
+                        {/* Cropped book 5 */}
+                        <div className="transform hover:scale-105 transition-all duration-300">
+                          <img src="https://images.unsplash.com/photo-1500673922987-e212871fec22?w=180&h=240&fit=crop" alt="Book cropped behind" className="w-full h-12 object-cover object-top rounded-lg shadow-lg opacity-90" />
+                        </div>
+                        {/* Cropped book 6 */}
+                        <div className="transform hover:scale-105 transition-all duration-300">
+                          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=180&h=240&fit=crop" alt="Book cropped behind" className="w-full h-8 object-cover object-top rounded-lg shadow-lg opacity-90" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
