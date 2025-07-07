@@ -7,7 +7,6 @@ import WhatsAppButton from '@/components/ui/WhatsAppButton';
 import LoadingScreen from '@/components/LoadingScreen';
 import { useVisitorTracking } from '@/hooks/useVisitorTracking';
 import { Button } from '@/components/ui/button';
-
 const Index = () => {
   const navigate = useNavigate();
 
@@ -138,7 +137,7 @@ const Index = () => {
           </div>
 
           {/* Steps Section */}
-          <div className="bg-white py-12 relative z-[999] rounded-2xl shadow-lg mx-4 md:mx-8 -mt-8">
+          <div className="bg-white py-12 relative z-[999] rounded-2xl shadow-lg mx-4 md:mx-8 -mt-[-6%]">
             <div className="container mx-auto px-6">
               <div className="max-w-5xl mx-auto">
                 {/* Step 1 - Image on right */}
