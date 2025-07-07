@@ -49,7 +49,7 @@ const Index = () => {
                 <div className="hidden lg:block flex-1 relative">
                   <div className="max-w-lg ml-auto relative z-10">
                     {/* Books arranged in structured grid with staggered heights */}
-                    <div className="grid grid-cols-3 gap-4 h-96 relative my-0 py-0">
+                    <div className="grid grid-cols-3 gap-4 h-96 relative my-0 py-0 pt-8">
                       {/* Left column - starts lower */}
                       <div className="flex flex-col gap-4 pt-12 py-0 my-[104px]">
                         {/* Book 1 - Top left (lower start) */}
