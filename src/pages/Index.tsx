@@ -75,10 +75,10 @@ const Index = () => {
                       </div>
                       
                       {/* Right column - starts middle height */}
-                      <div className="flex flex-col gap-4 pt-6 my-[95px]">
+                      <div className="flex flex-col gap-4 pt-6 my-0">
                         {/* New Book - Top right (new addition) */}
                         <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-                          <img alt="The Magic Forest Adventure" className="w-full h-32 object-cover rounded-lg shadow-lg" src="/lovable-uploads/128f6611-1b19-4a38-84f5-a24dcd6755e0.png" />
+                          <img alt="The Magic Forest Adventure" className="w-full h-32 object-cover rounded-lg shadow-lg" src="/lovable-uploads/e3eb0ac3-a28d-47b8-807d-3963b2ce38df.png" />
                         </div>
                         {/* Book 5 - Top right (middle start) */}
                         <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
@@ -86,7 +86,7 @@ const Index = () => {
                         </div>
                         {/* Book 6 - Bottom right */}
                         <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-                          <img src="/lovable-uploads/67396c97-2bae-42f7-9810-8cd0874acbfe.png" alt="The Adventures of Lisa and the Unicorn" className="w-full h-36 object-cover rounded-lg shadow-lg" />
+                          <img alt="The Adventures of Lisa and the Unicorn" className="w-full h-36 object-cover rounded-lg shadow-lg" src="/lovable-uploads/d5574267-4370-41e1-ae3d-52f3db0cac80.png" />
                         </div>
                       </div>
                     </div>
