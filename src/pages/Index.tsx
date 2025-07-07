@@ -1,3 +1,4 @@
+
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomScrollbar } from '@/components/ui/custom-scrollbar';
@@ -75,14 +76,14 @@ const Index = () => {
                       </div>
                       
                       {/* Right column - starts middle height */}
-                      <div className="flex flex-col gap-1 pt-1 my-[3px] py-[28px]">
+                      <div className="flex flex-col gap-4 pt-6 my-[95px]">
                         {/* Book 5 - Top right (middle start) */}
                         <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
                           <img alt="Cardboard the Brave Dinos Adventure" className="w-full h-36 object-cover rounded-lg shadow-lg" src="/lovable-uploads/6bb1affc-16ed-4c1c-8385-7588a54d5023.png" />
                         </div>
                         {/* Book 6 - Bottom right */}
                         <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
-                          <img src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=180&h=240&fit=crop" alt="The Adventures of Lisa and the Unicorn" className="w-full h-36 object-cover rounded-lg shadow-lg" />
+                          <img src="/lovable-uploads/67396c97-2bae-42f7-9810-8cd0874acbfe.png" alt="The Adventures of Lisa and the Unicorn" className="w-full h-36 object-cover rounded-lg shadow-lg" />
                         </div>
                       </div>
                     </div>
