@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomScrollbar } from '@/components/ui/custom-scrollbar';
@@ -77,6 +76,10 @@ const Index = () => {
                       
                       {/* Right column - starts middle height */}
                       <div className="flex flex-col gap-4 pt-6 my-[95px]">
+                        {/* New Book - Top right (new addition) */}
+                        <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                          <img alt="The Magic Forest Adventure" className="w-full h-32 object-cover rounded-lg shadow-lg" src="/lovable-uploads/128f6611-1b19-4a38-84f5-a24dcd6755e0.png" />
+                        </div>
                         {/* Book 5 - Top right (middle start) */}
                         <div className="transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
                           <img alt="Cardboard the Brave Dinos Adventure" className="w-full h-36 object-cover rounded-lg shadow-lg" src="/lovable-uploads/6bb1affc-16ed-4c1c-8385-7588a54d5023.png" />
@@ -174,7 +177,7 @@ const Index = () => {
                     <p className="text-base text-gray-600 leading-relaxed">
                       Avec notre <strong>IA générative</strong>, vous créez une <strong>histoire personnalisée</strong>. 
                       Choisissez la trame narrative et les options de style qui correspondent le mieux aux 
-                      <strong>intérêts de l'enfant</strong>.
+                     <strong>intérêts de l'enfant</strong>.
                     </p>
                   </div>
                   <div className="flex-1 flex justify-center">
@@ -196,7 +199,7 @@ const Index = () => {
                     <p className="text-base text-gray-600 leading-relaxed">
                       Recevez le <strong>livre électronique pour 7,99€</strong> immédiatement. 
                       Voulez-vous aussi une copie physique ? Alors choisissez un 
-                      <strong>livre relié pour 34,99€</strong> par la suite.
+                     <strong>livre relié pour 34,99€</strong> par la suite.
                     </p>
                   </div>
                   <div className="flex-1 flex justify-center">
