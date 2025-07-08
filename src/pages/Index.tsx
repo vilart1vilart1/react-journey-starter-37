@@ -680,11 +680,11 @@ const Index = () => {
               <div className="md:hidden">
                 <div ref={mobileScrollRef} className="flex gap-4 overflow-x-auto scrollbar-hide px-0 mt-[-8%]">
                    {/* Card 1 Mobile */}
-                   <div className="min-w-[75vw] max-w-[75vw] bg-white rounded-2xl shadow-lg overflow-hidden h-[480px] impact-card-1">
-                    <div className="w-full h-56">
+                   <div className="min-w-[75vw] max-w-[75vw] bg-white rounded-2xl shadow-lg overflow-hidden h-[520px] impact-card-1">
+                    <div className="w-full h-72">
                       <img alt="Enfant avec livre personnalisé" className="w-full h-full object-cover rounded-t-2xl" src="/lovable-uploads/012e6f8a-7a54-42e5-aa3a-7d9dc2cdfd1d.jpg" />
                     </div>
-                    <div className="h-[224px] p-6 flex flex-col">
+                    <div className="h-[248px] p-6 flex flex-col">
                       <h3 className="font-bold text-black mb-4 text-center text-base">RENFORCE LA CONFIANCE</h3>
                       <div className="flex-1 flex flex-col justify-between">
                         <div className="space-y-3">
@@ -711,11 +711,11 @@ const Index = () => {
                   </div>
 
                    {/* Card 2 Mobile */}
-                   <div className="min-w-[75vw] max-w-[75vw] bg-white rounded-2xl shadow-lg overflow-hidden h-[480px] impact-card-2">
-                    <div className="w-full h-56">
+                   <div className="min-w-[75vw] max-w-[75vw] bg-white rounded-2xl shadow-lg overflow-hidden h-[520px] impact-card-2">
+                    <div className="w-full h-72">
                       <img src="/lovable-uploads/4ddb4322-1d5e-459a-baaf-b62ef46ed5c3.png" alt="Enfant avec livre personnalisé" className="w-full h-full object-cover rounded-t-2xl" />
                     </div>
-                    <div className="h-[224px] p-6 flex flex-col">
+                    <div className="h-[248px] p-6 flex flex-col">
                       <h3 className="text-black mb-4 text-center font-bold text-base">DES VALEURS ESSENTIELLES</h3>
                       <div className="flex-1 flex flex-col justify-between">
                         <div className="space-y-3">
@@ -742,11 +742,11 @@ const Index = () => {
                   </div>
 
                    {/* Card 3 Mobile */}
-                   <div className="min-w-[75vw] max-w-[75vw] bg-white rounded-2xl shadow-lg overflow-hidden h-[480px] impact-card-3">
-                    <div className="w-full h-56">
+                   <div className="min-w-[75vw] max-w-[75vw] bg-white rounded-2xl shadow-lg overflow-hidden h-[520px] impact-card-3">
+                    <div className="w-full h-72">
                       <img alt="Enfant avec livre personnalisé" className="w-full h-full object-cover rounded-t-2xl" src="/lovable-uploads/74848b37-bf8a-455b-a6a4-101218c8755d.jpg" />
                     </div>
-                    <div className="h-[224px] p-6 flex flex-col">
+                    <div className="h-[248px] p-6 flex flex-col">
                       <h3 className="font-bold text-black mb-4 text-center text-base">DES MOMENTS MAGIQUES</h3>
                       <div className="flex-1 flex flex-col justify-between">
                         <div className="space-y-3">
