@@ -313,12 +313,12 @@ const Index = () => {
                   
                   <div className="max-w-md mx-auto relative z-10">
                     {/* Books arranged in structured grid with staggered heights - bigger and positioned lower */}
-                    <div className="grid grid-cols-3 gap-0 h-72 relative my-0 pt-12 mt-[-22%] py-[28px]">
+                    <div className="grid grid-cols-3 gap-1 h-auto relative my-0 pt-12 mt-[-22%] py-[28px]">
                       {/* Left column - starts lower */}
-                      <div className="flex flex-col gap-0 pt-8 py-0 my-[60px] mr-[-3%]">
+                      <div className="flex flex-col gap-1 pt-8 py-0 my-[60px] mr-[-3%]">
                         {/* Book 1 - Top left (lower start) */}
                         <div ref={book1Animation.ref} className={`transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${book1Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} hover:shadow-primary/30`}>
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(251, 146, 60, 0.5))'
                         }}>
                             <img alt="Thomas and the Magical Judo Adventure" src="/lovable-uploads/e4c91fce-bc18-4e42-a454-1f9b8fece80e.png" className="w-full h-full object-contain rounded-lg" />
@@ -326,7 +326,7 @@ const Index = () => {
                         </div>
                         {/* Book 3 - Bottom left */}
                         <div ref={book3Animation.ref} className={`transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${book3Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} hover:shadow-primary/30`}>
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(168, 85, 247, 0.5))'
                         }}>
                             <img alt="The Magical Unicorn of Friendship" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/0fc670a6-d247-4ff6-a08f-892d9c684d76.png" />
@@ -335,10 +335,10 @@ const Index = () => {
                       </div>
                       
                       {/* Center column - starts highest */}
-                      <div className="flex flex-col gap-0 pt-0 my-[50px]">
+                      <div className="flex flex-col gap-1 pt-0 my-[50px]">
                         {/* Book 2 - Top center (highest start) */}
                         <div ref={book2Animation.ref} className={`transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${book2Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} hover:shadow-primary/30`}>
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(59, 130, 246, 0.5))'
                         }}>
                             <img alt="Alice Among the Enchanted Dreams" src="/lovable-uploads/cc3ab2c5-c5af-410e-9519-7abddb26f463.png" className="w-full h-full object-contain rounded-lg" />
@@ -346,7 +346,7 @@ const Index = () => {
                         </div>
                         {/* Book 4 - Bottom center */}
                         <div ref={book4Animation.ref} className={`transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${book4Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} hover:shadow-primary/30`}>
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(99, 102, 241, 0.5))'
                         }}>
                             <img alt="James Space Flight" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/7241d973-1c02-432d-a3fa-788a2e091e5b.jpg" />
@@ -355,10 +355,10 @@ const Index = () => {
                       </div>
                       
                       {/* Right column - starts middle height, adjusted positioning */}
-                      <div className="flex flex-col gap-0 pt-2 my-0 ml-[-3%]">
+                      <div className="flex flex-col gap-1 pt-2 my-0 ml-[-3%]">
                         {/* New Book - Top right (adjusted positioning) */}
                         <div ref={book5Animation.ref} className={`transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${book5Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} hover:shadow-primary/30`}>
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(34, 197, 94, 0.5))'
                         }}>
                             <img alt="The Magic Forest Adventure" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/a5abdc1b-e768-45b3-80c7-25773e9d3dbf.jpg" />
@@ -366,7 +366,7 @@ const Index = () => {
                         </div>
                         {/* Book 5 - Top right (middle start) */}
                         <div ref={book6Animation.ref} className={`transform hover:scale-105 transition-all duration-500 hover:shadow-2xl ${book6Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} hover:shadow-primary/30`}>
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(234, 179, 8, 0.5))'
                         }}>
                             <img alt="Cardboard the Brave Dinos Adventure" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/012abcc4-18fd-47b1-a511-bbe756542e9c.jpg" />
@@ -374,7 +374,7 @@ const Index = () => {
                         </div>
                         {/* Book 6 - Bottom right */}
                         <div className="transform hover:scale-105 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30">
-                          <div className="relative w-[90%] h-28 rounded-lg" style={{
+                          <div className="relative w-full aspect-[3/4] rounded-lg" style={{
                           filter: 'drop-shadow(0 15px 15px rgba(236, 72, 153, 0.5))'
                         }}>
                             <img alt="The Adventures of Lisa and the Unicorn" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/d5574267-4370-41e1-ae3d-52f3db0cac80.png" />
