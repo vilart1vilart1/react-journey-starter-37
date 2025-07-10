@@ -8,6 +8,8 @@ import LoadingScreen from '@/components/LoadingScreen';
 import { useVisitorTracking } from '@/hooks/useVisitorTracking';
 import { useEnhancedScrollAnimation } from '@/hooks/useEnhancedScrollAnimation';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { ChevronLeft, ChevronRight, X, Hand } from 'lucide-react';
 const Index = () => {
   const navigate = useNavigate();
 
@@ -80,6 +82,38 @@ const Index = () => {
     delay: 400,
     staggerDelay: 0
   });
+
+  // Carousel state
+  const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+  const [currentCarouselIndex, setCurrentCarouselIndex] = useState(0);
+  
+  // Book images for carousel
+  const bookImages = [
+    { src: "/lovable-uploads/e4c91fce-bc18-4e42-a454-1f9b8fece80e.png", alt: "Thomas and the Magical Judo Adventure" },
+    { src: "/lovable-uploads/cc3ab2c5-c5af-410e-9519-7abddb26f463.png", alt: "Alice Among the Enchanted Dreams" },
+    { src: "/lovable-uploads/a31deb8f-2367-4b2f-9f45-dc71395ca637.png", alt: "The Magical Unicorn of Friendship" },
+    { src: "/lovable-uploads/ac211a5b-23aa-4b92-b8f2-12693406447c.png", alt: "James Space Flight" },
+    { src: "/lovable-uploads/2aa94214-a9cb-4f40-b86d-34f78fbdc3d5.png", alt: "The Magic Forest Adventure" },
+    { src: "/lovable-uploads/dc8b5a6e-b2fb-4dd7-96e5-cf214ec005b4.png", alt: "Cardboard the Brave Dinos Adventure" }
+  ];
+
+  // Carousel handlers
+  const openCarousel = (index: number) => {
+    setCurrentCarouselIndex(index);
+    setIsCarouselOpen(true);
+  };
+
+  const closeCarousel = () => {
+    setIsCarouselOpen(false);
+  };
+
+  const nextImage = () => {
+    setCurrentCarouselIndex((prev) => (prev + 1) % bookImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentCarouselIndex((prev) => (prev - 1 + bookImages.length) % bookImages.length);
+  };
   const handlePersonalizeClick = useCallback(() => {
     setShowLoading(true);
   }, []);
@@ -321,63 +355,74 @@ const Index = () => {
                    }}>
                      <img src="/lovable-uploads/8029170b-89d6-404a-9375-bac7a7c4b672.png" alt="Background behind left and middle books" className="w-full h-full object-contain opacity-40" />
                    </div>
+                   
+                   {/* Animated Hand Icon - MOBILE ONLY */}
+                   <div className="lg:hidden absolute pointer-events-none animate-bounce" style={{
+                     top: '10px',
+                     right: '10px',
+                     zIndex: 20
+                   }}>
+                     <div className="bg-[#a6428d] text-white p-2 rounded-full shadow-lg">
+                       <Hand size={16} className="animate-pulse" />
+                     </div>
+                   </div>
                   
                   <div className="max-w-md mx-auto relative z-10">
                     {/* Books arranged in structured grid with staggered heights - bigger and positioned lower */}
                     <div className="grid grid-cols-3 gap-2 h-72 relative my-0 pt-12 mt-[-22%] py-[28px]">
                       {/* Left column - starts lower */}
                       <div className="flex flex-col gap-0 pt-8 py-0 my-[60px] mr-[-3%]">
-                        {/* Book 1 - Top left (lower start) */}
-                         <div ref={book1Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book1Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="Thomas and the Magical Judo Adventure" src="/lovable-uploads/e4c91fce-bc18-4e42-a454-1f9b8fece80e.png" className="w-full h-full object-contain rounded-lg mt-[8%]" />
-                           </div>
-                         </div>
-                        {/* Book 3 - Bottom left */}
-                         <div ref={book3Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book3Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="The Magical Unicorn of Friendship" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/a31deb8f-2367-4b2f-9f45-dc71395ca637.png" />
-                           </div>
-                         </div>
-                      </div>
-                      
-                      {/* Center column - starts highest */}
-                      <div className="flex flex-col gap-0 pt-0 my-[50px]">
-                        {/* Book 2 - Top center (highest start) */}
-                         <div ref={book2Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book2Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="Alice Among the Enchanted Dreams" src="/lovable-uploads/cc3ab2c5-c5af-410e-9519-7abddb26f463.png" className="w-full h-full object-contain rounded-lg" />
-                           </div>
-                         </div>
-                        {/* Book 4 - Bottom center */}
-                         <div ref={book4Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book4Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="James Space Flight" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/ac211a5b-23aa-4b92-b8f2-12693406447c.png" />
-                           </div>
-                         </div>
-                      </div>
-                      
-                      {/* Right column - starts middle height, adjusted positioning */}
-                      <div className="flex flex-col gap-0 pt-2 my-0 ml-[-3%]">
-                        {/* New Book - Top right (adjusted positioning) */}
-                         <div ref={book5Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book5Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="The Magic Forest Adventure" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/2aa94214-a9cb-4f40-b86d-34f78fbdc3d5.png" />
-                           </div>
-                         </div>
-                        {/* Book 5 - Top right (middle start) */}
-                         <div ref={book6Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book6Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="Cardboard the Brave Dinos Adventure" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/dc8b5a6e-b2fb-4dd7-96e5-cf214ec005b4.png" />
-                           </div>
-                         </div>
-                        {/* Book 6 - Bottom right */}
-                         <div className="transform hover:scale-105 transition-all duration-500">
-                           <div className="relative w-full h-32 rounded-lg">
-                             <img alt="The Adventures of Lisa and the Unicorn" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/d5574267-4370-41e1-ae3d-52f3db0cac80.png" />
-                           </div>
-                         </div>
-                      </div>
+                         {/* Book 1 - Top left (lower start) */}
+                          <div ref={book1Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book1Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} onClick={() => openCarousel(0)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="Thomas and the Magical Judo Adventure" src="/lovable-uploads/e4c91fce-bc18-4e42-a454-1f9b8fece80e.png" className="w-full h-full object-contain rounded-lg mt-[8%]" />
+                            </div>
+                          </div>
+                         {/* Book 3 - Bottom left */}
+                          <div ref={book3Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book3Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} onClick={() => openCarousel(2)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="The Magical Unicorn of Friendship" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/a31deb8f-2367-4b2f-9f45-dc71395ca637.png" />
+                            </div>
+                          </div>
+                       </div>
+                       
+                       {/* Center column - starts highest */}
+                       <div className="flex flex-col gap-0 pt-0 my-[50px]">
+                         {/* Book 2 - Top center (highest start) */}
+                          <div ref={book2Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book2Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} onClick={() => openCarousel(1)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="Alice Among the Enchanted Dreams" src="/lovable-uploads/cc3ab2c5-c5af-410e-9519-7abddb26f463.png" className="w-full h-full object-contain rounded-lg" />
+                            </div>
+                          </div>
+                         {/* Book 4 - Bottom center */}
+                          <div ref={book4Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book4Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} onClick={() => openCarousel(3)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="James Space Flight" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/ac211a5b-23aa-4b92-b8f2-12693406447c.png" />
+                            </div>
+                          </div>
+                       </div>
+                       
+                       {/* Right column - starts middle height, adjusted positioning */}
+                       <div className="flex flex-col gap-0 pt-2 my-0 ml-[-3%]">
+                         {/* New Book - Top right (adjusted positioning) */}
+                          <div ref={book5Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book5Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} onClick={() => openCarousel(4)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="The Magic Forest Adventure" className="w-full h-full object-contain rounded-lg" src="/lovable-uploads/2aa94214-a9cb-4f40-b86d-34f78fbdc3d5.png" />
+                            </div>
+                          </div>
+                         {/* Book 5 - Top right (middle start) */}
+                          <div ref={book6Animation.ref} className={`transform hover:scale-105 transition-all duration-500 ${book6Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} onClick={() => openCarousel(5)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="Cardboard the Brave Dinos Adventure" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/dc8b5a6e-b2fb-4dd7-96e5-cf214ec005b4.png" />
+                            </div>
+                          </div>
+                         {/* Book 6 - Bottom right */}
+                          <div className="transform hover:scale-105 transition-all duration-500 cursor-pointer" onClick={() => openCarousel(5)}>
+                            <div className="relative w-full h-32 rounded-lg">
+                              <img alt="The Adventures of Lisa and the Unicorn" className="w-full h-full object-contain rounded-lg mt-[-21%]" src="/lovable-uploads/d5574267-4370-41e1-ae3d-52f3db0cac80.png" />
+                            </div>
+                          </div>
+                       </div>
                     </div>
                   </div>
                 </div>
@@ -688,6 +733,65 @@ const Index = () => {
           <WhatsAppButton />
         </div>
       </CustomScrollbar>
+
+      {/* Book Carousel Modal */}
+      <Dialog open={isCarouselOpen} onOpenChange={setIsCarouselOpen}>
+        <DialogContent className="max-w-4xl w-full h-[80vh] p-0 bg-black/95 border-none">
+          <DialogTitle className="sr-only">Book Gallery</DialogTitle>
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Close Button */}
+            <button
+              onClick={closeCarousel}
+              className="absolute top-4 right-4 z-50 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+            >
+              <X size={20} />
+            </button>
+
+            {/* Previous Button */}
+            <button
+              onClick={prevImage}
+              className="absolute left-4 z-50 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+            >
+              <ChevronLeft size={24} />
+            </button>
+
+            {/* Current Image */}
+            <div className="w-full h-full flex items-center justify-center p-8">
+              <img
+                src={bookImages[currentCarouselIndex]?.src}
+                alt={bookImages[currentCarouselIndex]?.alt}
+                className="max-w-full max-h-full object-contain rounded-lg"
+              />
+            </div>
+
+            {/* Next Button */}
+            <button
+              onClick={nextImage}
+              className="absolute right-4 z-50 p-3 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            {/* Image Counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50 bg-black/50 text-white px-4 py-2 rounded-full text-sm">
+              {currentCarouselIndex + 1} / {bookImages.length}
+            </div>
+
+            {/* Dots Navigation */}
+            <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-50 flex gap-2">
+              {bookImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentCarouselIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentCarouselIndex ? 'bg-white' : 'bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </>;
 };
 export default Index;
