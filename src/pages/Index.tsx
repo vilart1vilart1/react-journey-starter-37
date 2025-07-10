@@ -358,11 +358,12 @@ const Index = () => {
                    
                    {/* Animated Hand Icon - MOBILE ONLY */}
                    <div className="lg:hidden absolute pointer-events-none animate-bounce" style={{
-                     top: '10px',
-                     right: '10px',
+                     top: '0px',
+                     right: '50%',
+                     transform: 'translateX(50%)',
                      zIndex: 20
                    }}>
-                     <div className="bg-[#a6428d] text-white p-2 rounded-full shadow-lg">
+                     <div className="bg-[#a6428d]/60 text-white/90 p-2 rounded-full shadow-lg backdrop-blur-sm">
                        <Hand size={16} className="animate-pulse" />
                      </div>
                    </div>
@@ -742,9 +743,9 @@ const Index = () => {
             {/* Close Button */}
             <button
               onClick={closeCarousel}
-              className="absolute top-4 right-4 z-50 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+              className="absolute top-4 right-4 z-50 p-3 bg-white/20 backdrop-blur-sm text-white rounded-full hover:bg-white/30 transition-all duration-200 border border-white/30 hover:scale-110"
             >
-              <X size={20} />
+              <X size={24} className="stroke-2" />
             </button>
 
             {/* Previous Button */}
