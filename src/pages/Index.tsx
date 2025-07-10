@@ -310,6 +310,17 @@ const Index = () => {
                 }}>
                      <img src="/lovable-uploads/8029170b-89d6-404a-9375-bac7a7c4b672.png" alt="Character behind books mobile" className="w-full h-full object-contain opacity-[07%]" />
                    </div>
+                   
+                   {/* Background image specifically behind left and middle book columns - MOBILE ONLY */}
+                   <div className="lg:hidden absolute pointer-events-none" style={{
+                     top: '15%',
+                     left: '15%',
+                     width: '200px',
+                     height: '180px',
+                     zIndex: 0
+                   }}>
+                     <img src="/lovable-uploads/8029170b-89d6-404a-9375-bac7a7c4b672.png" alt="Background behind left and middle books" className="w-full h-full object-contain opacity-20" />
+                   </div>
                   
                   <div className="max-w-md mx-auto relative z-10">
                     {/* Books arranged in structured grid with staggered heights - bigger and positioned lower */}
