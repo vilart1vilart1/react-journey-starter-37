@@ -351,7 +351,7 @@ const Index = () => {
   className="lg:hidden absolute pointer-events-none"
   style={{
     top: '22%',
-    left: '18%',
+    left: '17%',
     width: '235px',
     height: '200px', // Make it square for circle
     zIndex: 20,
@@ -373,7 +373,7 @@ const Index = () => {
                    {/* Animated Hand Icon - MOBILE ONLY */}
                    <div className="lg:hidden absolute pointer-events-none" style={{
                      top: '2%',
-                     right: '20%',
+                     right: '21%',
                      transform: 'translateX(50%)',
                      zIndex: 20
                    }}>
@@ -386,19 +386,19 @@ const Index = () => {
                     {/* Books arranged with absolute positioning for free movement */}
                     <div className="relative h-72 w-full pt-12 mt-[-20%] py-[28px]">
                       
-                      {/* Book 1 - Top left (freely positionable) */}
-                      <div 
-                        ref={book1Animation.ref} 
-                        className={`absolute transform hover:scale-105 transition-all duration-500 ${book1Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
-                        onClick={() => openCarousel(0)}
-                        style={{
-                          width: '83px',  // Fixed width - won't change
-                          height: '128px', // Fixed height - won't change
-                          top: '39%',     // Vertical position - adjust as needed
-                          left: '4%',    // Horizontal position - adjust as needed
-                          zIndex: 10
-                        }}
-                      >
+                       {/* Book 1 - Top left (freely positionable) */}
+                       <div 
+                         ref={book1Animation.ref} 
+                         className={`absolute transform hover:scale-105 transition-all duration-500 ${book1Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
+                         onClick={() => openCarousel(0)}
+                         style={{
+                           width: '83px',  // Fixed width - won't change
+                           height: '128px', // Fixed height - won't change
+                           top: '39%',     // Vertical position - adjust as needed
+                           left: '3%',    // Horizontal position - shifted 1% left
+                           zIndex: 10
+                         }}
+                       >
                         <div className="relative w-full h-full rounded-lg" style={{
                           filter: 'drop-shadow(0 8px 12px rgba(251, 146, 60, 0.3))'
                         }}>
@@ -406,19 +406,19 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Book 2 - Top center (freely positionable) */}
-                      <div 
-                        ref={book2Animation.ref} 
-                        className={`absolute transform hover:scale-105 transition-all duration-500 ${book2Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
-                        onClick={() => openCarousel(1)}
-                        style={{
-                          width: '83px',   // Fixed width - won't change
-                          height: '128px', // Fixed height - won't change
-                          top: '8.3%',     // Vertical position - adjust as needed
-                          left: '40%',   // Horizontal position - adjust as needed
-                          zIndex: 10
-                        }}
-                      >
+                       {/* Book 2 - Top center (freely positionable) */}
+                       <div 
+                         ref={book2Animation.ref} 
+                         className={`absolute transform hover:scale-105 transition-all duration-500 ${book2Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
+                         onClick={() => openCarousel(1)}
+                         style={{
+                           width: '83px',   // Fixed width - won't change
+                           height: '128px', // Fixed height - won't change
+                           top: '8.3%',     // Vertical position - adjust as needed
+                           left: '39%',   // Horizontal position - shifted 1% left
+                           zIndex: 10
+                         }}
+                       >
                         <div className="relative w-full h-full rounded-lg" style={{
                           filter: 'drop-shadow(0 8px 12px rgba(59, 130, 246, 0.3))'
                         }}>
@@ -426,19 +426,19 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Book 3 - Bottom left (freely positionable) */}
-                      <div 
-                        ref={book3Animation.ref} 
-                        className={`absolute transform hover:scale-105 transition-all duration-500 ${book3Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
-                        onClick={() => openCarousel(2)}
-                        style={{
-                          width: '81px',   // Fixed width - won't change
-                          height: '128px', // Fixed height - won't change
-                          top: '70%',    // Vertical position - adjust as needed
-                          left: '4%',    // Horizontal position - adjust as needed
-                          zIndex: 21,
-                        }}
-                      >
+                       {/* Book 3 - Bottom left (freely positionable) */}
+                       <div 
+                         ref={book3Animation.ref} 
+                         className={`absolute transform hover:scale-105 transition-all duration-500 ${book3Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
+                         onClick={() => openCarousel(2)}
+                         style={{
+                           width: '81px',   // Fixed width - won't change
+                           height: '128px', // Fixed height - won't change
+                           top: '70%',    // Vertical position - adjust as needed
+                           left: '3%',    // Horizontal position - shifted 1% left
+                           zIndex: 21,
+                         }}
+                       >
                         <div className="relative w-full h-full rounded-lg" style={{
                           filter: 'drop-shadow(0 8px 12px rgba(168, 85, 247, 0.3))'
                         }}>
@@ -446,19 +446,19 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Book 4 - Bottom center (freely positionable) */}
-                      <div 
-                        ref={book4Animation.ref} 
-                        className={`absolute transform hover:scale-105 transition-all duration-500 ${book4Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
-                        onClick={() => openCarousel(3)}
-                        style={{
-                          width: '83px',   // Fixed width - won't change
-                          height: '100px', // Fixed height - won't change
-                          top: '13.5%',    // Vertical position - adjust as needed
-                          left: '12.9%',   // Horizontal position - adjust as needed
-                          zIndex: 10
-                        }}
-                      >
+                       {/* Book 4 - Bottom center (freely positionable) */}
+                       <div 
+                         ref={book4Animation.ref} 
+                         className={`absolute transform hover:scale-105 transition-all duration-500 ${book4Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
+                         onClick={() => openCarousel(3)}
+                         style={{
+                           width: '83px',   // Fixed width - won't change
+                           height: '100px', // Fixed height - won't change
+                           top: '13.5%',    // Vertical position - adjust as needed
+                           left: '11.9%',   // Horizontal position - shifted 1% left
+                           zIndex: 10
+                         }}
+                       >
                         <div className="relative w-full h-full rounded-lg" style={{
                           filter: 'drop-shadow(0 8px 12px rgba(99, 102, 241, 0.3))'
                         }}>
@@ -466,19 +466,19 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Book 5 - Top right (freely positionable) */}
-                      <div 
-                        ref={book5Animation.ref} 
-                        className={`absolute transform hover:scale-105 transition-all duration-500 ${book5Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
-                        onClick={() => openCarousel(4)}
-                        style={{
-                          width: '83px',   // Fixed width - won't change
-                          height: '124px', // Fixed height - won't change
-                          top: '9.1%',     // Vertical position - adjust as needed
-                          left: '67%',   // Horizontal position - adjust as needed
-                          zIndex: 10
-                        }}
-                      >
+                       {/* Book 5 - Top right (freely positionable) */}
+                       <div 
+                         ref={book5Animation.ref} 
+                         className={`absolute transform hover:scale-105 transition-all duration-500 ${book5Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
+                         onClick={() => openCarousel(4)}
+                         style={{
+                           width: '83px',   // Fixed width - won't change
+                           height: '124px', // Fixed height - won't change
+                           top: '9.1%',     // Vertical position - adjust as needed
+                           left: '66%',   // Horizontal position - shifted 1% left
+                           zIndex: 10
+                         }}
+                       >
                         <div className="relative w-full h-full rounded-lg" style={{
                           filter: 'drop-shadow(0 8px 12px rgba(34, 197, 94, 0.3))'
                         }}>
@@ -486,18 +486,18 @@ const Index = () => {
                         </div>
                       </div>
 
-                      {/* Book 6 - Middle right (freely positionable) */}
-                      <div 
-                        ref={book6Animation.ref} 
-                        className={`absolute transform hover:scale-105 transition-all duration-500 ${book6Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
-                        onClick={() => openCarousel(5)}
-                        style={{
-                          width: '83px',   // Fixed width - won't change
-                          height: '128px', // Fixed height - won't change
-                          top: '39.5%',    // Vertical position - adjust as needed
-                          left: '74%',   // Horizontal position - adjust as needed
-                          zIndex: 10
-                        }}
+                       {/* Book 6 - Middle right (freely positionable) */}
+                       <div 
+                         ref={book6Animation.ref} 
+                         className={`absolute transform hover:scale-105 transition-all duration-500 ${book6Animation.isVisible ? 'animate-fade-in' : 'opacity-0'} cursor-pointer`} 
+                         onClick={() => openCarousel(5)}
+                         style={{
+                           width: '83px',   // Fixed width - won't change
+                           height: '128px', // Fixed height - won't change
+                           top: '39.5%',    // Vertical position - adjust as needed
+                           left: '73%',   // Horizontal position - shifted 1% left
+                           zIndex: 10
+                         }}
                       >
                         <div className="relative w-full h-full rounded-lg" style={{
                           filter: 'drop-shadow(0 8px 12px rgba(234, 179, 8, 0.3))'
