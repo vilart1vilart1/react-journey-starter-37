@@ -351,7 +351,7 @@ const Index = () => {
   className="lg:hidden absolute pointer-events-none"
   style={{
     top: '22%',
-    left: '17%',
+    left: '16%',
     width: '235px',
     height: '200px', // Make it square for circle
     zIndex: 20,
@@ -373,7 +373,7 @@ const Index = () => {
                    {/* Animated Hand Icon - MOBILE ONLY */}
                    <div className="lg:hidden absolute pointer-events-none" style={{
                      top: '2%',
-                     right: '21%',
+                     right: '22%',
                      transform: 'translateX(50%)',
                      zIndex: 20
                    }}>
@@ -395,7 +395,7 @@ const Index = () => {
                            width: '83px',  // Fixed width - won't change
                            height: '128px', // Fixed height - won't change
                            top: '39%',     // Vertical position - adjust as needed
-                           left: '3%',    // Horizontal position - shifted 1% left
+                           left: '2%',    // Horizontal position - shifted another 1% left
                            zIndex: 10
                          }}
                        >
@@ -415,7 +415,7 @@ const Index = () => {
                            width: '83px',   // Fixed width - won't change
                            height: '128px', // Fixed height - won't change
                            top: '8.3%',     // Vertical position - adjust as needed
-                           left: '39%',   // Horizontal position - shifted 1% left
+                           left: '38%',   // Horizontal position - shifted another 1% left
                            zIndex: 10
                          }}
                        >
@@ -435,7 +435,7 @@ const Index = () => {
                            width: '81px',   // Fixed width - won't change
                            height: '128px', // Fixed height - won't change
                            top: '70%',    // Vertical position - adjust as needed
-                           left: '3%',    // Horizontal position - shifted 1% left
+                           left: '2%',    // Horizontal position - shifted another 1% left
                            zIndex: 21,
                          }}
                        >
@@ -455,7 +455,7 @@ const Index = () => {
                            width: '83px',   // Fixed width - won't change
                            height: '100px', // Fixed height - won't change
                            top: '13.5%',    // Vertical position - adjust as needed
-                           left: '11.9%',   // Horizontal position - shifted 1% left
+                           left: '10.9%',   // Horizontal position - shifted another 1% left
                            zIndex: 10
                          }}
                        >
@@ -475,7 +475,7 @@ const Index = () => {
                            width: '83px',   // Fixed width - won't change
                            height: '124px', // Fixed height - won't change
                            top: '9.1%',     // Vertical position - adjust as needed
-                           left: '66%',   // Horizontal position - shifted 1% left
+                           left: '65%',   // Horizontal position - shifted another 1% left
                            zIndex: 10
                          }}
                        >
@@ -495,7 +495,7 @@ const Index = () => {
                            width: '83px',   // Fixed width - won't change
                            height: '128px', // Fixed height - won't change
                            top: '39.5%',    // Vertical position - adjust as needed
-                           left: '73%',   // Horizontal position - shifted 1% left
+                           left: '72%',   // Horizontal position - shifted another 1% left
                            zIndex: 10
                          }}
                       >
