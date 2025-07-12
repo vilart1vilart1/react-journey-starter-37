@@ -614,8 +614,9 @@ const Index = () => {
 
                 {/* CTA Button */}
                 <div className="text-center">
-                  <Button onClick={handlePersonalizeClick} className="w-full h-12 bg-gradient-to-r from-[#a6428d] to-purple-400 hover:from-[#924077] hover:to-purple-300 text-white font-medium text-base rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 sm:w-auto sm:px-6 sm:py-3">
+                  <Button onClick={handlePersonalizeClick} className="w-full h-12 bg-gradient-to-r from-[#a6428d] to-purple-400 hover:from-[#924077] hover:to-purple-300 text-white font-medium text-base rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 sm:w-auto sm:px-6 sm:py-3 flex items-center justify-center gap-2">
                     Je personnalise mon histoire
+                    <ChevronRight className="w-5 h-5 animate-pulse transform translate-x-0 hover:translate-x-1 transition-transform duration-300" />
                   </Button>
                 </div>
               </div>
