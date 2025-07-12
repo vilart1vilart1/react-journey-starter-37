@@ -613,10 +613,10 @@ const Index = () => {
                 </div>
 
                 {/* CTA Button */}
-                <div className="text-center">
-                  <Button onClick={handlePersonalizeClick} className="w-full h-12 bg-gradient-to-r from-[#a6428d] to-purple-400 hover:from-[#924077] hover:to-purple-300 text-white font-medium text-base rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 sm:w-auto sm:px-6 sm:py-3 flex items-center justify-center gap-2">
+                <div className="text-center flex justify-center">
+                  <Button onClick={handlePersonalizeClick} className="h-12 bg-gradient-to-r from-[#a6428d] to-purple-400 hover:from-[#924077] hover:to-purple-300 text-white font-medium text-base rounded-lg shadow-lg transform transition-all duration-200 hover:scale-105 px-6 py-3 flex items-center justify-center gap-2">
                     Je personnalise mon histoire
-                    <ChevronRight className="w-5 h-5 animate-pulse transform translate-x-0 hover:translate-x-1 transition-transform duration-300" />
+                    <ChevronRight className="w-5 h-5 animate-arrow-bounce" />
                   </Button>
                 </div>
               </div>
@@ -652,8 +652,9 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="mt-6">
-                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-12 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-base rounded-lg transition-all duration-200">
+                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-12 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-base rounded-lg transition-all duration-200 flex items-center justify-center gap-2">
                             Je personnalise mon histoire
+                            <ChevronRight className="w-5 h-5 animate-arrow-bounce" />
                           </Button>
                         </div>
                       </div>
@@ -683,8 +684,9 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="mt-6">
-                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-12 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-base rounded-lg transition-all duration-200">
+                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-12 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-base rounded-lg transition-all duration-200 flex items-center justify-center gap-2">
                             Je personnalise mon histoire
+                            <ChevronRight className="w-5 h-5 animate-arrow-bounce" />
                           </Button>
                         </div>
                       </div>
@@ -712,8 +714,9 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="mt-6">
-                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-12 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-base rounded-lg transition-all duration-200">
+                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-12 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-base rounded-lg transition-all duration-200 flex items-center justify-center gap-2">
                             Je personnalise mon histoire
+                            <ChevronRight className="w-5 h-5 animate-arrow-bounce" />
                           </Button>
                         </div>
                       </div>
@@ -756,8 +759,9 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="mt-4">
-                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-10 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-xs rounded-lg transition-all duration-200">
+                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-10 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-xs rounded-lg transition-all duration-200 flex items-center justify-center gap-2">
                             Je personnalise mon histoire
+                            <ChevronRight className="w-4 h-4 animate-arrow-bounce" />
                           </Button>
                         </div>
                       </div>
@@ -787,8 +791,9 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="mt-4">
-                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-10 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-xs rounded-lg transition-all duration-200">
+                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-10 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-xs rounded-lg transition-all duration-200 flex items-center justify-center gap-2">
                             Je personnalise mon histoire
+                            <ChevronRight className="w-4 h-4 animate-arrow-bounce" />
                           </Button>
                         </div>
                       </div>
@@ -818,8 +823,9 @@ const Index = () => {
                           </div>
                         </div>
                         <div className="mt-4">
-                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-10 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-xs rounded-lg transition-all duration-200">
+                          <Button onClick={handlePersonalizeClick} variant="outline" className="w-full h-10 border-2 border-[#a6428d] text-[#a6428d] bg-transparent hover:bg-[#a6428d] hover:text-white font-medium text-xs rounded-lg transition-all duration-200 flex items-center justify-center gap-2">
                             Je personnalise mon histoire
+                            <ChevronRight className="w-4 h-4 animate-arrow-bounce" />
                           </Button>
                         </div>
                       </div>
