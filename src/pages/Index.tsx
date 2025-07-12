@@ -536,6 +536,12 @@ const Index = () => {
           <div className="bg-white py-12 relative z-[999] rounded-2xl shadow-lg mx-4 md:mx-8 -mt-[-6%]">
             <div className="container mx-auto px-6">
               <div className="max-w-5xl mx-auto">
+                {/* Title */}
+                <div className="text-center mb-8 md:mb-12">
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800">
+                    Comment ça marche
+                  </h2>
+                </div>
                 {/* Step 1 - Image first on mobile, text first on desktop */}
                 <div ref={step1Animation.ref} className={`flex flex-col lg:flex-row items-center gap-8 mb-6 transition-all duration-700 ${step1Animation.isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
                   {/* Image - shows first on mobile, first on desktop */}
