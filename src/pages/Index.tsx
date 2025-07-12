@@ -209,8 +209,8 @@ const Index = () => {
           <Header />
           
           {/* Hero Section */}
-          <div className="relative z-20 pt-28 md:pt-40">
-            <div className="container mx-auto px-8 py-0 my-0 mt-12 md:mt-0">
+          <div className="relative z-20 pt-8 md:pt-12">
+            <div className="container mx-auto px-8 py-0 my-0 mt-4 md:mt-0">
               <div className="flex flex-col lg:flex-row items-center gap-12">
                 {/* Left side - Text and Button */}
                 <div className="flex-1 text-center lg:text-left relative">
