@@ -4,7 +4,7 @@ import { Star } from 'lucide-react';
 
 const TrustpilotBar = () => {
   return (
-    <div className="bg-white border-b border-gray-200 py-4 md:py-2 px-4 fixed top-0 left-0 right-0 z-[9999]">
+    <div className="bg-white border-b border-gray-200 py-4 md:py-2 px-4 w-full z-[9999]">
       <div className="container mx-auto flex items-center justify-center gap-2 md:gap-3">
         <span className="text-black font-semibold text-sm md:text-sm">Excellent</span>
         

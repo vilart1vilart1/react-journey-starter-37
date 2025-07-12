@@ -57,10 +57,10 @@ const Header = () => {
       {/* Trustpilot Bar at the very top */}
       <TrustpilotBar />
       
-      <header className={`fixed left-0 right-0 z-[9999] transition-all duration-300 ${
+      <header className={`w-full z-[9999] transition-all duration-300 ${
         isScrolled 
-          ? `bg-white shadow-md ${isMobile ? 'top-[2.5rem]' : 'top-[1.8rem]'}` 
-          : 'top-[2.5rem]'
+          ? 'bg-white shadow-md' 
+          : ''
       }`}>
         <div className={`container mx-auto px-2 sm:px-4 transition-all duration-300 ${isScrolled ? 'py-1 sm:py-2' : 'py-2 sm:py-3'}`}>
           {/* Mobile Layout */}
