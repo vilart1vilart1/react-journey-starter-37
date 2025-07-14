@@ -57,5 +57,14 @@ Sms.Checklists.ViewModels.ServiceOrderChecklistDetailsViewModel.prototype.init =
 		if (!!routeValues.dispatch) {
 			self.formReference().DispatchId(routeValues.dispatch().Id());
 		}
+		// Load regions and countries lookup data
+		return window.Helper.Lookup.getLocalizedArrayMap("Main_Region")
+			.then(function (lookup) {
+				self.lookups.regions(lookup);
+				return window.Helper.Lookup.getLocalizedArrayMap("Main_Country");
+			})
+			.then(function (lookup) {
+				self.lookups.countries(lookup);
+			});
 	});
 };

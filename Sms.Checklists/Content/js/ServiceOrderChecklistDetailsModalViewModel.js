@@ -34,5 +34,15 @@ namespace("Sms.Checklists.ViewModels").ServiceOrderChecklistDetailsModalViewMode
 				.then(function (serviceOrderHead) {
 					viewModel.serviceOrder = serviceOrderHead.asKoObservable();
 				});
+		}).then(function () {
+			// Load regions and countries lookup data
+			return window.Helper.Lookup.getLocalizedArrayMap("Main_Region")
+				.then(function (lookup) {
+					viewModel.lookups.regions(lookup);
+					return window.Helper.Lookup.getLocalizedArrayMap("Main_Country");
+				})
+				.then(function (lookup) {
+					viewModel.lookups.countries(lookup);
+				});
 		});
 };
