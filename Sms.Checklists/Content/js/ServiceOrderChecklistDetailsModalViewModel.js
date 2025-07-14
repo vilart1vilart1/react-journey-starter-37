@@ -1,6 +1,10 @@
 ﻿namespace("Sms.Checklists.ViewModels").ServiceOrderChecklistDetailsModalViewModel = function(parentViewModel) {
 	var viewModel = this;
 	viewModel.serviceOrder = window.ko.observable(null);
+	viewModel.lookups = {
+		regions: window.ko.observable([]),
+		countries: window.ko.observable([])
+	};
 	window.Crm.DynamicForms.ViewModels.DynamicFormDetailsViewModel.apply(viewModel, arguments);
 };
 namespace("Sms.Checklists.ViewModels").ServiceOrderChecklistDetailsModalViewModel.prototype = Object.create(window.Crm.DynamicForms.ViewModels.DynamicFormDetailsViewModel.prototype);
