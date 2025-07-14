@@ -8,6 +8,10 @@ namespace("Sms.Checklists.ViewModels").ServiceOrderChecklistDetailsViewModel = f
 	self.ServiceOrder = window.ko.observable(null);
 	self.ServiceOrderResponsibleUser = window.ko.observable(null);
 	self.MaintenanceOrderGenerationMode = "";
+	self.lookups = {
+		regions: window.ko.observable([]),
+		countries: window.ko.observable([])
+	};
 
 	window.Crm.DynamicForms.ViewModels.DynamicFormDetailsViewModel.apply(this, arguments);
 };
